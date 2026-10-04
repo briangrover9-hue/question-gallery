@@ -438,6 +438,24 @@ body.full .back{color:var(--soft)}
 
 .demo-note{margin:0;font-size:calc(var(--u)*1);color:var(--soft);text-align:center}
 .vnote b{font-weight:600;color:var(--text)}
+
+.chat{display:flex;flex-direction:column;gap:calc(var(--u)*.6);margin:0 0 calc(var(--u)*.4)}
+.cb{margin:0;padding:calc(var(--u)*.7) calc(var(--u)*.9);font-size:calc(var(--u)*1.1);line-height:1.45;border:1.5px solid #14181b;max-width:88%;opacity:0;transform:translateY(6px);transition:opacity .35s var(--ease-out),transform .35s var(--ease-out);transition-delay:calc(var(--d)*.28s + .3s)}
+.cb b{display:block;font-size:calc(var(--u)*.85);color:var(--muted);margin-bottom:2px;font-weight:600}
+.cb.you{align-self:flex-end;background:#fff}
+.cb.bot{align-self:flex-start;background:color-mix(in srgb,var(--acc,#009ea6) 14%,#fff)}
+.reveal.on .cb{opacity:1;transform:none}
+.nx{padding-top:calc(var(--u)*.9);border-top:1px solid var(--hair)}
+.nx p{margin:0}
+.nxh{font-size:calc(var(--u)*1);font-weight:600;color:var(--muted);margin-bottom:calc(var(--u)*.4)!important}
+.nxq{font-size:calc(var(--u)*1.2);line-height:1.5;padding-left:calc(var(--u)*1.1);position:relative}
+.nxq::before{content:"›";position:absolute;left:0;color:var(--acc,#009ea6);font-weight:700}
+@media (prefers-reduced-motion:reduce){.cb{transition:none}}
+
+.qs{display:flex;flex-direction:column;gap:calc(var(--u)*.5);margin-top:calc(var(--u)*.8)}
+.qt{margin:0;padding:calc(var(--u)*.6) calc(var(--u)*.9);font-size:calc(var(--u)*1.1);line-height:1.45;border:1.5px dashed #14181b;background:#fff}
+.qt b{color:var(--acc,#009ea6);letter-spacing:1px;margin-right:4px}
+.vz .leg span{display:inline-flex;align-items:center}
 </style>
 
 <div class="stage">
@@ -467,7 +485,6 @@ var FILTERS=[['all','All'],['cat','Category'],['ins','Insights'],['brand','Brand
 var QUICK=['Snacks','Beverages','Beauty and personal care','Pet care','Household','Health and wellness','Baby','Pantry and food'];
 
 /* Where a lead goes. Set both once a HubSpot form exists. Until then nothing leaves the page. */
-/* Switch on the places a lead goes. netlify: true sends it to Netlify Forms (needs the hidden form below). formGuid sends it to HubSpot. endpoint sends it to your own function. */
 var LEAD_CFG={portalId:'20268287',formGuid:'',endpoint:'',netlify:true};
 function leadConfigured(){return !!(LEAD_CFG.netlify||LEAD_CFG.endpoint||(LEAD_CFG.portalId&&LEAD_CFG.formGuid))}
 /* Paste the HubSpot meetings link here. The visitor's email is added to it so the booking lands on the same contact. */
@@ -559,7 +576,7 @@ var Q=[
 {p:'brand',q:'Are my products actually high protein or low sugar, as claimed?',
  ask:'Do {brand’s} on-pack claims match each product’s nutrition panel?',back:'A check of which claims your products actually meet.'},
 {p:'ins',q:'Can my team ask Harmonya questions in plain English, instead of waiting on a deliverable?',
- ask:'Which attributes are gaining momentum in {cat}?',back:'A plain-English answer from a question agent inside the Harmonya platform, with no wait for a deliverable.'},
+ ask:'Which claims are fading in tortilla chips?',back:'A plain-English answer from a question agent inside the Harmonya platform, with no wait for a deliverable.'},
 {p:'brand',q:'What is objectively true about my products at the measured level?',
  ask:'Compare measured attributes across {brand’s} items, such as sugar and pack size.',back:'Measured values for each item, side by side.'},
 {p:'dig',q:'How ready are my product records for AI shopping assistants?',
@@ -897,6 +914,7 @@ function openLoad(){
 
 /* ---------- Gallery ---------- */
 var tilesEls=[],cur='all';
+var PEEK={"0": "Energy drinks: 79% of growth came from new items", "1": "Four coffee spaces are beating the category", "2": "Maple Ridge 44% vs Summit Snacks 21% on one claim", "3": "Summit Snacks grew 15.9% and lost 0.6 pts of share", "4": "Shoppers love the crunch, not the crumbs", "5": "“Better for you” talk tripled in three years", "6": "Shoppers say crunchy, listings say crisp", "7": "4.6 on the page, 4.3 organic", "8": "A smaller bag is the top unmet need", "9": "Shoppers raise crunch 5x more than listings", "10": "No HFCS: 17.3% of cookie dollars, up 30.8%", "11": "Broken chips drive a third of low ratings", "12": "The brand says bold. Shoppers say crunchy.", "14": "Ask in plain English, get numbers back", "16": "97 of 230 listings are ready for AI shopping", "17": "Review talk rose two quarters before sales"};
 function visible(){var v=[];Q.forEach(function(q,i){if(cur==='all'||q.p===cur)v.push(i)});return v}
 function openGallery(from){
   if(galleryW){raise(galleryW.el);return}
@@ -911,8 +929,8 @@ function openGallery(from){
   Q.forEach(function(q,i){
     var b=document.createElement('button');b.type='button';b.className='tile'+(STATE.opened[i]?' seen':'');b.style.setProperty('--pi',i);
     b.setAttribute('aria-label','Harmonya. '+q.q);b.innerHTML=art(i,'t');
-    b.addEventListener('mouseenter',function(){hint.textContent=q.q;hintr.textContent=PERSONA[q.p]});
-    b.addEventListener('focus',function(){hint.textContent=q.q;hintr.textContent=PERSONA[q.p]});
+    b.addEventListener('mouseenter',function(){hint.textContent=q.q;hintr.textContent=PEEK[i]||PERSONA[q.p]});
+    b.addEventListener('focus',function(){hint.textContent=q.q;hintr.textContent=PEEK[i]||PERSONA[q.p]});
     function reset(){hint.textContent=HINT;hintr.textContent=''}
     b.addEventListener('mouseleave',reset);b.addEventListener('blur',reset);
     b.addEventListener('click',function(e){e.stopPropagation();openQ(i,b)});
@@ -946,27 +964,54 @@ var EX={
  0:{t:'dv',title:'Dollar growth of items already selling, outside the two leading brands',sub:'Energy drinks, 52 weeks ending Dec 31, 2022. Each bar is one attribute on its own.',stat:'Energy drinks added $752M in dollars, and 79% of that growth came from new items.',rows:[['L-theanine',13.2],['Green tea extract',7.1],['Healthy',6.5],['Energy drinks overall',-1.3],['Sugar free',-2.5],['Zero sugar',-4.1]]},
  1:{t:'bars',title:'Four spaces growing faster than the category',sub:'Ready-to-drink coffee, 52 weeks ending Dec 31, 2022. Dollar sales and change on a year earlier.',stat:'The category sold $2,314.2M, up 9.0%. The three leading manufacturers sold 83% of it and hold just 0.6% of these four spaces.',max:132.6,rows:[['Single origin, Colombian',132.6,'$132.6M','+40.8%'],['Clean label',107.9,'$107.9M','+31.5%'],['Protein',68.1,'$68.1M','+13.2%'],['Organic',55.4,'$55.4M','+17.8%']],extra:'In 2021 to 2022 reviews of the single-origin and clean-label items, 1.1% mention jitters or a crash (16 of 1,467), about four times the leaders’ 0.3%.'},
  10:{t:'bars',title:'Claims on cookies, by share of dollars and growth',sub:'Cookies, 52 weeks ending Dec 31, 2022. The bar and first number are the share of cookie dollars. The bold number is dollar growth. Claims overlap, so shares do not add to 100%. The category grew 13.9%.',stat:'\u201cNo high fructose corn syrup\u201d sits on 17.3% of cookie dollars and grew 30.8%, more than twice the category.',max:58.7,rows:[['Kosher',58.7,'58.7%','+11.0%'],['No trans fat',29.8,'29.8%','+8.0%'],['No high fructose corn syrup',17.3,'17.3%','+30.8%'],['No artificial flavors',12.9,'12.9%','+10.1%'],['Sustainable',12.0,'12.0%','+8.7%'],['No artificial colors',11.9,'11.9%','+14.4%'],['Sustainably sourced',11.7,'11.7%','+9.5%'],['Whole grain',10.8,'10.8%','+10.6%']]},
- 16:{t:'funnel',title:'Listings that state every fact an AI shopping assistant needs',sub:'Zero sugar energy drinks with L-theanine, listings from Sep 2024 to Sep 2026. A shopper asks for zero sugar, L-theanine and under 150 mg of caffeine.',stat:'Only 97 of 230 listings state all three. Across the leading brands, 37% of listings state a caffeine amount at all.',max:230,rows:[['Listings for these items',230],['State zero sugar',190],['And mention L-theanine',137],['And state a caffeine amount',97]]}
+ 16:{t:'funnel',title:'Listings that state every fact an AI shopping assistant needs',sub:'Zero sugar energy drinks with L-theanine, listings from Sep 2024 to Sep 2026. A shopper asks for zero sugar, L-theanine and under 150 mg of caffeine.',stat:'Only 97 of 230 listings state all three. Across the leading brands, 37% of listings state a caffeine amount at all.',max:230,rows:[['Listings for these items',230],['State zero sugar',190],['And mention L-theanine',137],['And state a caffeine amount',97]]},
+ 2:{"t": "bars", "title": "Share of each manufacturer’s dollars on chips that say “No Artificial Colors”", "sub": "Tortilla chips, 52 weeks ending Dec 31, 2022. The bar and first number are the share of that manufacturer’s dollars. The bold number is the dollars behind it. Products without the tag count as not carrying it.", "stat": "“No Artificial Colors” sits on 18.6% of tortilla chip dollars and grew 30.4%, against 17.0% for the category. Maple Ridge carries it on 43.9% of its dollars. Solana Foods carries it on none.", "max": 50, "rows": [["Maple Ridge", 43.9, "43.9%", "$116.4M"], ["Summit Snacks", 21.4, "21.4%", "$813.6M"], ["Casa Verde", 4.1, "4.1%", "$3.0M"], ["Solana Foods", 0, "0%", "$0M"]]},
+ 3:{"t": "dv", "unit": " pts", "title": "Change in share of tortilla chip dollars, in points", "sub": "Tortilla chips, 52 weeks ending Dec 31, 2022, against a year earlier. The category sold $6,145.2M, up 17.0%. The 14.2% of dollars with no manufacturer on file is left out.", "stat": "Summit Snacks grew 15.9% and still lost 0.6 points of share, because the category grew 17.0%. Solana Foods grew 30.5% and gained 1.1 points.", "rows": [["Solana Foods", 1.1], ["Maple Ridge", 0.3], ["Casa Verde", 0.0], ["Ironwood Pantry", -0.3], ["Summit Snacks", -0.6]]},
+ 14:{"t": "chat", "title": "Two questions asked in plain English, answered from demo data", "sub": "Tortilla chips, 52 weeks ending Dec 31, 2022.", "stat": "No request and no wait for a deliverable. Your team asks, and the answer comes back with the numbers.", "rows": [["bot", "“All natural” fell 28.5%, “Non-GMO” fell 25.1% and “Natural” fell 19.7%, while tortilla chips overall grew 17.0%."], ["you", "Who is gaining share?"], ["bot", "Solana Foods gained 1.1 points and now holds 10.2%. Summit Snacks lost 0.6 points and still holds 61.8%."]]},
+ 4:{"t": "dv", "unit": " pts", "title": "What shoppers praise and complain about, by topic", "sub": "Mock data. Tortilla chips. Each bar is reviews that praise a topic minus reviews that complain about it, as a share of reviews that mention it.", "stat": "Shoppers love the crunch and dislike the crumbs. Broken chips is the complaint to fix first.", "rows": [["Crunch", 34], ["Flavor", 22], ["Value", -9], ["Bag size", -14], ["Broken chips", -27]], "quotes": [["★★★★★", "“Finally a chip that stays crunchy to the bottom of the bag.”"], ["★★", "“Half the bag was crumbs.”"]], "mock": true},
+ 5:{"t": "line", "title": "Share of reviews that mention each topic, by year", "sub": "Mock data. Tortilla chips, three years of reviews. Each line is the share of reviews that mention the topic.", "stat": "Talk of “better for you” tripled in three years while talk of value fell. Both moves show up in reviews first.", "x": ["Year 1", "Year 2", "Year 3"], "ymax": 35, "series": [["Crunch", [18, 24, 31]], ["Better for you", [6, 11, 19]], ["Value", [22, 19, 14]]], "mock": true},
+ 6:{"t": "bars", "title": "The words shoppers use when they talk about crunch and ingredients", "sub": "Mock data. Tortilla chips. Share of benefit mentions in reviews that use each phrase.", "stat": "Shoppers say “crunchy.” The listing says “crisp.” Same idea, different word, and shoppers search the word they use.", "max": 50, "rows": [["“Crunchy to the last chip”", 41, "41%", "of mentions"], ["“Real ingredients”", 27, "27%", "of mentions"], ["“Doesn’t feel heavy”", 18, "18%", "of mentions"], ["“Good for sharing”", 14, "14%", "of mentions"]], "mock": true},
+ 7:{"t": "bars", "title": "Star rating of a new launch, with and without promoted reviews", "sub": "Mock data. One new tortilla chip launch. Bar length is the average star rating out of 5.", "stat": "Promoted reviews lift the page rating from 4.3 to 4.6. The organic rating is the one shoppers will live with.", "max": 5, "rows": [["Rating shown on the page", 4.6, "4.6", "412 reviews"], ["Promoted reviews only", 4.9, "4.9", "190 reviews"], ["Organic reviews only", 4.3, "4.3", "222 reviews"]], "mock": true},
+ 8:{"t": "bars", "title": "Needs shoppers say no product in the set meets", "sub": "Mock data. Tortilla chips. Share of unmet-need mentions in reviews.", "stat": "A smaller bag for one person is the biggest ask, and no brand in the set is described as delivering it.", "max": 30, "rows": [["Smaller bag for one person", 22, "22%", "of mentions"], ["Less salty", 19, "19%", "of mentions"], ["Stronger lime", 15, "15%", "of mentions"], ["Fits in a lunch box", 11, "11%", "of mentions"]], "quotes": [["★★★", "“Love them, but I never finish a family bag before they go stale.”"]], "mock": true},
+ 9:{"t": "dv", "unit": " pts", "title": "Gap between how often shoppers raise a theme and how often listings claim it", "sub": "Mock data. Tortilla chips. Share of reviews that mention the theme minus share of listings that claim it. Positive means shoppers care more than the listing says.", "stat": "Shoppers bring up crunch more than five times as often as the listing does. The listing leans on ingredients that shoppers rarely mention.", "rows": [["Stays crunchy", 33], ["Shareable", -2], ["Real ingredients", -25]], "mock": true},
+ 11:{"t": "bars", "title": "What drives one- and two-star reviews", "sub": "Mock data. Tortilla chips. Share of one- and two-star reviews that name each reason.", "stat": "Broken chips drive a third of low ratings. That is a packaging problem, and a different fix from a flavor problem.", "max": 40, "rows": [["Broken or crushed chips", 34, "34%", "of low ratings"], ["Too salty", 18, "18%", "of low ratings"], ["Stale on arrival", 14, "14%", "of low ratings"], ["Damaged box", 11, "11%", "of low ratings"]], "mock": true},
+ 12:{"t": "chat", "who": ["The brand says", "Shoppers say"], "title": "The brand’s words next to the shoppers’ words", "sub": "Mock data. Tortilla chips. One listing line and one review line for each theme.", "stat": "The listing says bold and premium. Shoppers say crunchy and full. The two vocabularies barely overlap.", "rows": [["you", "“Bold, authentic flavor.”"], ["bot", "“Tastes like a real lime, not powder.”"], ["you", "“Premium quality.”"], ["bot", "“Crunchy, and the bag is actually full.”"]], "mock": true},
+ 17:{"t": "line", "title": "Mentions in reviews against dollar sales of the same theme", "sub": "Mock data. A new tortilla chip theme, by quarter. Both lines are indexed to 100 in the first quarter.", "stat": "Shoppers started talking about it two quarters before sales moved. That is the window to act in.", "x": ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"], "ymax": 320, "series": [["Review mentions", [100, 130, 190, 260, 300, 315]], ["Dollar sales", [100, 101, 103, 125, 170, 230]]], "mock": true}
 };
+var NEXT=[["Which of these gains came from new items, and which from items already on shelf?", "Where is {brand} missing the attributes that are rising?"], ["How big is each space in dollars, and who sells in it today?", "What do shoppers call it in reviews?"], ["Where does {brand} carry a rising attribute that rivals lack?", "Which rival is closing the gap fastest?"], ["Which products moved the share, up or down?", "Did new items or items already on shelf drive it?"], ["Which complaint shows up for {brand} and not for rivals?", "Does the praise match what the listings say?"], ["Which topic grew fastest in the last year?", "Is that shift showing up in sales yet?"], ["Which phrase do shoppers use most for each benefit?", "Which of those phrases is missing from {brand’s} listings?"], ["Which launches lean on promoted reviews?", "What is each rating once those reviews are removed?"], ["Which unmet need shows up in the most reviews?", "Does any brand already claim it?"], ["Which theme has the widest gap between reviews and listings?", "What are the products behind that theme selling today?"], ["Which winning claim do rivals carry that {brand} does not?", "Which claim has {brand} outgrown?"], ["Does the complaint pattern change by retailer?", "Did it change after the last reformulation?"], ["Where does {brand’s} voice lead shoppers, and where does it trail?", "Which words does {brand} use that shoppers never do?"], ["Which products meet the claim by the numbers?", "Which claims would not hold up against the panel?"], ["Where is demand growing that no one covers?", "Which claims are fading in {cat}?"], ["How does {brand’s} pack size compare with rivals?", "Does the larger pack sell more?"], ["Which listings are missing the facts an assistant needs?", "Which fix would reach the most listings?"], ["Which themes are emerging in new launches?", "Which theme is about to peak?"]];
+function nxHTML(i){var n=NEXT[i];if(!n)return '';return '<div class="nx"><p class="nxh">You could ask next</p>'+n.map(function(x){return '<p class="nxq">'+esc(tpl(x))+'</p>'}).join('')+'</div>'}
 function howHTML(i){
   var h=HOW[i];if(!h)return '';
   return '<div class="how"><p><b>How we answer it.</b> '+esc(h.how)+'</p><p>It draws on '+esc(h.data)+'. We have delivered it as '+esc(h.format)+'.</p></div>';
 }
 function vz(i){
   var v=EX[i];if(!v)return '';
-  var h='<div class="vz" role="img" aria-label="Illustrative example from demo data: '+esc(v.title)+'"><h4>'+esc(v.title)+'</h4><p class="vsub">'+esc(v.sub)+'</p>';
+  var h='<div class="vz" role="img" aria-label="'+(v.mock?'Mock example: ':'Illustrative example from demo data: ')+esc(v.title)+'"><h4>'+esc(v.title)+'</h4><p class="vsub">'+esc(v.sub)+'</p>';
   var di=0;
   if(v.t==='dv'){
     var pos=Math.max.apply(null,v.rows.map(function(r){return Math.max(r[1],0)})),neg=Math.max.apply(null,v.rows.map(function(r){return Math.max(-r[1],0)})),tot=pos+neg,z=neg/tot*100;
-    v.rows.forEach(function(r){var wd=Math.abs(r[1])/tot*100,l=r[1]>=0?z:z-wd;h+='<div class="vr v3" style="--d:'+(di++)+'"><span class="vl">'+esc(r[0])+'</span><span class="vt"><span class="z" style="left:'+z+'%"></span><i class="'+(r[1]>=0?'s1':'neg')+'" style="--l:'+l+'%;--w:'+wd+'%"></i></span><span class="val">'+(r[1]>0?'+':'−')+Math.abs(r[1]).toFixed(1)+'%</span></div>'});
+    v.rows.forEach(function(r){var wd=Math.abs(r[1])/tot*100,l=r[1]>=0?z:z-wd;h+='<div class="vr v3" style="--d:'+(di++)+'"><span class="vl">'+esc(r[0])+'</span><span class="vt"><span class="z" style="left:'+z+'%"></span><i class="'+(r[1]>=0?'s1':'neg')+'" style="--l:'+l+'%;--w:'+wd+'%"></i></span><span class="val">'+(r[1]>0?'+':r[1]<0?'−':'')+Math.abs(r[1]).toFixed(1)+(v.unit||'%')+'</span></div>'});
   }else if(v.t==='bars'){
     v.rows.forEach(function(r){h+='<div class="vr v3" style="--d:'+(di++)+'"><span class="vl">'+esc(r[0])+'</span><span class="vt"><i class="s1" style="--w:'+(r[1]/v.max*100)+'%"></i></span><span class="val">'+esc(r[2])+' <b>'+esc(r[3])+'</b></span></div>'});
+  }else if(v.t==='chat'){
+    h+='<div class="chat">';v.rows.forEach(function(r){h+='<p class="cb '+r[0]+'" style="--d:'+(di++)+'"><b>'+(v.who?v.who[r[0]==='you'?0:1]:(r[0]==='you'?'You':'Harmonya'))+'</b>'+esc(r[1])+'</p>'});h+='</div>';
+  }else if(v.t==='line'){
+    var W=300,H=118,L=8,R=10,T=8,B=20,cols=['var(--acc,#009ea6)','#d9576b','#8a929e'];
+    h+='<div class="leg">'+v.series.map(function(sr,k){return '<span><i style="background:'+cols[k]+'"></i>'+esc(sr[0])+'</span>'}).join('')+'</div>';
+    h+='<svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><line x1="'+L+'" y1="'+(H-B)+'" x2="'+(W-R)+'" y2="'+(H-B)+'" stroke="#14181b" stroke-width="1.5"/>';
+    var n=v.x.length;function px(k){return L+(W-L-R)*k/(n-1)}function py(y){return T+(H-T-B)*(1-y/v.ymax)}
+    v.x.forEach(function(lb,k){h+='<text x="'+px(k)+'" y="'+(H-6)+'" text-anchor="'+(k===0?'start':k===n-1?'end':'middle')+'">'+esc(lb)+'</text>'});
+    v.series.forEach(function(sr,k){var pts=sr[1].map(function(y,j){return px(j)+','+py(y)}).join(' ');
+      h+='<polyline class="draw" style="--len:520" fill="none" stroke="'+cols[k]+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="'+pts+'"/>';
+      var last=sr[1].length-1;h+='<circle class="pop" cx="'+px(last)+'" cy="'+py(sr[1][last])+'" r="3.5" fill="'+cols[k]+'"/>'});
+    h+='</svg>';
   }else if(v.t==='funnel'){
     v.rows.forEach(function(r,k){var last=k===v.rows.length-1;h+='<div class="vr v3" style="--d:'+(di++)+'"><span class="vl">'+esc(r[0])+'</span><span class="vt"><i class="'+(last?'s1':'s3')+'" style="--w:'+(r[1]/v.max*100)+'%"></i></span><span class="val">'+r[1]+'</span></div>'});
   }
+  if(v.quotes)h+='<div class="qs">'+v.quotes.map(function(q){return '<p class="qt"><b>'+esc(q[0])+'</b> '+esc(q[1])+'</p>'}).join('')+'</div>';
   h+='<p class="vstat">'+esc(v.stat)+'</p>';
   if(v.extra)h+='<p class="vstat">'+esc(v.extra)+'</p>';
-  return h+'<p class="vnote"><b>Illustrative demo data.</b> This example uses Harmonya demo data for food and beverage. It is not your data. The real thing runs on yours.</p></div>';
+  return h+(v.mock?'<p class="vnote"><b>Mock data.</b> Invented for this demo to show the shape of the answer. It is not from real reviews or any real brand.</p></div>':'<p class="vnote"><b>Illustrative demo data.</b> This example uses Harmonya demo data for food and beverage. Company names are fictional. It is not your data. The real thing runs on yours.</p></div>');
 }
 
 
@@ -1002,7 +1047,7 @@ function fill(w,i){
   w.body.innerHTML=
    '<div class="menubar"><button type="button" data-nav="close">‹ Gallery</button><button type="button" data-nav="prev">Previous</button><button type="button" data-nav="next">Next ›</button><span class="pos">'+pos+' of '+vis.length+'</span></div>'+dots+
    '<div class="canvas sunk" tabindex="0"><div class="left"><div class="banner">'+art(i,'w'+(w.uid||(w.uid=Math.random().toString(36).slice(2,6))),true)+'</div><h2 class="qd">'+esc(q.q)+'</h2></div>'+
-   '<div class="right"><div class="field"><span class="txt cur"></span></div><div class="reveal">'+vz(i)+'<p class="ans">'+esc(tpl(q.back))+'</p>'+howHTML(i)+'<div class="cta"></div></div></div></div>'+palHTML();
+   '<div class="right"><div class="field"><span class="txt cur"></span></div><div class="reveal">'+vz(i)+'<p class="ans">'+esc(tpl(q.back))+'</p>'+nxHTML(i)+howHTML(i)+'<div class="cta"></div></div></div></div>'+palHTML();
   w.body.onclick=function(e){
     var sw=e.target.closest('[data-color]');if(sw){w.el.style.setProperty('--acc',sw.dataset.color);[].forEach.call(w.body.querySelectorAll('.sw'),function(x){x.setAttribute('aria-pressed',String(x===sw))});return}
     var g=e.target.closest('[data-go]');if(g)return fill(w,+g.dataset.go);
