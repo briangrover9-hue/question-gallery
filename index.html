@@ -297,6 +297,14 @@ body.full .back{color:#e6eef2}
 @keyframes tnudge{0%{box-shadow:0 0 0 0 rgba(20,24,27,.38)}70%,100%{box-shadow:0 0 0 12px rgba(20,24,27,0)}}
 @media (prefers-reduced-motion:reduce){.tile.nudge{animation:none}}
 
+
+.vz .vsub{margin:0 0 calc(var(--u)*.9);font-size:calc(var(--u)*1);color:var(--soft);line-height:1.4}
+.vr.v3{grid-template-columns:minmax(0,30%) minmax(0,1fr) auto}
+.vr .val{font-size:calc(var(--u)*1);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;color:var(--text)}
+.vr .val b{font-weight:600;margin-left:.4em}
+.vt i.s3{background:#c9cfda}
+.vstat{margin:calc(var(--u)*.9) 0 0;font-size:calc(var(--u)*1.15);line-height:1.45;color:var(--text)}
+
 /* ===== Clean skin: pale, airy, one soft glow. Overrides the retro chrome above. ===== */
 :root{--os:#f7f9ff;--hair:#e4e8f0;--soft:#6b7280;--pill:#14181b}
 body.full{background:var(--os)}
@@ -385,6 +393,47 @@ body.full .back{color:var(--soft)}
   body.flow .w{border-radius:14px}
   body.flow .back{background:#fff;color:var(--text)}
 }
+
+/* Paint: selection box with handles on hover, hard-edged charts, a color palette strip */
+.tile::before{content:"";position:absolute;inset:7px;pointer-events:none;border:1.5px dashed transparent;opacity:0;transition:opacity .12s}
+.tile:hover:not(:disabled)::before,.tile:focus-visible::before{opacity:1;border-color:#14181b;background:
+ linear-gradient(#14181b,#14181b) 0 0/7px 7px no-repeat,linear-gradient(#14181b,#14181b) 100% 0/7px 7px no-repeat,
+ linear-gradient(#14181b,#14181b) 0 100%/7px 7px no-repeat,linear-gradient(#14181b,#14181b) 100% 100%/7px 7px no-repeat,
+ linear-gradient(#14181b,#14181b) 50% 0/7px 7px no-repeat,linear-gradient(#14181b,#14181b) 50% 100%/7px 7px no-repeat,
+ linear-gradient(#14181b,#14181b) 0 50%/7px 7px no-repeat,linear-gradient(#14181b,#14181b) 100% 50%/7px 7px no-repeat;
+ margin:-3px}
+.tile:hover:not(:disabled){border-color:var(--hair);transform:none}
+.vz .vt{border-radius:0;height:calc(var(--u)*1.3);background:repeating-conic-gradient(#f1f3f7 0 25%,#fff 0 50%) 0 0/6px 6px;border:1.5px solid #14181b;overflow:hidden}
+.vz .vt i{border-radius:0;top:0;bottom:0}
+.vz .vt i.s1{background:repeating-linear-gradient(135deg,var(--acc,#009ea6) 0 5px,color-mix(in srgb,var(--acc,#009ea6) 78%,#fff) 5px 8px)}
+.vz .vt i.neg{background:repeating-linear-gradient(135deg,#d9576b 0 5px,#e58a99 5px 8px)}
+.vz .vt i.s3{background:repeating-linear-gradient(135deg,#aeb5c1 0 5px,#c9cfda 5px 8px)}
+.vz .vt .z{background:#14181b;width:2px}
+.vz{border-top:2px solid #14181b}
+.pal{display:flex;align-items:center;flex-wrap:wrap;gap:calc(var(--u)*.45);padding:calc(var(--u)*.9) calc(var(--u)*2.6);background:#fff;border-top:1px solid var(--hair);flex:none}
+.sw{width:calc(var(--u)*1.7);height:calc(var(--u)*1.7);border:1.5px solid #14181b;border-radius:0;padding:0;cursor:pointer;transition:transform .15s var(--spring)}
+.sw:hover{transform:translateY(-2px)}
+.sw[aria-pressed="true"]{outline:2px dotted #14181b;outline-offset:2px}
+.sw:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.pal-hint{margin-left:calc(var(--u)*.8);font-size:calc(var(--u)*.95);color:var(--soft)}
+
+.how{display:flex;flex-direction:column;gap:calc(var(--u)*.5);padding-top:calc(var(--u)*1);border-top:1px solid var(--hair)}
+.how p{margin:0;font-size:calc(var(--u)*1.1);line-height:1.5;color:var(--text)}
+.how p+p{color:var(--soft)}
+.how b{font-weight:600}
+
+/* Painting in */
+.draw-text{fill:none;stroke:#1b2230;stroke-width:.45;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;animation:drawtxt 1.5s var(--ease-out) forwards}
+.fill-in{opacity:0;animation:fillin .5s 1.2s forwards}
+@keyframes drawtxt{to{stroke-dashoffset:0}}
+@keyframes fillin{to{opacity:1}}
+.grid.paint .tile svg{animation:paintin .6s var(--ease-out) both;animation-delay:calc(var(--pi,0)*55ms)}
+@keyframes paintin{from{clip-path:inset(0 100% 0 0);opacity:.15}to{clip-path:inset(0 0 0 0);opacity:1}}
+.banner svg{animation:paintin .8s var(--ease-out) both}
+@media (prefers-reduced-motion:reduce){.draw-text,.fill-in,.grid.paint .tile svg,.banner svg{animation:none}.draw-text{display:none}.fill-in{opacity:1}}
+
+.demo-note{margin:0;font-size:calc(var(--u)*1);color:var(--soft);text-align:center}
+.vnote b{font-weight:600;color:var(--text)}
 </style>
 
 <div class="stage">
@@ -428,12 +477,22 @@ function submitLead(p,o){
   return fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+LEAD_CFG.portalId+'/'+LEAD_CFG.formGuid,{method:'POST',keepalive:ka,headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:f,context:{pageUri:location.href,pageName:'Question Gallery'}})}).then(function(r){return {sent:r.ok}}).catch(function(){return {sent:false}});
 }
 var EMAIL_OK=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+var FREE=['gmail.com','googlemail.com','yahoo.com','ymail.com','rocketmail.com','outlook.com','hotmail.com','live.com','msn.com','icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','pm.me','gmx.com','gmx.net','mail.com','yandex.com','zoho.com','qq.com','163.com','126.com','comcast.net','verizon.net','att.net','sbcglobal.net','cox.net','mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','yopmail.com','trashmail.com'];
+/* Returns an empty string for a usable work email, or the reason it is not */
+function workEmail(v){
+  v=String(v||'').trim();
+  if(!v)return 'Add your work email.';
+  if(!EMAIL_OK.test(v))return 'Check the email address.';
+  var d=v.split('@')[1].toLowerCase();
+  if(FREE.indexOf(d)>-1||/^(yahoo|hotmail|outlook|live|msn)\./.test(d))return 'Use your work email, not a personal one.';
+  return '';
+}
 var seen={};
 function openedList(){return Object.keys(STATE.opened).map(function(k){return Q[k].q.slice(0,60)})}
 /* Tracks a visitor who gave an email, whether or not they ever book. One send per distinct state. */
 function track(type,o){
-  if(!STATE.email||!EMAIL_OK.test(STATE.email))return;
-  var p={type:type,email:STATE.email,brand:STATE.brand,category:STATE.catText,question:(o&&o.question)||'',opened:openedList()};
+  if(!STATE.email||workEmail(STATE.email))return;
+  var p={type:type,email:STATE.email,brand:STATE.brand,category:'',question:(o&&o.question)||'',opened:openedList()};
   var key=[type,p.email,p.brand,p.category,p.question,p.opened.length].join('|');
   if(seen[key])return;seen[key]=1;
   return submitLead(p,o);
@@ -445,11 +504,11 @@ var STATE={catText:'',brand:'',email:'',opened:{},loaded:false,autoCat:false};
 
 function catNoun(){var t=STATE.catText.trim();if(!t)return 'your category';return t===t.toUpperCase()?t.toLowerCase():(/\b[A-Z]{2,5}\b/.test(t)?t:t.toLowerCase())}
 function hashPal(t){if(!t)return 0;var h=0;for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return Math.abs(h)%9}
-function brandName(){return STATE.brand||'your brand'}
+function brandName(){return STATE.brand||'your company'}
 function poss(n){return /['\u2019]s$/i.test(n)?n:(/s$/i.test(n)?n+'\u2019':n+'\u2019s')}
 function tpl(s){
   var b=STATE.brand,c=catNoun();
-  var r=s.replace(/\{cat\}/g,function(){return c}).replace(/\{brand\u2019s\}/g,function(){return b?poss(b):'your brand\u2019s'}).replace(/\{brand\}/g,function(){return b||'your brand'});
+  var r=s.replace(/\{cat\}/g,function(){return c}).replace(/\{brand\u2019s\}/g,function(){return b?poss(b):'your company\u2019s'}).replace(/\{brand\}/g,function(){return b||'your company'});
   return /^\{brand/.test(s)&&b?r:r.charAt(0).toUpperCase()+r.slice(1);
 }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -484,8 +543,8 @@ var Q=[
  ask:'How do shoppers describe {brand} in reviews compared with its top three competitors?',back:'A side-by-side of the words shoppers use for {brand} and its competitors.'},
 {p:'brand',q:'Are my products actually high protein or low sugar, as claimed?',
  ask:'Do {brand’s} on-pack claims match each product’s nutrition panel?',back:'A check of which claims your products actually meet.'},
-{p:'dig',q:'Which products could stand in for each other?',
- ask:'Which products in {cat} could stand in for each other, based on shared attributes?',back:'Products matched by how many attributes they share.'},
+{p:'ins',q:'Can my team ask Harmonya questions in plain English, instead of waiting on a deliverable?',
+ ask:'Which attributes are gaining momentum in {cat}?',back:'A plain-English answer from a question agent inside the Harmonya platform, with no wait for a deliverable.'},
 {p:'brand',q:'What is objectively true about my products at the measured level?',
  ask:'Compare measured attributes across {brand’s} items, such as sugar and pack size.',back:'Measured values for each item, side by side.'},
 {p:'dig',q:'How ready are my product records for AI shopping assistants?',
@@ -528,10 +587,26 @@ var S=[
  function(t,i,c){return '<defs><filter id="'+i+'f" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="3"/></filter></defs>'+tx(t,{ff:F.right,fs:32,fill:c.a,stroke:c.a,sw:5,filter:i+'f'})+tx(t,{ff:F.right,fs:32,fill:'#fff',stroke:c.b,sw:1})},
  function(t,i,c){return tx(t,{ff:F.bun,fs:28,fill:'none',stroke:c.b,sw:6})+tx(t,{ff:F.bun,fs:28,fill:'none',stroke:c.c,sw:3})+tx(t,{ff:F.bun,fs:28,fill:c.b})}
 ];
+
+/* Clip art stamps: flat color, heavy outline, the way a Paint picture looks */
+var CLIP=[
+ function(c){return '<polygon points="12,1.5 14.8,8.4 22.2,9 16.5,13.8 18.4,21 12,17 5.6,21 7.5,13.8 1.8,9 9.2,8.4" fill="'+c.c+'" stroke="#14181b" stroke-width="1.7" stroke-linejoin="round"/>'},
+ function(c){return '<polygon points="13.5,1 4,13.5 11,13.5 9,23 20,9.5 12.5,9.5" fill="'+c.c+'" stroke="#14181b" stroke-width="1.7" stroke-linejoin="round"/>'},
+ function(c){return '<path d="M12 21 C3 14.5 2 9 5.6 5.8 C8.4 3.4 11 5 12 7.4 C13 5 15.6 3.4 18.4 5.8 C22 9 21 14.5 12 21Z" fill="'+c.a+'" stroke="#14181b" stroke-width="1.7" stroke-linejoin="round"/>'},
+ function(c){var r='';for(var k=0;k<8;k++){var a=k*Math.PI/4;r+='<line x1="'+(12+Math.cos(a)*8).toFixed(1)+'" y1="'+(12+Math.sin(a)*8).toFixed(1)+'" x2="'+(12+Math.cos(a)*11).toFixed(1)+'" y2="'+(12+Math.sin(a)*11).toFixed(1)+'" stroke="#14181b" stroke-width="1.7" stroke-linecap="round"/>'}return r+'<circle cx="12" cy="12" r="6.4" fill="'+c.c+'" stroke="#14181b" stroke-width="1.7"/><circle cx="10" cy="10.6" r=".9" fill="#14181b"/><circle cx="14" cy="10.6" r=".9" fill="#14181b"/><path d="M9.2 13.6 Q12 16.4 14.8 13.6" fill="none" stroke="#14181b" stroke-width="1.3" stroke-linecap="round"/>'},
+ function(c){return '<path d="M6.5 19 A5 5 0 0 1 6.8 9 A6 6 0 0 1 18 8.2 A4.6 4.6 0 0 1 17.8 19Z" fill="#ffffff" stroke="#14181b" stroke-width="1.7" stroke-linejoin="round"/>'},
+ function(c){return '<path d="M2.5 19 A9.5 9.5 0 0 1 21.5 19" fill="none" stroke="'+c.a+'" stroke-width="3.2"/><path d="M6.4 19 A5.6 5.6 0 0 1 17.6 19" fill="none" stroke="'+c.c+'" stroke-width="3.2"/><path d="M2 19.4 A10 10 0 0 1 22 19.4" fill="none" stroke="#14181b" stroke-width="1.2"/>'},
+ function(c){return '<polygon points="3,21 4.6,15.4 16.4,3.6 20.4,7.6 8.6,19.4" fill="'+c.c+'" stroke="#14181b" stroke-width="1.7" stroke-linejoin="round"/><polygon points="3,21 4.6,15.4 8.6,19.4" fill="#f2c9a0" stroke="#14181b" stroke-width="1.4" stroke-linejoin="round"/><line x1="14" y1="6" x2="18" y2="10" stroke="#14181b" stroke-width="1.4"/>'},
+ function(c){return '<polygon points="12,1.4 14,5.4 18.4,4.2 17.8,8.8 22.4,9.6 19,12.8 22,16.4 17.4,16.6 17,21.2 12.8,19 9.2,22.2 8.2,17.8 3.6,18 5.6,14 1.8,11.2 6.2,9.8 5.2,5.4 9.6,6.4" fill="'+c.a+'" stroke="#14181b" stroke-width="1.5" stroke-linejoin="round"/>'}
+];
+function stamp(idx,c,left){
+  var rot=[-12,9,-6,14,-10,7,-14,11][idx%8];
+  return '<g transform="translate('+(left?8:116)+',3) rotate('+rot+' 13 13) scale(1.5)">'+CLIP[idx%8](c)+'</g>';
+}
 var WORD='Harmonya';
 function artH(idx,uid){
   var c=pal(idx),id=uid+'_'+idx;
-  return '<svg viewBox="0 0 160 108" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><g transform="translate(0,16)">'+S[idx%15](WORD,id,c)+'</g></svg>';
+  return '<svg viewBox="0 0 160 108" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"><g transform="translate(0,16)">'+S[idx%15](WORD,id,c)+'</g>'+stamp(idx,c,false)+'</svg>';
 }
 function artV(idx,uid){
   var c=pal(idx),id=uid+'_'+idx,s='';
@@ -545,10 +620,10 @@ function art(i,uid,h){return (i%6===5&&!h)?artV(i,uid):artH(i,uid)}
 
 /* The floppy: its label shows your category and brand as you type */
 function mixHex(h,p){var n=parseInt(h.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;function m(v){return Math.round(v+(255-v)*p)}return '#'+[m(r),m(g),m(b)].map(function(v){return ('0'+v.toString(16)).slice(-2)}).join('')}
-function floppySVG(id,catO,lineO){
-  var ct=catO===undefined?STATE.catText:catO;
+function floppySVG(id,catO,lineO,paint){
+  var ct=catO===undefined?STATE.brand:catO;
   var c=PAL[hashPal(ct)];
-  var brandRaw=lineO!==undefined?lineO:(STATE.brand?STATE.brand.slice(0,24):'Your brand'),catRaw=ct?ct.slice(0,30):'Any category';
+  var brandRaw=lineO!==undefined?lineO:(STATE.brand?STATE.brand.slice(0,24):'Your company'),catRaw='What we can show you';
   var bs=Math.max(5.6,Math.min(9.5,74/(Math.max(brandRaw.length,1)*.58))),cs=Math.max(5,Math.min(7,74/(Math.max(catRaw.length,1)*.56)));
   var hi=mixHex(c.a,.42),lo=c.a,dk=c.b;
   return '<svg viewBox="0 0 120 124" aria-hidden="true" focusable="false"><defs>'+lg(id+'g',[c.c,c.a],1)+
@@ -564,7 +639,7 @@ function floppySVG(id,catO,lineO){
    '<g filter="url(#'+id+'d)"><rect x="12" y="52" width="96" height="62" rx="4" fill="#fffdf8"/></g><rect x="12" y="52" width="96" height="6" rx="3" fill="'+c.a+'" opacity=".85"/>'+
    '<text x="60" y="75" text-anchor="middle" font-family="'+F.bun+'" font-size="12" textLength="78" lengthAdjust="spacingAndGlyphs" fill="url(#'+id+'g)" stroke="'+dk+'" stroke-width=".6" paint-order="stroke">Harmonya</text>'+
    '<path d="M22 83H98M22 99H98" stroke="#e6e9ef" stroke-width=".7"/>'+
-   '<text x="60" y="94" text-anchor="middle" font-family="Pacifico,cursive" font-size="'+bs.toFixed(1)+'" fill="#1b2230">'+esc(brandRaw)+'</text>'+
+   (paint?'<text class="draw-text" x="60" y="94" text-anchor="middle" font-family="Pacifico,cursive" font-size="'+bs.toFixed(1)+'">'+esc(brandRaw)+'</text><text class="fill-in" x="60" y="94" text-anchor="middle" font-family="Pacifico,cursive" font-size="'+bs.toFixed(1)+'" fill="#1b2230">'+esc(brandRaw)+'</text>':'<text x="60" y="94" text-anchor="middle" font-family="Pacifico,cursive" font-size="'+bs.toFixed(1)+'" fill="#1b2230">'+esc(brandRaw)+'</text>')+
    '<text x="60" y="108" text-anchor="middle" font-family="Poppins,sans-serif" font-size="'+cs.toFixed(1)+'" fill="#6b7280">'+esc(catRaw)+'</text></svg>';
 }
 
@@ -677,7 +752,7 @@ function goIn(){
   setTimeout(function(){if(pc.classList.contains('zooming'))settle();busy=false},1250);
   setTimeout(function(){backBtn.classList.add('on');focusFirst()},1260);
 }
-function focusFirst(){var el=loadW&&loadW.el.isConnected?loadW.el.querySelector('.cat'):null;if(!el&&galleryW)el=galleryW.el.querySelector('.tile:not(:disabled)');if(el)el.focus({preventScroll:true})}
+function focusFirst(){var el=loadW&&loadW.el.isConnected?loadW.el.querySelector('#fBrand'):null;if(!el&&galleryW)el=galleryW.el.querySelector('.tile:not(:disabled)');if(el)el.focus({preventScroll:true})}
 function goOut(){
   if(!inside||busy)return;
   if(helpEl)closeHelp();
@@ -766,45 +841,37 @@ function openLoad(){
   if(loadW){raise(loadW.el);return}
   var w=newWin({kind:'load',cls:'auto page',title:'Load Harmonya',label:'Load Harmonya',l:19,t:9,w:62});
   loadW=w;
-  var quick=QUICK.map(function(c){return '<button type="button" class="cat" data-q="'+esc(c)+'" aria-pressed="'+(STATE.catText===c)+'">'+esc(c)+'</button>'}).join('');
   w.body.innerHTML='<div class="lw">'+
-   '<div class="lw-form"><h2 class="lw-h">What do you want to find out?</h2>'+
-   '<p class="lw-sub">Type any category or brand, press Load, then open any tile to see what Harmonya can show you.</p>'+
-   '<label class="fld">Category<input id="fCat" maxlength="40" autocomplete="off" placeholder="Any category, like frozen desserts" value="'+esc(STATE.catText)+'"></label>'+
-   '<div class="cats" role="group" aria-label="Quick picks">'+quick+'</div>'+
-   '<label class="fld">Brand<input id="fBrand" maxlength="40" autocomplete="organization" placeholder="Optional" value="'+esc(STATE.brand)+'"></label>'+
+   '<div class="lw-form"><h2 class="lw-h">What could this look like for your company?</h2>'+
+   '<p class="lw-sub">Add your company, press Load, then open any tile to see what Harmonya can show you. Everything in the examples is Harmonya demo data, so nothing here is yours.</p>'+
+   '<label class="fld">Company<input id="fBrand" maxlength="40" autocomplete="organization" placeholder="Your company name" value="'+esc(STATE.brand)+'"></label>'+
    '<label class="fld">Work email<input id="fEmail" type="email" autocomplete="email" placeholder="you@company.com" value="'+esc(STATE.email)+'"></label>'+
-   '<p class="fine">We use your email to follow up about Harmonya, nothing else.</p>'+
+   '<p class="fine">Use your work email. We use it to follow up about Harmonya, nothing else.</p>'+
    '<p class="err" id="fErr" role="alert"></p>'+
-   '<div class="lw-act"><button type="button" class="loadbtn bevel" id="loadBtn"'+((STATE.catText||STATE.brand)?'':' disabled')+'>Load</button><span class="lw-hint" id="lwHint"'+((STATE.catText||STATE.brand)?' hidden':'')+'>Pick a category or type a brand first.</span></div></div>'+
+   '<div class="lw-act"><button type="button" class="loadbtn bevel" id="loadBtn"'+(STATE.brand.length>1&&!workEmail(STATE.email)?'':' disabled')+'>Load</button><span class="lw-hint" id="lwHint"'+(STATE.brand.length>1&&!workEmail(STATE.email)?' hidden':'')+'>Add your company and work email.</span></div></div>'+
    '<div class="lw-disk"><div class="floppy" id="floppy">'+floppySVG('fl')+'</div><div class="drive"><i class="dled"></i></div>'+
    '<div class="prog" hidden><div class="bar"><i></i></div><span class="ptxt" aria-live="polite">Reading disk…</span></div></div></div>';
-  var lw=w.body.querySelector('.lw'),fCat=w.body.querySelector('#fCat'),fBrand=w.body.querySelector('#fBrand'),fEmail=w.body.querySelector('#fEmail'),err=w.body.querySelector('#fErr'),btn=w.body.querySelector('#loadBtn');
-  function chips(){[].forEach.call(w.body.querySelectorAll('.cat'),function(x){x.setAttribute('aria-pressed',String(x.dataset.q.toLowerCase()===STATE.catText.toLowerCase()))})}
-  function refresh(){w.body.querySelector('#floppy').innerHTML=floppySVG('fl');btn.disabled=!(STATE.catText||STATE.brand);w.body.querySelector('#lwHint').hidden=!btn.disabled;chips()}
-  fCat.addEventListener('input',function(){STATE.catText=fCat.value.trim();STATE.autoCat=false;refresh()});
-  w.body.querySelector('.cats').addEventListener('click',function(e){var b=e.target.closest('.cat');if(!b)return;STATE.catText=b.dataset.q;STATE.autoCat=false;fCat.value=b.dataset.q;refresh()});
-  fBrand.addEventListener('input',function(){
-    STATE.brand=fBrand.value.trim();
-    refresh();
-  });
-  w.sync=function(){fCat.value=STATE.catText;fBrand.value=STATE.brand;refresh()};
-  fEmail.addEventListener('input',function(){err.textContent=''});
-  fEmail.addEventListener('change',function(){var v=fEmail.value.trim();if(EMAIL_OK.test(v)){STATE.email=v;STATE.brand=fBrand.value.trim();STATE.catText=fCat.value.trim();track('email')}});
+  var lw=w.body.querySelector('.lw'),fBrand=w.body.querySelector('#fBrand'),fEmail=w.body.querySelector('#fEmail'),err=w.body.querySelector('#fErr'),btn=w.body.querySelector('#loadBtn'),hintEl=w.body.querySelector('#lwHint');
+  function refresh(){STATE.brand=fBrand.value.trim();w.body.querySelector('#floppy').innerHTML=floppySVG('fl');var bad=STATE.brand.length<2||!!workEmail(fEmail.value);btn.disabled=bad;hintEl.hidden=!bad;hintEl.textContent=STATE.brand.length<2?'Add your company name.':(fEmail.value.trim()?workEmail(fEmail.value):'Add your work email.')}
+  fBrand.addEventListener('input',refresh);
+  w.sync=function(){fBrand.value=STATE.brand;refresh()};
+  fEmail.addEventListener('input',function(){err.textContent='';refresh()});
+  fEmail.addEventListener('change',function(){var v=fEmail.value.trim(),why=workEmail(v);if(why){err.textContent=why;return}STATE.email=v;STATE.brand=fBrand.value.trim();track('email')});
   w.body.querySelector('.lw-form').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();btn.click()}});
   btn.addEventListener('click',function(){
     var em=fEmail.value.trim();
-    STATE.catText=fCat.value.trim();STATE.brand=fBrand.value.trim();
-    if(!(STATE.catText||STATE.brand)){err.textContent='Type a category or a brand.';fCat.focus();return}
-    if(em&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){err.textContent='Check the email address.';fEmail.focus();return}
+    STATE.brand=fBrand.value.trim();STATE.catText='';
+    if(STATE.brand.length<2){err.textContent='Add your company name.';fBrand.focus();return}
+    var why=workEmail(em);
+    if(why){err.textContent=why;fEmail.focus();return}
     STATE.email=em;
     track('load');
-    lw.classList.add('loading');w.body.querySelector('#floppy').innerHTML=floppySVG('fl');
+    lw.classList.add('loading');w.body.querySelector('#floppy').innerHTML=floppySVG('fl',undefined,undefined,!RM);
     var prog=w.body.querySelector('.prog'),bar=prog.querySelector('.bar i'),txt=prog.querySelector('.ptxt');
     prog.hidden=false;txt.textContent='Reading disk…';
     var dur=RM?200:2300;
     setTimeout(function(){bar.style.width='100%'},30);
-    setTimeout(function(){txt.textContent='Loading '+(STATE.brand||STATE.catText)+' questions…'},dur*.55);
+    setTimeout(function(){txt.textContent='Loading '+STATE.brand+'…'},dur*.55);
     setTimeout(function(){
       if(loadW!==w)return;
       if(!inside){lw.classList.remove('loading');prog.hidden=true;bar.style.width='0';w.body.querySelector('#floppy').innerHTML=floppySVG('fl');return}
@@ -818,15 +885,16 @@ var tilesEls=[],cur='all';
 function visible(){var v=[];Q.forEach(function(q,i){if(cur==='all'||q.p===cur)v.push(i)});return v}
 function openGallery(from){
   if(galleryW){raise(galleryW.el);return}
-  var title='Harmonya for '+(STATE.brand||STATE.catText||'you');
+  var title='Harmonya for '+(STATE.brand||'you');
   var w=newWin({kind:'gallery',title:title,label:'Question gallery',l:6,t:7,w:88,h:59,from:from});
   galleryW=w;
-  w.body.innerHTML='<div class="dlg-body"><div class="dlg-head"><div class="dlg-label"></div><div class="filters" role="group" aria-label="Filter by team"></div><div class="count" aria-live="polite"></div></div><div class="grid sunk"></div><div class="status"><span class="hint"></span><span class="hintr"></span></div></div>';
+  w.body.innerHTML='<div class="dlg-body"><div class="dlg-head"><div class="dlg-label"></div><div class="filters" role="group" aria-label="Filter by team"></div><div class="count" aria-live="polite"></div></div><div class="grid sunk"></div><div class="status"><span class="hint"></span><span class="hintr"></span></div><p class="demo-note">All examples on this page use Harmonya demo data, not your data.</p></div>';
   var grid=w.body.querySelector('.grid'),filters=w.body.querySelector('.filters'),count=w.body.querySelector('.count'),hint=w.body.querySelector('.hint'),hintr=w.body.querySelector('.hintr');
   var HINT='Click a tile to open it. Hover to read the question.';
   tilesEls=[];
+  if(!RM)grid.classList.add('paint');
   Q.forEach(function(q,i){
-    var b=document.createElement('button');b.type='button';b.className='tile'+(STATE.opened[i]?' seen':'');
+    var b=document.createElement('button');b.type='button';b.className='tile'+(STATE.opened[i]?' seen':'');b.style.setProperty('--pi',i);
     b.setAttribute('aria-label','Harmonya. '+q.q);b.innerHTML=art(i,'t');
     b.addEventListener('mouseenter',function(){hint.textContent=q.q;hintr.textContent=PERSONA[q.p]});
     b.addEventListener('focus',function(){hint.textContent=q.q;hintr.textContent=PERSONA[q.p]});
@@ -835,8 +903,9 @@ function openGallery(from){
     b.addEventListener('click',function(e){e.stopPropagation();openQ(i,b)});
     grid.appendChild(b);tilesEls.push(b);
   });
+  setTimeout(function(){grid.classList.remove('paint')},2200);
   hint.textContent=HINT;
-  w.body.querySelector('.dlg-label').textContent='Pick any tile to see what we can show you for '+(STATE.brand||STATE.catText||'your category')+'.';
+  w.body.querySelector('.dlg-label').textContent='Pick any tile to see what we can show you for '+(STATE.brand||'your company')+'.';
   if(!Object.keys(STATE.opened).length){var ft=tilesEls[0];if(ft)ft.classList.add('nudge')}
   FILTERS.forEach(function(f){
     var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=f[1];b.setAttribute('aria-pressed',String(f[0]===cur));
@@ -856,56 +925,41 @@ function openGallery(from){
 }
 
 
-/* ---------- Example visuals ---------- */
-function hashStr(t){var h=7;for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return h}
-function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-var VIZ=[
- {t:'pair',title:'Growth by attribute in {cat}',rows:['Attribute A','Attribute B','Attribute C','Attribute D'],a:'New items',b:'Already selling'},
- {t:'bubbles',title:'Open spaces in {cat}, sized by dollars',rows:['Space 1','Space 2','Space 3','Space 4']},
- {t:'pair',title:'{brand} against the top competitors',rows:['Attribute A','Attribute B','Attribute C','Attribute D'],a:'{brand}',b:'Top competitors'},
- {t:'diverge',title:'Share gained or lost, by attribute',rows:['Attribute A','Attribute B','Attribute C','Attribute D','Attribute E']},
- {t:'cols',title:'What shoppers praise and complain about',l:'Praise',r:'Complaints',rows:['Theme 1','Theme 2','Theme 3','Theme 4']},
- {t:'line',title:'Share of reviews by topic over three years',series:['Topic A','Topic B','Topic C']},
- {t:'words',title:'Words shoppers use against words listings use',l:'What shoppers say',r:'What listings say'},
- {t:'stack',title:'Rating mix of each launch',rows:['Launch 1','Launch 2','Launch 3'],a:'Organic reviews',b:'Promoted reviews'},
- {t:'hbars',title:'Unmet needs, ranked by how often shoppers raise them',rows:['Need 1','Need 2','Need 3','Need 4']},
- {t:'pair',title:'What shoppers raise against what listings claim',rows:['Theme 1','Theme 2','Theme 3','Theme 4'],a:'Raised in reviews',b:'Claimed on listings'},
- {t:'matrix',title:'Winning claims, and who carries them',rows:['Claim 1','Claim 2','Claim 3','Claim 4'],cols:['Competitor A','Competitor B','{brand}'],bias:[.8,.7,.25]},
- {t:'hbars',title:'Top reasons behind one- and two-star reviews',rows:['Reason 1','Reason 2','Reason 3','Reason 4']},
- {t:'cols',title:'How shoppers describe each brand',l:'{brand}',r:'Competitors',rows:['Word 1','Word 2','Word 3','Word 4']},
- {t:'matrix',title:'Claims against each product’s nutrition panel',rows:['Claim 1','Claim 2','Claim 3','Claim 4'],cols:['Product 1','Product 2','Product 3'],bias:[.8,.55,.65]},
- {t:'net',title:'Products linked by shared attributes'},
- {t:'bars',title:'Measured values, item by item',rows:['Item 1','Item 2','Item 3','Item 4'],cols:['Sugar','Pack size','Protein']},
- {t:'matrix',title:'Facts an AI shopping assistant needs, by listing',rows:['Listing 1','Listing 2','Listing 3','Listing 4','Listing 5'],cols:['Claim','Size','Ingredient','Usage'],bias:[.8,.6,.7,.4]},
- {t:'spark',title:'Themes rising before sales show it',rows:['Theme 1','Theme 2','Theme 3','Theme 4']}
-];
+/* ---------- Examples: pre-written, real numbers from Harmonya's food and beverage demo data ---------- */
+var HOW={"0": {"how": "We tag claims and attributes across products, then track how fast each grows or fades in sales and in shopper language.", "data": "attribute and claim tags, shopper reviews, and sales data", "format": "a slide deck, often part of a recurring series"}, "1": {"how": "We group reviews into consumer-led territories, map them to products and sales, and show where claims are missing or crowded.", "data": "shopper reviews, attribute tags, sales data, and social listening", "format": "a territory deck, claims audit, or example deck"}, "2": {"how": "We compare brands and products on attributes, claims, and reviews, and join sales, so clients can see where they lead or lag.", "data": "attribute tags, shopper reviews, social posts, and sales data", "format": "a slide deck, live demo, or data export"}, "3": {"how": "We break a share move into claims, attributes, and shopper language, and diff two periods of data when we can.", "data": "attribute tags, shopper reviews, and sales data", "format": "a slide deck or PDF, plus a shipped app feature"}, "4": {"how": "We code reviews and social posts into themes and sentiment, then compare brands side by side and often overlay sales.", "data": "shopper reviews, social posts, and sales data", "format": "a short slide deck or one-page summary"}, "5": {"how": "We track how often themes and attributes come up in reviews and social posts over time, usually on a recurring schedule.", "data": "shopper reviews, social posts, and sales data", "format": "a recurring monthly report, workbook, or scorecard"}, "6": {"how": "We mine reviews and social posts for the words shoppers use about benefits, then group them into themes and hooks for copy.", "data": "shopper reviews, social posts, and attribute tags", "format": "a slide deck, PDF, or app view"}, "7": {"how": "We split reviews into organic and promoted, then read sentiment and ratings on the organic ones to judge a launch.", "data": "shopper reviews and sales data", "format": "a slide deck or PDF"}, "8": {"how": "We mine reviews and forum posts for needs and complaints, then group them into themes to show what shoppers still want.", "data": "shopper reviews and online forums", "format": "a PDF brief or slide deck"}, "9": {"how": "We compare what the brand claims on pack or in listings with the words shoppers use in reviews, then rate the gap.", "data": "product claims and ingredient lists, plus shopper reviews", "format": "a slide deck with the in-app agent"}, "10": {"how": "We tag claims on every product, compare them with rivals and growth, and flag claims worth adding or dropping.", "data": "claim and attribute tags, sales data, and shopper reviews", "format": "a slide deck, workbook, or recurring tracker"}, "11": {"how": "We compare review sentiment and attributes for chosen products, often before and after a change, to find repeat complaints.", "data": "shopper reviews, attribute tags, and sales data", "format": "a slide deck or one-page highlight"}, "12": {"how": "We count how often the brand mentions a theme versus how often shoppers do, then show where the two differ.", "data": "product page tags plus reviews and social data", "format": "a live dashboard demo"}, "13": {"how": "We tag the measured level of a claim on each product, such as protein grams, and compare it with sales and reviews.", "data": "product attribute tags, sales data, and shopper reviews", "format": "a slide deck or executive playbook"}, "14": {"how": "We give teams a chat-style agent that answers plain-language questions over reviews, sales, and attribute data.", "data": "shopper reviews, sales data, and attribute tags", "format": "a conversational agent inside the platform"}, "15": {"how": "We pull measured values such as pack size or ingredient amounts from listings and tags, then compare them with competitors and sales.", "data": "product listings, attribute tags, and sales data", "format": "a short slide deck"}, "16": {"how": "We scan retailer product pages for missing claims and content, and test how products show up in AI-driven search.", "data": "retailer product pages, reviews, and sales data", "format": "a slide deck or prototype"}, "17": {"how": "We place themes on a maturity curve from new to declining, and add social data to catch signals before sales show them.", "data": "attribute tags, sales data, and social listening", "format": "a live tool demo with custom analyses"}};
+var EX={
+ 0:{t:'dv',title:'Dollar growth of items already selling, outside the two leading brands',sub:'Energy drinks, 52 weeks ending Dec 31, 2022. Each bar is one attribute on its own.',stat:'Energy drinks added $752M in dollars, and 79% of that growth came from new items.',rows:[['L-theanine',13.2],['Green tea extract',7.1],['Healthy',6.5],['Energy drinks overall',-1.3],['Sugar free',-2.5],['Zero sugar',-4.1]]},
+ 1:{t:'bars',title:'Four spaces growing faster than the category',sub:'Ready-to-drink coffee, 52 weeks ending Dec 31, 2022. Dollar sales and change on a year earlier.',stat:'The category sold $2,314.2M, up 9.0%. The three leading manufacturers sold 83% of it and hold just 0.6% of these four spaces.',max:132.6,rows:[['Single origin, Colombian',132.6,'$132.6M','+40.8%'],['Clean label',107.9,'$107.9M','+31.5%'],['Protein',68.1,'$68.1M','+13.2%'],['Organic',55.4,'$55.4M','+17.8%']],extra:'In 2021 to 2022 reviews of the single-origin and clean-label items, 1.1% mention jitters or a crash (16 of 1,467), about four times the leaders’ 0.3%.'},
+ 10:{t:'bars',title:'Claims on cookies, by share of dollars and growth',sub:'Cookies, 52 weeks ending Dec 31, 2022. The bar and first number are the share of cookie dollars. The bold number is dollar growth. Claims overlap, so shares do not add to 100%. The category grew 13.9%.',stat:'\u201cNo high fructose corn syrup\u201d sits on 17.3% of cookie dollars and grew 30.8%, more than twice the category.',max:58.7,rows:[['Kosher',58.7,'58.7%','+11.0%'],['No trans fat',29.8,'29.8%','+8.0%'],['No high fructose corn syrup',17.3,'17.3%','+30.8%'],['No artificial flavors',12.9,'12.9%','+10.1%'],['Sustainable',12.0,'12.0%','+8.7%'],['No artificial colors',11.9,'11.9%','+14.4%'],['Sustainably sourced',11.7,'11.7%','+9.5%'],['Whole grain',10.8,'10.8%','+10.6%']]},
+ 16:{t:'funnel',title:'Listings that state every fact an AI shopping assistant needs',sub:'Zero sugar energy drinks with L-theanine, listings from Sep 2024 to Sep 2026. A shopper asks for zero sugar, L-theanine and under 150 mg of caffeine.',stat:'Only 97 of 230 listings state all three. Across the leading brands, 37% of listings state a caffeine amount at all.',max:230,rows:[['Listings for these items',230],['State zero sugar',190],['And mention L-theanine',137],['And state a caffeine amount',97]]}
+};
+function howHTML(i){
+  var h=HOW[i];if(!h)return '';
+  return '<div class="how"><p><b>How we answer it.</b> '+esc(h.how)+'</p><p>It draws on '+esc(h.data)+'. We have delivered it as '+esc(h.format)+'.</p></div>';
+}
 function vz(i){
-  var v=VIZ[i];if(!v)return '';
-  var di=0,r=rng(hashStr(STATE.catText+'|'+STATE.brand)+i*131),h='<div class="vz" role="img" aria-label="Example layout: '+esc(tpl(v.title))+'. Illustrative, not your data."><h4>'+esc(tpl(v.title))+'</h4>';
-  function bar(){return Math.round(28+r()*64)}
-  if(v.t==='hbars'){var xs=v.rows.map(bar).sort(function(a,b){return b-a});v.rows.forEach(function(l,k){h+='<div class="vr" style="--d:'+(di++)+'"><span class="vl">'+esc(l)+'</span><span class="vt"><i class="s1" style="--w:'+xs[k]+'%"></i></span></div>'})}
-  else if(v.t==='pair'){h+='<div class="leg"><span><i class="s1"></i>'+esc(tpl(v.a))+'</span><span><i class="s2"></i>'+esc(tpl(v.b))+'</span></div>';v.rows.forEach(function(l){h+='<div class="vr" style="--d:'+(di++)+'"><span class="vl">'+esc(l)+'</span><span class="vtg"><span class="vt"><i class="s1" style="--w:'+bar()+'%"></i></span><span class="vt"><i class="s2" style="--w:'+bar()+'%"></i></span></span></div>'})}
-  else if(v.t==='stack'){h+='<div class="leg"><span><i class="s1"></i>'+esc(v.a)+'</span><span><i class="s3"></i>'+esc(v.b)+'</span></div>';v.rows.forEach(function(l){var a=Math.round(40+r()*50);h+='<div class="vr" style="--d:'+(di++)+'"><span class="vl">'+esc(l)+'</span><span class="vt"><i class="s1" style="--w:'+a+'%"></i><i style="--l:'+a+'%;--w:'+(100-a)+'%;background:#b9bec4"></i></span></div>'})}
-  else if(v.t==='diverge'){v.rows.forEach(function(l){var x=Math.round(12+r()*36),neg=r()<.4;h+='<div class="vr" style="--d:'+(di++)+'"><span class="vl">'+esc(l)+'</span><span class="vt"><span class="z"></span><i class="'+(neg?'neg':'s1')+'" style="--l:'+(neg?50-x:50)+'%;--w:'+x+'%"></i></span></div>'})}
-  else if(v.t==='cols'){h+='<div class="cols2">';[v.l,v.r].forEach(function(side,si){h+='<div><h5>'+esc(tpl(side))+'</h5>';v.rows.forEach(function(l){h+='<div class="vr" style="grid-template-columns:minmax(0,34%) minmax(0,1fr)"><span class="vl">'+esc(l)+'</span><span class="vt"><i class="'+(si?'s2':'s1')+'" style="--w:'+bar()+'%"></i></span></div>'});h+='</div>'});h+='</div>'}
-  else if(v.t==='words'){h+='<div class="cols2">';[v.l,v.r].forEach(function(side,si){h+='<div><h5>'+esc(side)+'</h5><div class="chips">';for(var k=0;k<6;k++){var m=r()<.5;h+='<span class="chip2 '+(m?'on':(si?'off':''))+'">'+(si?'Listing phrase':'Shopper phrase')+'</span>'}h+='</div></div>'});h+='</div><p class="vnote">Filled chips match on both sides. Open chips are the gap.</p>'}
-  else if(v.t==='matrix'){var cn=v.cols.length;h+='<div class="vm" style="grid-template-columns:minmax(0,22%) repeat('+cn+',minmax(0,1fr))"><span></span>'+v.cols.map(function(c){return '<span class="h">'+esc(tpl(c))+'</span>'}).join('');v.rows.forEach(function(l){h+='<span class="rl">'+esc(l)+'</span>';v.cols.forEach(function(c,ci){h+='<span class="c"><i class="'+(r()<v.bias[ci]?'yes':'no')+'" style="--d:'+(di++)+'"></i></span>'})});h+='</div><p class="vnote">Filled means yes, open means no.</p>'}
-  else if(v.t==='bars'){var cn2=v.cols.length;h+='<div class="vm" style="grid-template-columns:minmax(0,22%) repeat('+cn2+',minmax(0,1fr))"><span></span>'+v.cols.map(function(c){return '<span class="h">'+esc(c)+'</span>'}).join('');v.rows.forEach(function(l){h+='<span class="rl">'+esc(l)+'</span>';v.cols.forEach(function(){h+='<span class="c"><span class="mb"><i style="--w:'+bar()+'%"></i></span></span>'})});h+='</div>'}
-  else if(v.t==='line'){
-    var W=300,H=110,cols=['var(--acc,#009ea6)','#fcca39','#b9bec4'],paths='';
-    v.series.forEach(function(sn,si){var y=30+r()*50,pts=[];for(var k=0;k<8;k++){y=Math.max(14,Math.min(96,y+(r()-.5)*34));pts.push([14+k*(W-28)/7,y])}var d='M'+pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1)}).join(' L');paths+='<path class="draw" d="'+d+'" fill="none" stroke="'+cols[si]+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" style="--len:520"/>'});
-    h+='<div class="leg">'+v.series.map(function(sn,si){return '<span><i style="background:'+cols[si].replace('var(--acc,#009ea6)','var(--acc,#009ea6)')+'"></i>'+esc(sn)+'</span>'}).join('')+'</div><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><path d="M10 100H'+(W-6)+'M10 10V100" stroke="#9aa0a6" stroke-width="1" fill="none"/>'+paths+'<text x="10" y="'+(H+2)+'">Then</text><text x="'+(W-48)+'" y="'+(H+2)+'">Now</text></svg>'}
-  else if(v.t==='bubbles'){
-    var pos=[[70,60],[150,48],[225,66],[120,92]],bs='';v.rows.forEach(function(l,k){var rr=Math.round(16+r()*22);bs+='<circle class="pop" cx="'+pos[k][0]+'" cy="'+pos[k][1]+'" r="'+rr+'" fill="'+(k===0?'var(--acc,#009ea6)':'#b9bec4')+'" fill-opacity="'+(k===0?.9:.65)+'" style="transition-delay:'+(k*90)+'ms"/><text x="'+pos[k][0]+'" y="'+(pos[k][1]+3)+'" text-anchor="middle" style="fill:#fff;font-size:8px;font-weight:600">'+esc(l)+'</text>'});
-    h+='<svg viewBox="0 0 300 120" aria-hidden="true">'+bs+'</svg>'}
-  else if(v.t==='net'){
-    var ns=[[150,60],[70,28],[230,30],[60,92],[240,96],[150,108]],es=[[0,1],[0,2],[0,3],[0,4],[0,5],[1,3],[2,4]],g='';
-    es.forEach(function(e){g+='<line class="draw" x1="'+ns[e[0]][0]+'" y1="'+ns[e[0]][1]+'" x2="'+ns[e[1]][0]+'" y2="'+ns[e[1]][1]+'" stroke="#9aa0a6" stroke-width="1" style="--len:200"/>'});
-    ns.forEach(function(n,k){g+='<rect class="pop" x="'+(n[0]-6)+'" y="'+(n[1]-6)+'" width="12" height="12" transform="rotate(45 '+n[0]+' '+n[1]+')" fill="'+(k===0?'var(--acc,#009ea6)':'#fcca39')+'" style="transition-delay:'+(k*80)+'ms"/><text x="'+n[0]+'" y="'+(n[1]+(k===5?20:-12))+'" text-anchor="middle">Product '+(k+1)+'</text>'});
-    h+='<svg viewBox="0 0 300 126" aria-hidden="true">'+g+'</svg>'}
-  else if(v.t==='spark'){
-    v.rows.forEach(function(l){var y=70,pts=[];for(var k=0;k<7;k++){y=Math.max(8,y-(4+r()*14)+(r()-.4)*8);pts.push([k*18,y])}var d='M'+pts.map(function(p){return p[0]+','+p[1].toFixed(1)}).join(' L');h+='<div class="vr" style="grid-template-columns:minmax(0,26%) minmax(0,1fr)"><span class="vl">'+esc(l)+'</span><svg viewBox="0 0 110 78" style="height:calc(var(--u)*3.2);width:calc(var(--u)*12)" aria-hidden="true"><path class="draw" d="'+d+'" fill="none" stroke="var(--acc,#009ea6)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="--len:200"/></svg></div>'})}
-  return h+'<p class="vnote">Example layout. Your real data replaces this.</p></div>';
+  var v=EX[i];if(!v)return '';
+  var h='<div class="vz" role="img" aria-label="Example from demo data: '+esc(v.title)+'"><h4>'+esc(v.title)+'</h4><p class="vsub">'+esc(v.sub)+'</p>';
+  var di=0;
+  if(v.t==='dv'){
+    var pos=Math.max.apply(null,v.rows.map(function(r){return Math.max(r[1],0)})),neg=Math.max.apply(null,v.rows.map(function(r){return Math.max(-r[1],0)})),tot=pos+neg,z=neg/tot*100;
+    v.rows.forEach(function(r){var wd=Math.abs(r[1])/tot*100,l=r[1]>=0?z:z-wd;h+='<div class="vr v3" style="--d:'+(di++)+'"><span class="vl">'+esc(r[0])+'</span><span class="vt"><span class="z" style="left:'+z+'%"></span><i class="'+(r[1]>=0?'s1':'neg')+'" style="--l:'+l+'%;--w:'+wd+'%"></i></span><span class="val">'+(r[1]>0?'+':'−')+Math.abs(r[1]).toFixed(1)+'%</span></div>'});
+  }else if(v.t==='bars'){
+    v.rows.forEach(function(r){h+='<div class="vr v3" style="--d:'+(di++)+'"><span class="vl">'+esc(r[0])+'</span><span class="vt"><i class="s1" style="--w:'+(r[1]/v.max*100)+'%"></i></span><span class="val">'+esc(r[2])+' <b>'+esc(r[3])+'</b></span></div>'});
+  }else if(v.t==='funnel'){
+    v.rows.forEach(function(r,k){var last=k===v.rows.length-1;h+='<div class="vr v3" style="--d:'+(di++)+'"><span class="vl">'+esc(r[0])+'</span><span class="vt"><i class="'+(last?'s1':'s3')+'" style="--w:'+(r[1]/v.max*100)+'%"></i></span><span class="val">'+r[1]+'</span></div>'});
+  }
+  h+='<p class="vstat">'+esc(v.stat)+'</p>';
+  if(v.extra)h+='<p class="vstat">'+esc(v.extra)+'</p>';
+  return h+'<p class="vnote"><b>Demo data.</b> This example uses Harmonya demo data for food and beverage. It is not your data. The real thing runs on yours.</p></div>';
+}
+
+
+var SWATCH=['#d92b2b','#ff7a1a','#fcca39','#7ccf59','#2f9e44','#009ea6','#2f8de0','#1d3f9c','#7a3cff','#e0309c','#8a5a2b','#14181b','#8a929e','#f597a3'];
+function palHTML(){
+  var h='<div class="pal" role="group" aria-label="Pick a color for this card">';
+  SWATCH.forEach(function(c){h+='<button type="button" class="sw" data-color="'+c+'" style="background:'+c+'" aria-pressed="false" aria-label="Color '+c+'"></button>'});
+  return h+'<span class="pal-hint">Pick a color</span></div>';
 }
 
 /* ---------- Question windows ---------- */
@@ -933,8 +987,9 @@ function fill(w,i){
   w.body.innerHTML=
    '<div class="menubar"><button type="button" data-nav="close">‹ Gallery</button><button type="button" data-nav="prev">Previous</button><button type="button" data-nav="next">Next ›</button><span class="pos">'+pos+' of '+vis.length+'</span></div>'+dots+
    '<div class="canvas sunk" tabindex="0"><div class="left"><div class="banner">'+art(i,'w'+(w.uid||(w.uid=Math.random().toString(36).slice(2,6))),true)+'</div><h2 class="qd">'+esc(q.q)+'</h2></div>'+
-   '<div class="right"><div class="field"><span class="txt cur"></span></div><div class="reveal">'+vz(i)+'<p class="ans">'+esc(tpl(q.back))+'</p><div class="cta"></div></div></div></div>';
+   '<div class="right"><div class="field"><span class="txt cur"></span></div><div class="reveal">'+vz(i)+'<p class="ans">'+esc(tpl(q.back))+'</p>'+howHTML(i)+'<div class="cta"></div></div></div></div>'+palHTML();
   w.body.onclick=function(e){
+    var sw=e.target.closest('[data-color]');if(sw){w.el.style.setProperty('--acc',sw.dataset.color);[].forEach.call(w.body.querySelectorAll('.sw'),function(x){x.setAttribute('aria-pressed',String(x===sw))});return}
     var g=e.target.closest('[data-go]');if(g)return fill(w,+g.dataset.go);
     var nv=e.target.closest('[data-nav]');
     if(nv){var a=nv.dataset.nav;if(a==='close')return closeW(w);var v2=visible(),k=v2.indexOf(w.idx);if(k<0)k=0;return fill(w,v2[a==='next'?(k+1)%v2.length:(k-1+v2.length)%v2.length])}
@@ -945,7 +1000,7 @@ function fill(w,i){
 }
 function renderCTA(w,state){
   var cta=w.body.querySelector('.cta');if(!cta)return;
-  var b=STATE.brand||'your brand';
+  var b=STATE.brand||'your company';
   if(state&&state.done){
     cta.innerHTML='<p class="done">Thanks. We’ll come to the call ready for '+esc(b)+'.</p>'+(state.note?'<p class="note">'+esc(state.note)+'</p>':'');
     return;
@@ -957,17 +1012,17 @@ function renderCTA(w,state){
   }else{
     cta.innerHTML=hd+'<div class="row2"><input type="email" autocomplete="email" placeholder="you@company.com" aria-label="Work email"><button type="button" class="go bevel">Find time with us</button></div><p class="note err2" role="alert"></p>';
     var inp=cta.querySelector('input'),msg=cta.querySelector('.err2');
-    function go(){if(cta.querySelector('.go').disabled)return;var v=inp.value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){msg.textContent='Add your work email so the booking finds you.';return}STATE.email=v;bookCall(w,v,cta)}
+    function go(){if(cta.querySelector('.go').disabled)return;var v=inp.value.trim(),why=workEmail(v);if(why){msg.textContent=why;return}STATE.email=v;bookCall(w,v,cta)}
     cta.querySelector('.go').onclick=go;inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();go()}};
-    inp.addEventListener('change',function(){var v=inp.value.trim();if(EMAIL_OK.test(v)){STATE.email=v;track('email',{question:Q[w.idx].q})}});
+    inp.addEventListener('change',function(){var v=inp.value.trim();if(!workEmail(v)){STATE.email=v;track('email',{question:Q[w.idx].q})}});
   }
 }
 function bookCall(w,email,cta){
   var btn=cta.querySelector('.go');
   if(btn.disabled||w.booking)return;
   w.booking=true;
-  var p={type:'meeting',email:email,brand:STATE.brand,category:STATE.catText,question:Q[w.idx].q,opened:Object.keys(STATE.opened).map(function(k){return Q[k].q.slice(0,60)})};
-  var configured=leadConfigured(),b=STATE.brand||'your brand';
+  var p={type:'meeting',email:email,brand:STATE.brand,category:'',question:Q[w.idx].q,opened:Object.keys(STATE.opened).map(function(k){return Q[k].q.slice(0,60)})};
+  var configured=leadConfigured(),b=STATE.brand||'your company';
   btn.disabled=true;
   if(MEETING_URL&&!w.openedLink){
     w.openedLink=true;
@@ -1078,15 +1133,10 @@ document.addEventListener('keydown',function(e){
 
 /* ---------- Start ---------- */
 (function(){
-  var h='';try{h=decodeURIComponent((location.hash||'').slice(1)).slice(0,80)}catch(e){}
-  if(!h)return;
-  function words(x){return x.replace(/[-_]+/g,' ').trim()}
-  function title(x){return words(x).replace(/\b([a-z])/g,function(m){return m.toUpperCase()})}
-  var parts=h.split('.'),bw=words(parts[0]);
-  if(!/^[A-Za-z0-9 ]+$/.test(bw))return;
-  STATE.brand=title(parts[0]).slice(0,40);
-  var cw=parts[1]?words(parts[1]):'';
-  if(cw&&/^[A-Za-z0-9 &]+$/.test(cw))STATE.catText=(cw.charAt(0).toUpperCase()+cw.slice(1)).slice(0,40);
+  var h='';try{h=decodeURIComponent((location.hash||'').slice(1)).slice(0,60)}catch(e){}
+  var bw=h.split('.')[0].replace(/[-_]+/g,' ').trim();
+  if(!bw||!/^[A-Za-z0-9 ]+$/.test(bw))return;
+  STATE.brand=bw.replace(/\b([a-z])/g,function(m){return m.toUpperCase()}).slice(0,40);
 })();
 openLoad();renderIcons();setInteractive(false);layout();
 requestAnimationFrame(frame);

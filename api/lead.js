@@ -3,6 +3,10 @@
 // forwards it to a HubSpot form. Nothing secret is stored in this repo: set everything as
 // environment variables in the host (see README).
 
+import { promises as dns } from 'node:dns';
+
+const FREE = new Set(['gmail.com','googlemail.com','yahoo.com','ymail.com','rocketmail.com','outlook.com','hotmail.com','live.com','msn.com','icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','pm.me','gmx.com','gmx.net','mail.com','yandex.com','zoho.com','qq.com','163.com','126.com','comcast.net','verizon.net','att.net','sbcglobal.net','cox.net','mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','yopmail.com','trashmail.com']);
+
 const ALLOWED = (process.env.ALLOWED_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
 const TO = (process.env.NOTIFY_TO || '').split(',').map((s) => s.trim()).filter(Boolean);
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -16,6 +20,19 @@ function limited(ip) {
   recent.push(now);
   hits.set(ip, recent);
   return recent.length > 8;
+}
+
+// Empty string means usable. Otherwise the reason.
+async function workEmailProblem(email) {
+  const domain = email.split('@')[1].toLowerCase();
+  if (FREE.has(domain) || /^(yahoo|hotmail|outlook|live|msn)\./.test(domain)) return 'personal-email';
+  try {
+    const mx = await dns.resolveMx(domain);
+    if (!mx.length) return 'no-mail-server';
+  } catch {
+    return 'no-mail-server';
+  }
+  return '';
 }
 
 async function sendEmail(lead) {
@@ -97,7 +114,9 @@ export default async function handler(req, res) {
     page: clip(b.page, 300),
   };
   if (lead.email && !EMAIL_RE.test(lead.email)) return res.status(400).json({ ok: false, error: 'email' });
-  if (lead.type !== 'load' && !lead.email) return res.status(400).json({ ok: false, error: 'email' });
+  if (!lead.email) return res.status(400).json({ ok: false, error: 'email' });
+  const problem = await workEmailProblem(lead.email);
+  if (problem) return res.status(400).json({ ok: false, error: problem });
   console.log(JSON.stringify({ at: new Date().toISOString(), lead })); // a trail in the host's logs
 
   const [emailed, hubspot] = await Promise.all([sendEmail(lead).catch(() => false), sendHubspot(lead).catch(() => false)]);

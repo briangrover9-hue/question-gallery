@@ -1,8 +1,8 @@
 # Question Gallery
 
-A single-page outreach experience. A small yellow computer sits on a desk. A visitor clicks the screen, picks any category (and optionally a brand and email), and opens a gallery of questions with an example visual for each. The last step is "Find time with us", which books a call and tells us what they cared about.
+A single-page outreach experience. A small yellow computer sits on a desk. A visitor clicks the screen, adds a company and a work email, and opens a gallery of questions. Each card has a real example drawn in Paint style where we have one, a plain description of how we answer it, and a way to find time with us. The last step is "Find time with us", which books a call and tells us what they cared about.
 
-Nothing in this repo is client data. All visuals are illustrative layouts with no numbers.
+Nothing in this repo is client data. Every number on the page comes from Harmonya's own food and beverage demo data, and the page says so wherever one appears.
 
 ## Files
 
@@ -13,8 +13,8 @@ Nothing in this repo is client data. All visuals are illustrative layouts with n
 
 Add an anchor to the page link and it opens already loaded:
 
-- `https://YOUR-HOST/#halo-top` fills the brand.
-- `https://YOUR-HOST/#halo-top.frozen-desserts` fills the brand and the category.
+- `https://YOUR-HOST/#acme` fills the company name.
+- `https://YOUR-HOST/#acme-brands` fills "Acme Brands".
 
 Letters, numbers, `-`, `_` and `.` only.
 
@@ -49,7 +49,7 @@ You should get `{"ok":true,...}` and an email.
 Create one form with these fields, then give its portal ID and form GUID to the function.
 
 - `email` and `company` already exist on contacts.
-- Create four contact properties (single-line text; `gallery_opened` can be multi-line): `gallery_category`, `gallery_question`, `gallery_opened`, `gallery_event`.
+- Create three contact properties (single-line text; `gallery_opened` can be multi-line): `gallery_question`, `gallery_opened`, `gallery_event`.
 - Build a workflow on that form: set the contact owner, create a task ("Follow up: {company} asked about {gallery_question}"), and send an internal notification.
 
 ## What gets tracked
@@ -64,6 +64,10 @@ Every event carries the email, brand, category, the questions opened so far and 
 | `session` | They leave or switch tabs after opening at least one question: a summary of everything they opened |
 
 Each event is emailed to `NOTIFY_TO`, logged by the host, and (if configured) sent to HubSpot. Repeated HubSpot submissions with the same email update the same contact.
+
+## Email checks
+
+The page rejects personal and disposable email domains. The function repeats that check and also looks up the domain's mail servers, so an address on a domain that cannot receive mail is refused with a 400.
 
 ## Notes
 
