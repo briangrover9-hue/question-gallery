@@ -403,7 +403,7 @@ var QUICK=['Snacks','Beverages','Beauty and personal care','Pet care','Household
 var LEAD_CFG={portalId:'',formGuid:'',endpoint:'/api/lead'};
 function leadConfigured(){return !!(LEAD_CFG.endpoint||(LEAD_CFG.portalId&&LEAD_CFG.formGuid))}
 /* Paste the HubSpot meetings link here. The visitor's email is added to it so the booking lands on the same contact. */
-var MEETING_URL='';
+var MEETING_URL='https://meetings.hubspot.com/zack-bambary';
 function submitLead(p){
   if(LEAD_CFG.endpoint){
     return fetch(LEAD_CFG.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:p.type,email:p.email,brand:p.brand,category:p.category,question:p.question||'',opened:p.opened||[],page:location.href.split('#')[0],website:''})}).then(function(r){return {sent:r.ok}}).catch(function(){return {sent:false}});
@@ -937,7 +937,7 @@ function bookCall(w,email,cta){
       if(!m){m=document.createElement('p');m.className='note err2';m.setAttribute('role','alert');cta.appendChild(m)}
       m.textContent='That did not go through. Try again.';return;
     }
-    if(MEETING_URL){cta.innerHTML='<p class="done">Thanks. We\u2019ll come to the call ready for '+esc(b)+'.</p>';return}
+    if(MEETING_URL){cta.innerHTML=configured?'<p class="done">Thanks. We\u2019ll come to the call ready for '+esc(b)+'.</p>':'<p class="done">The booking page is open in a new tab. Pick a time that works for you.</p>';return}
     if(configured){cta.innerHTML='<p class="done">Got it. We\u2019ll email you to find a time.</p>';return}
     cta.innerHTML='<p class="note">Preview only: the booking link is not set, so nothing opened and nothing was sent.</p>';
   });

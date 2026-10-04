@@ -32,7 +32,7 @@ Letters, numbers, `-`, `_` and `.` only.
 | `HUBSPOT_PORTAL_ID` | Optional. Your HubSpot account ID |
 | `HUBSPOT_FORM_GUID` | Optional. The form that receives the lead |
 
-3. Set `MEETING_URL` near the top of the script in `index.html` to your HubSpot meetings link. The visitor's email is added to it, so the booking lands on the same contact.
+3. `MEETING_URL` near the top of the script in `index.html` is already set to the HubSpot meetings link. The visitor's email is added to it, so the booking lands on the same contact.
 4. Test it:
 
 ```bash
