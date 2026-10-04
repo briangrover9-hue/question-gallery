@@ -20,8 +20,14 @@ function limited(ip) {
 
 async function sendEmail(lead) {
   if (!process.env.RESEND_API_KEY || !process.env.MAIL_FROM || TO.length === 0) return false;
+  const EVENT = {
+    meeting: 'Clicked Find time with us',
+    email: 'Gave a work email (has not booked)',
+    load: 'Loaded a category',
+    session: 'Session summary: what they opened before leaving',
+  };
   const lines = [
-    `Event: ${lead.type === 'meeting' ? 'Clicked Find time with us' : 'Loaded a category'}`,
+    `Event: ${EVENT[lead.type]}`,
     `Email: ${lead.email || '(none given)'}`,
     `Brand: ${lead.brand || '(none given)'}`,
     `Category: ${lead.category || '(none given)'}`,
@@ -36,7 +42,7 @@ async function sendEmail(lead) {
       from: process.env.MAIL_FROM,
       to: TO,
       reply_to: lead.email || undefined,
-      subject: `Question Gallery: ${lead.brand || lead.email || 'a visitor'} on ${lead.category || 'a category'}`,
+      subject: `Question Gallery (${lead.type}): ${lead.brand || lead.email || 'a visitor'} on ${lead.category || 'a category'}`,
       text: lines.join('\n'),
     }),
   });
@@ -82,7 +88,7 @@ export default async function handler(req, res) {
   if (b.website) return res.status(200).json({ ok: true }); // honeypot
 
   const lead = {
-    type: b.type === 'meeting' ? 'meeting' : 'load',
+    type: ['load', 'email', 'meeting', 'session'].includes(b.type) ? b.type : 'load',
     email: clip(b.email, 200),
     brand: clip(b.brand, 80),
     category: clip(b.category, 80),
@@ -91,7 +97,8 @@ export default async function handler(req, res) {
     page: clip(b.page, 300),
   };
   if (lead.email && !EMAIL_RE.test(lead.email)) return res.status(400).json({ ok: false, error: 'email' });
-  if (lead.type === 'meeting' && !lead.email) return res.status(400).json({ ok: false, error: 'email' });
+  if (lead.type !== 'load' && !lead.email) return res.status(400).json({ ok: false, error: 'email' });
+  console.log(JSON.stringify({ at: new Date().toISOString(), lead })); // a trail in the host's logs
 
   const [emailed, hubspot] = await Promise.all([sendEmail(lead).catch(() => false), sendHubspot(lead).catch(() => false)]);
   const ok = emailed || hubspot;

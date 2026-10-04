@@ -52,6 +52,19 @@ Create one form with these fields, then give its portal ID and form GUID to the 
 - Create four contact properties (single-line text; `gallery_opened` can be multi-line): `gallery_category`, `gallery_question`, `gallery_opened`, `gallery_event`.
 - Build a workflow on that form: set the contact owner, create a task ("Follow up: {company} asked about {gallery_question}"), and send an internal notification.
 
+## What gets tracked
+
+Every event carries the email, brand, category, the questions opened so far and the page. Events fire whether or not the visitor books a call.
+
+| `type` | When it fires |
+| --- | --- |
+| `email` | A valid work email is typed (load form or the ask), even if nothing else happens |
+| `load` | They press Load |
+| `meeting` | They press Find time with us |
+| `session` | They leave or switch tabs after opening at least one question: a summary of everything they opened |
+
+Each event is emailed to `NOTIFY_TO`, logged by the host, and (if configured) sent to HubSpot. Repeated HubSpot submissions with the same email update the same contact.
+
 ## Notes
 
 - The page sends nothing until `LEAD_CFG.endpoint` is set (it is `/api/lead` in this repo). When it is empty the page says so plainly.

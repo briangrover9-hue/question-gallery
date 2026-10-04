@@ -112,7 +112,7 @@ button{cursor:pointer}
 .loadbtn:active:not(:disabled){transform:scale(.97)}
 .lw-disk{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}
 .floppy{width:62%;aspect-ratio:120/124;position:relative;z-index:1;transform:translateY(-4%) rotate(-5deg);transition:transform 1s var(--ease-io)}
-.floppy svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))}
+.floppy svg{width:100%;height:100%;display:block;filter:drop-shadow(0 10px 14px rgba(40,60,110,.22))}
 .lw.loading .floppy{transform:translateY(46%) rotate(0deg)}
 .drive{position:relative;z-index:2;width:92%;height:calc(var(--u)*9);margin-top:calc(var(--u)*-1.4);background:linear-gradient(#e7e1cf,#c9c2ae);border-radius:6px;box-shadow:inset 0 2px 0 rgba(255,255,255,.7),inset 0 -3px 0 rgba(0,0,0,.18),0 0 0 1px #8d8671;display:flex;align-items:flex-end;justify-content:space-between;padding:0 calc(var(--u)*1.4) calc(var(--u)*1.1)}
 .drive::before{content:"";position:absolute;left:8%;right:8%;top:calc(var(--u)*1.6);height:calc(var(--u)*.9);background:#2a2620;border-radius:3px;box-shadow:inset 0 3px 4px rgba(0,0,0,.7)}
@@ -282,8 +282,20 @@ body.full .back{color:#e6eef2}
   body.flow .dots{flex-wrap:wrap;gap:10px}
   body.flow .dot{width:12px;height:12px}
   body.flow .help{left:8px;right:8px;top:30%;bottom:auto}
+  .invite{bottom:9vh;font-size:14px;padding:0 24px}
   body.flow .back{left:12px;top:10px;background:#fff;color:var(--ink);border-radius:999px;padding:9px 16px;box-shadow:0 1px 8px rgba(0,0,0,.28)}
 }
+
+
+.invite{position:fixed;left:0;right:0;bottom:11vh;margin:0;text-align:center;font-size:15px;color:var(--soft);pointer-events:none;transition:opacity .4s,visibility 0s;letter-spacing:0}
+.pc.in ~ .invite,body.flow .invite{opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.screen.demo-press .clickbtn{background:#1b2230!important;color:#fff;border-color:#1b2230!important;transform:scale(.96)}
+.lw-act{display:flex;align-items:center;gap:calc(var(--u)*1.4)}
+.lw-hint{font-size:calc(var(--u)*1.05);color:var(--soft)}
+.lw-hint[hidden]{display:none}
+.tile.nudge{animation:tnudge 2.2s var(--ease-out) 3}
+@keyframes tnudge{0%{box-shadow:0 0 0 0 rgba(20,24,27,.38)}70%,100%{box-shadow:0 0 0 12px rgba(20,24,27,0)}}
+@media (prefers-reduced-motion:reduce){.tile.nudge{animation:none}}
 
 /* ===== Clean skin: pale, airy, one soft glow. Overrides the retro chrome above. ===== */
 :root{--os:#f7f9ff;--hair:#e4e8f0;--soft:#6b7280;--pill:#14181b}
@@ -329,8 +341,9 @@ body.nocursor,body.nocursor *{cursor:none!important}
 .loadbtn:hover:not(:disabled),.cta .go:hover:not(:disabled){background:#2a3447}
 .cta .go:disabled{background:#c9cfda}
 .loadbtn:focus-visible,.cta .go:focus-visible,.cat:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.drive{background:#edf0f5;box-shadow:none;border:1px solid var(--hair);border-radius:calc(var(--u)*1)}
-.drive::before{background:#c9d0dc;box-shadow:none}
+.drive{background:linear-gradient(#ffffff,#e9edf4);box-shadow:0 8px 20px rgba(40,60,110,.12),inset 0 1px 0 #fff;border:1px solid var(--hair);border-radius:calc(var(--u)*1.2)}
+.drive::before{background:#b9c2d1;box-shadow:inset 0 1px 2px rgba(20,30,60,.25);border-radius:999px}
+.dled{background:#cfd6e2}
 .bar{background:#edf0f5;box-shadow:none;border-radius:999px;padding:0;overflow:hidden}
 .bar i{background:var(--pill);border-radius:999px}
 /* the gallery */
@@ -388,6 +401,7 @@ body.full .back{color:var(--soft)}
     </div>
     <span class="badge">Harmonya</span><span class="slot"></span><span class="led"></span>
   </main>
+  <p class="invite" id="invite">Click the screen to see what we can find out for you.</p>
 </div>
 <button type="button" class="back" id="back">‹ Back to desk</button>
 
@@ -400,20 +414,34 @@ var FILTERS=[['all','All'],['cat','Category'],['ins','Insights'],['brand','Brand
 var QUICK=['Snacks','Beverages','Beauty and personal care','Pet care','Household','Health and wellness','Baby','Pantry and food'];
 
 /* Where a lead goes. Set both once a HubSpot form exists. Until then nothing leaves the page. */
-var LEAD_CFG={portalId:'',formGuid:'',endpoint:'/api/lead'};
+var LEAD_CFG={portalId:'20268287',formGuid:'',endpoint:'/api/lead'};
 function leadConfigured(){return !!(LEAD_CFG.endpoint||(LEAD_CFG.portalId&&LEAD_CFG.formGuid))}
 /* Paste the HubSpot meetings link here. The visitor's email is added to it so the booking lands on the same contact. */
 var MEETING_URL='https://meetings.hubspot.com/zack-bambary';
-function submitLead(p){
+function submitLead(p,o){
+  var ka=!!(o&&o.keepalive);
   if(LEAD_CFG.endpoint){
-    return fetch(LEAD_CFG.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:p.type,email:p.email,brand:p.brand,category:p.category,question:p.question||'',opened:p.opened||[],page:location.href.split('#')[0],website:''})}).then(function(r){return {sent:r.ok}}).catch(function(){return {sent:false}});
+    return fetch(LEAD_CFG.endpoint,{method:'POST',keepalive:ka,headers:{'Content-Type':ka?'text/plain':'application/json'},body:JSON.stringify({type:p.type,email:p.email,brand:p.brand,category:p.category,question:p.question||'',opened:p.opened||[],page:location.href.split('#')[0],website:''})}).then(function(r){return {sent:r.ok}}).catch(function(){return {sent:false}});
   }
   if(!(LEAD_CFG.portalId&&LEAD_CFG.formGuid))return Promise.resolve({sent:false});
   var f=[['email',p.email],['company',p.brand],['gallery_category',p.category],['gallery_question',p.question||''],['gallery_opened',(p.opened||[]).join(' | ')],['gallery_event',p.type]].filter(function(x){return x[1]}).map(function(x){return {name:x[0],value:x[1]}});
-  return fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+LEAD_CFG.portalId+'/'+LEAD_CFG.formGuid,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:f,context:{pageUri:location.href,pageName:'Question Gallery'}})}).then(function(r){return {sent:r.ok}}).catch(function(){return {sent:false}});
+  return fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+LEAD_CFG.portalId+'/'+LEAD_CFG.formGuid,{method:'POST',keepalive:ka,headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:f,context:{pageUri:location.href,pageName:'Question Gallery'}})}).then(function(r){return {sent:r.ok}}).catch(function(){return {sent:false}});
 }
-
+var EMAIL_OK=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+var seen={};
+function openedList(){return Object.keys(STATE.opened).map(function(k){return Q[k].q.slice(0,60)})}
+/* Tracks a visitor who gave an email, whether or not they ever book. One send per distinct state. */
+function track(type,o){
+  if(!STATE.email||!EMAIL_OK.test(STATE.email))return;
+  var p={type:type,email:STATE.email,brand:STATE.brand,category:STATE.catText,question:(o&&o.question)||'',opened:openedList()};
+  var key=[type,p.email,p.brand,p.category,p.question,p.opened.length].join('|');
+  if(seen[key])return;seen[key]=1;
+  return submitLead(p,o);
+}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&Object.keys(STATE.opened).length)track('session',{keepalive:true})});
+window.addEventListener('pagehide',function(){if(Object.keys(STATE.opened).length)track('session',{keepalive:true})});
 var STATE={catText:'',brand:'',email:'',opened:{},loaded:false,autoCat:false};
+
 
 function catNoun(){var t=STATE.catText.trim();if(!t)return 'your category';return t===t.toUpperCase()?t.toLowerCase():(/\b[A-Z]{2,5}\b/.test(t)?t:t.toLowerCase())}
 function hashPal(t){if(!t)return 0;var h=0;for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return Math.abs(h)%9}
@@ -516,18 +544,28 @@ function artV(idx,uid){
 function art(i,uid,h){return (i%6===5&&!h)?artV(i,uid):artH(i,uid)}
 
 /* The floppy: its label shows your category and brand as you type */
+function mixHex(h,p){var n=parseInt(h.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;function m(v){return Math.round(v+(255-v)*p)}return '#'+[m(r),m(g),m(b)].map(function(v){return ('0'+v.toString(16)).slice(-2)}).join('')}
 function floppySVG(id,catO,lineO){
   var ct=catO===undefined?STATE.catText:catO;
   var c=PAL[hashPal(ct)];
-  var brand=lineO!==undefined?esc(lineO):(STATE.brand?esc(STATE.brand.slice(0,18)):'Your brand'),cat=ct?esc(ct.slice(0,26)):'Any category';
-  return '<svg viewBox="0 0 120 124" aria-hidden="true" focusable="false"><defs>'+lg(id+'g',[c.c,c.a],1)+'</defs>'+
-   '<path d="M6 4H100L116 20V118a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4z" fill="#1f2f66"/>'+
-   '<rect x="30" y="4" width="54" height="34" fill="#c9ccd1"/><rect x="62" y="9" width="14" height="24" fill="#2a2d33"/>'+
-   '<rect x="14" y="56" width="92" height="60" fill="#fff"/><rect x="14" y="56" width="92" height="6" fill="'+c.a+'"/>'+
-   '<text x="60" y="84" text-anchor="middle" font-family="'+F.bun+'" font-size="15" fill="url(#'+id+'g)" stroke="'+c.b+'" stroke-width=".8" paint-order="stroke">Harmonya</text>'+
-   '<text x="60" y="97" text-anchor="middle" font-family="Poppins,sans-serif" font-size="8" font-weight="600" fill="#14181b">'+brand+'</text>'+
-   '<text x="60" y="108" text-anchor="middle" font-family="Poppins,sans-serif" font-size="6.5" fill="#555c62">'+cat+'</text>'+
-   '<rect x="94" y="100" width="8" height="10" fill="#1f2f66" opacity=".0"/></svg>';
+  var brandRaw=lineO!==undefined?lineO:(STATE.brand?STATE.brand.slice(0,24):'Your brand'),catRaw=ct?ct.slice(0,30):'Any category';
+  var bs=Math.max(5.6,Math.min(9.5,74/(Math.max(brandRaw.length,1)*.58))),cs=Math.max(5,Math.min(7,74/(Math.max(catRaw.length,1)*.56)));
+  var hi=mixHex(c.a,.42),lo=c.a,dk=c.b;
+  return '<svg viewBox="0 0 120 124" aria-hidden="true" focusable="false"><defs>'+lg(id+'g',[c.c,c.a],1)+
+   '<linearGradient id="'+id+'b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+hi+'"/><stop offset="1" stop-color="'+lo+'"/></linearGradient>'+
+   '<linearGradient id="'+id+'s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'+
+   '<linearGradient id="'+id+'m" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c7ced9"/><stop offset=".45" stop-color="#f6f8fb"/><stop offset="1" stop-color="#bcc4d1"/></linearGradient>'+
+   '<filter id="'+id+'d" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="1.6" flood-color="#1b2230" flood-opacity=".22"/></filter></defs>'+
+   '<path d="M10 3H98L117 22V112a9 9 0 0 1-9 9H12a9 9 0 0 1-9-9V10a7 7 0 0 1 7-7z" fill="url(#'+id+'b)"/>'+
+   '<path d="M10 3H98L117 22V112a9 9 0 0 1-9 9H12a9 9 0 0 1-9-9V10a7 7 0 0 1 7-7z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.2"/>'+
+   '<path d="M10 3H98L117 22V52C84 38 40 46 3 40V10a7 7 0 0 1 7-7z" fill="url(#'+id+'s)" opacity=".7"/>'+
+   '<path d="M98 3L117 22H104a6 6 0 0 1-6-6z" fill="#fff" opacity=".4"/>'+
+   '<rect x="30" y="3" width="56" height="34" rx="3" fill="url(#'+id+'m)"/><rect x="62" y="8" width="15" height="24" rx="2.5" fill="#2a3040"/><rect x="62" y="8" width="15" height="3.5" rx="1.5" fill="#000" opacity=".28"/>'+
+   '<g filter="url(#'+id+'d)"><rect x="12" y="52" width="96" height="62" rx="4" fill="#fffdf8"/></g><rect x="12" y="52" width="96" height="6" rx="3" fill="'+c.a+'" opacity=".85"/>'+
+   '<text x="60" y="75" text-anchor="middle" font-family="'+F.bun+'" font-size="12" textLength="78" lengthAdjust="spacingAndGlyphs" fill="url(#'+id+'g)" stroke="'+dk+'" stroke-width=".6" paint-order="stroke">Harmonya</text>'+
+   '<path d="M22 83H98M22 99H98" stroke="#e6e9ef" stroke-width=".7"/>'+
+   '<text x="60" y="94" text-anchor="middle" font-family="Pacifico,cursive" font-size="'+bs.toFixed(1)+'" fill="#1b2230">'+esc(brandRaw)+'</text>'+
+   '<text x="60" y="108" text-anchor="middle" font-family="Poppins,sans-serif" font-size="'+cs.toFixed(1)+'" fill="#6b7280">'+esc(catRaw)+'</text></svg>';
 }
 
 /* ---------- Scene: desk physics, wallpaper, zoom ---------- */
@@ -611,7 +649,7 @@ window.addEventListener('pointermove',function(e){gm.x=e.clientX;gm.y=e.clientY;
 
 var lastLoop=0;
 function frame(t){
-  deskStep();cursorStep();
+  deskStep();attractStep(t);cursorStep();
   requestAnimationFrame(frame);
 }
 
@@ -731,19 +769,19 @@ function openLoad(){
   var quick=QUICK.map(function(c){return '<button type="button" class="cat" data-q="'+esc(c)+'" aria-pressed="'+(STATE.catText===c)+'">'+esc(c)+'</button>'}).join('');
   w.body.innerHTML='<div class="lw">'+
    '<div class="lw-form"><h2 class="lw-h">What do you want to find out?</h2>'+
-   '<p class="lw-sub">Type any category or brand and load the questions Harmonya answers for it.</p>'+
+   '<p class="lw-sub">Type any category or brand, press Load, then open any tile to see what Harmonya can show you.</p>'+
    '<label class="fld">Category<input id="fCat" maxlength="40" autocomplete="off" placeholder="Any category, like frozen desserts" value="'+esc(STATE.catText)+'"></label>'+
    '<div class="cats" role="group" aria-label="Quick picks">'+quick+'</div>'+
    '<label class="fld">Brand<input id="fBrand" maxlength="40" autocomplete="organization" placeholder="Optional" value="'+esc(STATE.brand)+'"></label>'+
    '<label class="fld">Work email<input id="fEmail" type="email" autocomplete="email" placeholder="you@company.com" value="'+esc(STATE.email)+'"></label>'+
    '<p class="fine">We use your email to follow up about Harmonya, nothing else.</p>'+
    '<p class="err" id="fErr" role="alert"></p>'+
-   '<button type="button" class="loadbtn bevel" id="loadBtn"'+((STATE.catText||STATE.brand)?'':' disabled')+'>Load</button></div>'+
+   '<div class="lw-act"><button type="button" class="loadbtn bevel" id="loadBtn"'+((STATE.catText||STATE.brand)?'':' disabled')+'>Load</button><span class="lw-hint" id="lwHint"'+((STATE.catText||STATE.brand)?' hidden':'')+'>Pick a category or type a brand first.</span></div></div>'+
    '<div class="lw-disk"><div class="floppy" id="floppy">'+floppySVG('fl')+'</div><div class="drive"><i class="dled"></i></div>'+
    '<div class="prog" hidden><div class="bar"><i></i></div><span class="ptxt" aria-live="polite">Reading disk…</span></div></div></div>';
   var lw=w.body.querySelector('.lw'),fCat=w.body.querySelector('#fCat'),fBrand=w.body.querySelector('#fBrand'),fEmail=w.body.querySelector('#fEmail'),err=w.body.querySelector('#fErr'),btn=w.body.querySelector('#loadBtn');
   function chips(){[].forEach.call(w.body.querySelectorAll('.cat'),function(x){x.setAttribute('aria-pressed',String(x.dataset.q.toLowerCase()===STATE.catText.toLowerCase()))})}
-  function refresh(){w.body.querySelector('#floppy').innerHTML=floppySVG('fl');btn.disabled=!(STATE.catText||STATE.brand);chips()}
+  function refresh(){w.body.querySelector('#floppy').innerHTML=floppySVG('fl');btn.disabled=!(STATE.catText||STATE.brand);w.body.querySelector('#lwHint').hidden=!btn.disabled;chips()}
   fCat.addEventListener('input',function(){STATE.catText=fCat.value.trim();STATE.autoCat=false;refresh()});
   w.body.querySelector('.cats').addEventListener('click',function(e){var b=e.target.closest('.cat');if(!b)return;STATE.catText=b.dataset.q;STATE.autoCat=false;fCat.value=b.dataset.q;refresh()});
   fBrand.addEventListener('input',function(){
@@ -752,6 +790,7 @@ function openLoad(){
   });
   w.sync=function(){fCat.value=STATE.catText;fBrand.value=STATE.brand;refresh()};
   fEmail.addEventListener('input',function(){err.textContent=''});
+  fEmail.addEventListener('change',function(){var v=fEmail.value.trim();if(EMAIL_OK.test(v)){STATE.email=v;STATE.brand=fBrand.value.trim();STATE.catText=fCat.value.trim();track('email')}});
   w.body.querySelector('.lw-form').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();btn.click()}});
   btn.addEventListener('click',function(){
     var em=fEmail.value.trim();
@@ -759,7 +798,7 @@ function openLoad(){
     if(!(STATE.catText||STATE.brand)){err.textContent='Type a category or a brand.';fCat.focus();return}
     if(em&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){err.textContent='Check the email address.';fEmail.focus();return}
     STATE.email=em;
-    if(STATE.email)submitLead({type:'load',email:STATE.email,brand:STATE.brand,category:STATE.catText,opened:[]});
+    track('load');
     lw.classList.add('loading');w.body.querySelector('#floppy').innerHTML=floppySVG('fl');
     var prog=w.body.querySelector('.prog'),bar=prog.querySelector('.bar i'),txt=prog.querySelector('.ptxt');
     prog.hidden=false;txt.textContent='Reading disk…';
@@ -782,7 +821,7 @@ function openGallery(from){
   var title='Harmonya for '+(STATE.brand||STATE.catText||'you');
   var w=newWin({kind:'gallery',title:title,label:'Question gallery',l:6,t:7,w:88,h:59,from:from});
   galleryW=w;
-  w.body.innerHTML='<div class="dlg-body"><div class="dlg-head"><div class="dlg-label">Select a question:</div><div class="filters" role="group" aria-label="Filter by team"></div><div class="count" aria-live="polite"></div></div><div class="grid sunk"></div><div class="status"><span class="hint"></span><span class="hintr"></span></div></div>';
+  w.body.innerHTML='<div class="dlg-body"><div class="dlg-head"><div class="dlg-label"></div><div class="filters" role="group" aria-label="Filter by team"></div><div class="count" aria-live="polite"></div></div><div class="grid sunk"></div><div class="status"><span class="hint"></span><span class="hintr"></span></div></div>';
   var grid=w.body.querySelector('.grid'),filters=w.body.querySelector('.filters'),count=w.body.querySelector('.count'),hint=w.body.querySelector('.hint'),hintr=w.body.querySelector('.hintr');
   var HINT='Click a tile to open it. Hover to read the question.';
   tilesEls=[];
@@ -797,6 +836,8 @@ function openGallery(from){
     grid.appendChild(b);tilesEls.push(b);
   });
   hint.textContent=HINT;
+  w.body.querySelector('.dlg-label').textContent='Pick any tile to see what we can show you for '+(STATE.brand||STATE.catText||'your category')+'.';
+  if(!Object.keys(STATE.opened).length){var ft=tilesEls[0];if(ft)ft.classList.add('nudge')}
   FILTERS.forEach(function(f){
     var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=f[1];b.setAttribute('aria-pressed',String(f[0]===cur));
     b.addEventListener('click',function(){cur=f[0];[].forEach.call(filters.children,function(x,k){x.setAttribute('aria-pressed',String(FILTERS[k][0]===cur))});apply()});
@@ -869,6 +910,7 @@ function vz(i){
 
 /* ---------- Question windows ---------- */
 function openQ(i,src){
+  tilesEls.forEach(function(t){t.classList.remove('nudge')});
   var ex=wins.filter(function(w){return w.kind==='q'&&w.idx===i})[0];
   if(ex){raise(ex.el);return}
   if(PHONE())wins.slice().forEach(function(w){if(w.kind==='q')closeW(w,true)});
@@ -917,6 +959,7 @@ function renderCTA(w,state){
     var inp=cta.querySelector('input'),msg=cta.querySelector('.err2');
     function go(){if(cta.querySelector('.go').disabled)return;var v=inp.value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){msg.textContent='Add your work email so the booking finds you.';return}STATE.email=v;bookCall(w,v,cta)}
     cta.querySelector('.go').onclick=go;inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();go()}};
+    inp.addEventListener('change',function(){var v=inp.value.trim();if(EMAIL_OK.test(v)){STATE.email=v;track('email',{question:Q[w.idx].q})}});
   }
 }
 function bookCall(w,email,cta){
@@ -988,11 +1031,35 @@ function cursorStep(){
   if(!fine)return;
   var dx=cp.tx-cp.x,dy=cp.ty-cp.y,f=RM?1:.24;
   cp.x+=dx*f;cp.y+=dy*f;
-  var sp=Math.hypot(dx,dy),show=cp.on&&!inside;
+  var sp=Math.hypot(dx,dy),show=(cp.on||att.on)&&!inside;
   pcur.style.transform='translate('+cp.x.toFixed(1)+'px,'+cp.y.toFixed(1)+'px)';
   pcur.style.opacity=show?1:0;
   pcur.style.filter=(!RM&&sp>5)?'blur('+Math.min(2.4,sp*.04).toFixed(2)+'px)':'none';
-  document.body.classList.toggle('nocursor',show);
+  document.body.classList.toggle('nocursor',show&&!att.on);
+}
+
+
+/* ---------- Attract: after a few idle seconds a ghost cursor glides to Click and presses it ---------- */
+var idleSince=performance.now(),att={on:false,phase:0,t:0};
+window.addEventListener('pointermove',function(){idleSince=performance.now();if(att.on)stopAttract()},true);
+window.addEventListener('pointerdown',function(){idleSince=performance.now();if(att.on)stopAttract()},true);
+window.addEventListener('keydown',function(){idleSince=performance.now();if(att.on)stopAttract()},true);
+function stopAttract(){att.on=false;att.phase=0;screen.classList.remove('demo-press');pcur.classList.remove('down')}
+function attractStep(now){
+  if(inside||busy||!fine||RM||desk.drag){if(att.on)stopAttract();return}
+  if(!att.on){
+    if(now-idleSince<4500)return;
+    att.on=true;att.phase=0;cp.x=window.innerWidth*.22;cp.y=window.innerHeight*.72;
+  }
+  var b=pc.querySelector('.clickbtn').getBoundingClientRect(),bx=b.left+b.width*.58,by=b.top+b.height*.62;
+  if(att.phase===0){
+    cp.tx=bx;cp.ty=by;
+    if(Math.hypot(bx-cp.x,by-cp.y)<5){att.phase=1;att.t=now;pcur.classList.add('down');screen.classList.add('demo-press')}
+  }else if(att.phase===1&&now-att.t>520){
+    pcur.classList.remove('down');screen.classList.remove('demo-press');att.phase=2;att.t=now;cp.tx=bx+window.innerWidth*.16;cp.ty=by+window.innerHeight*.2;
+  }else if(att.phase===2&&now-att.t>1600){
+    att.phase=0;cp.x=window.innerWidth*.22;cp.y=window.innerHeight*.72;
+  }
 }
 
 /* ---------- Keys ---------- */
