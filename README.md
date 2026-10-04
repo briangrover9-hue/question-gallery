@@ -1,6 +1,6 @@
 # Question Gallery
 
-A single-page outreach experience. A small yellow computer sits on a desk. A visitor drops in a floppy disk or clicks the screen, picks any category (and optionally a brand and email), and opens a gallery of questions with an example visual for each. The last step is "Find time with us", which books a call and tells us what they cared about.
+A single-page outreach experience. A small yellow computer sits on a desk. A visitor clicks the screen, picks any category (and optionally a brand and email), and opens a gallery of questions with an example visual for each. The last step is "Find time with us", which books a call and tells us what they cared about.
 
 Nothing in this repo is client data. All visuals are illustrative layouts with no numbers.
 
