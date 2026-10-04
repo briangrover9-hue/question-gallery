@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 </head>
 <body>
+<form name="gallery-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+<input type="hidden" name="form-name" value="gallery-lead">
+<input name="bot-field"><input name="type"><input name="email"><input name="company"><input name="question"><input name="opened"><input name="page">
+</form>
 <meta charset="utf-8">
 <title>Question Gallery</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -463,20 +467,30 @@ var FILTERS=[['all','All'],['cat','Category'],['ins','Insights'],['brand','Brand
 var QUICK=['Snacks','Beverages','Beauty and personal care','Pet care','Household','Health and wellness','Baby','Pantry and food'];
 
 /* Where a lead goes. Set both once a HubSpot form exists. Until then nothing leaves the page. */
-/* Set formGuid to send leads straight to HubSpot (no backend needed). Or set endpoint to '/api/lead' to use the function in /api. */
-var LEAD_CFG={portalId:'20268287',formGuid:'',endpoint:''};
-function leadConfigured(){return !!(LEAD_CFG.endpoint||(LEAD_CFG.portalId&&LEAD_CFG.formGuid))}
+/* Switch on the places a lead goes. netlify: true sends it to Netlify Forms (needs the hidden form below). formGuid sends it to HubSpot. endpoint sends it to your own function. */
+var LEAD_CFG={portalId:'20268287',formGuid:'',endpoint:'',netlify:true};
+function leadConfigured(){return !!(LEAD_CFG.netlify||LEAD_CFG.endpoint||(LEAD_CFG.portalId&&LEAD_CFG.formGuid))}
 /* Paste the HubSpot meetings link here. The visitor's email is added to it so the booking lands on the same contact. */
 var MEETING_URL='https://meetings.hubspot.com/zack-bambary';
+/* Sends one lead to every destination that is switched on. Resolves {sent:true} if at least one accepted it. */
 function submitLead(p,o){
-  var ka=!!(o&&o.keepalive);
-  if(LEAD_CFG.endpoint){
-    return fetch(LEAD_CFG.endpoint,{method:'POST',keepalive:ka,headers:{'Content-Type':ka?'text/plain':'application/json'},body:JSON.stringify({type:p.type,email:p.email,brand:p.brand,category:p.category,question:p.question||'',opened:p.opened||[],page:location.href.split('#')[0],website:''})}).then(function(r){return {sent:r.ok}}).catch(function(){return {sent:false}});
+  var ka=!!(o&&o.keepalive),jobs=[];
+  var page=location.href.split('#')[0],opened=(p.opened||[]).join(' | ');
+  if(LEAD_CFG.netlify){
+    var body=new URLSearchParams({'form-name':'gallery-lead','bot-field':'',type:p.type,email:p.email||'',company:p.brand||'',question:p.question||'',opened:opened,page:page}).toString();
+    jobs.push(fetch('/',{method:'POST',keepalive:ka,headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}).then(function(r){return r.ok}).catch(function(){return false}));
   }
-  if(!(LEAD_CFG.portalId&&LEAD_CFG.formGuid))return Promise.resolve({sent:false});
-  var f=[['email',p.email],['company',p.brand],['gallery_category',p.category],['gallery_question',p.question||''],['gallery_opened',(p.opened||[]).join(' | ')],['gallery_event',p.type]].filter(function(x){return x[1]}).map(function(x){return {name:x[0],value:x[1]}});
-  return fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+LEAD_CFG.portalId+'/'+LEAD_CFG.formGuid,{method:'POST',keepalive:ka,headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:f,context:{pageUri:location.href,pageName:'Question Gallery'}})}).then(function(r){return {sent:r.ok}}).catch(function(){return {sent:false}});
+  if(LEAD_CFG.endpoint){
+    jobs.push(fetch(LEAD_CFG.endpoint,{method:'POST',keepalive:ka,headers:{'Content-Type':ka?'text/plain':'application/json'},body:JSON.stringify({type:p.type,email:p.email,brand:p.brand,category:p.category||'',question:p.question||'',opened:p.opened||[],page:page,website:''})}).then(function(r){return r.ok}).catch(function(){return false}));
+  }
+  if(LEAD_CFG.portalId&&LEAD_CFG.formGuid){
+    var f=[['email',p.email],['company',p.brand],['gallery_question',p.question||''],['gallery_opened',opened],['gallery_event',p.type]].filter(function(x){return x[1]}).map(function(x){return {name:x[0],value:x[1]}});
+    jobs.push(fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+LEAD_CFG.portalId+'/'+LEAD_CFG.formGuid,{method:'POST',keepalive:ka,headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:f,context:{pageUri:location.href,pageName:'Question Gallery'}})}).then(function(r){return r.ok}).catch(function(){return false}));
+  }
+  if(!jobs.length)return Promise.resolve({sent:false});
+  return Promise.all(jobs).then(function(rs){return {sent:rs.some(Boolean)}});
 }
+
 var EMAIL_OK=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 var FREE=['gmail.com','googlemail.com','yahoo.com','ymail.com','rocketmail.com','outlook.com','hotmail.com','live.com','msn.com','icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','pm.me','gmx.com','gmx.net','mail.com','yandex.com','zoho.com','qq.com','163.com','126.com','comcast.net','verizon.net','att.net','sbcglobal.net','cox.net','mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','yopmail.com','trashmail.com'];
 /* Returns an empty string for a usable work email, or the reason it is not */
@@ -866,7 +880,7 @@ function openLoad(){
     var why=workEmail(em);
     if(why){err.textContent=why;fEmail.focus();return}
     STATE.email=em;
-    track('load');
+    if(!seen[['email',STATE.email,STATE.brand,STATE.catText,'',0].join('|')])track('load');
     lw.classList.add('loading');w.body.querySelector('#floppy').innerHTML=floppySVG('fl',undefined,undefined,!RM);
     var prog=w.body.querySelector('.prog'),bar=prog.querySelector('.bar i'),txt=prog.querySelector('.ptxt');
     prog.hidden=false;txt.textContent='Reading disk…';
