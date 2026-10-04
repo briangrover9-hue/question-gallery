@@ -1,7 +1,7 @@
 import re,os,sys,shutil
-sp=os.path.dirname(os.path.abspath(__file__))+'/src'
+sp=os.path.dirname(os.path.abspath(__file__))
 SITE=os.environ.get('SITE_URL','https://harmonya-question-gallery.netlify.app').rstrip('/')
-out=sys.argv[1] if len(sys.argv)>1 else os.path.dirname(os.path.abspath(__file__))+'/dist'
+out=sys.argv[1] if len(sys.argv)>1 else '/Users/briangrover/Desktop/question-gallery-site'
 m=open(sp+'/question-gallery.html',encoding='utf-8').read()
 m=m.replace('netlify:false','netlify:true',1)
 i=m.index('</style>')+len('</style>')
@@ -9,18 +9,18 @@ head_part,body_part=m[:i],m[i:]
 head_part=re.sub(r'<meta charset="utf-8">\s*','',head_part,count=1)
 head_part=re.sub(r'<title>.*?</title>\s*','',head_part,count=1)
 fav="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='8' y='6' width='48' height='46' rx='12' fill='%23f3b81b'/%3E%3Crect x='15' y='13' width='34' height='24' rx='4' fill='%23071821'/%3E%3Crect x='20' y='43' width='24' height='3' rx='1.5' fill='%23c98f00'/%3E%3C/svg%3E"
-desc="Pick a tile and see the kind of question Harmonya answers about a category, with illustrative demo data."
+desc="Eighteen questions Harmonya can answer about a category. Hover a tile to see the finding, open one for a real example."
 html=f'''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Question Gallery | Harmonya</title>
+<title>What could Harmonya show your team? | Question Gallery</title>
 <meta name="description" content="{desc}">
 <meta name="theme-color" content="#f5f8ff">
 <meta name="robots" content="noindex,nofollow">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Question Gallery | Harmonya">
+<meta property="og:title" content="What could Harmonya show your team?">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{SITE}/">
 <meta property="og:image" content="{SITE}/og.png">
@@ -35,7 +35,11 @@ html=f'''<!doctype html>
 <body>
 <form name="gallery-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
 <input type="hidden" name="form-name" value="gallery-lead">
-<input name="bot-field" tabindex="-1" autocomplete="off"><input name="type"><input name="email"><input name="company"><input name="question"><input name="opened"><input name="page">
+<input name="bot-field" tabindex="-1" autocomplete="off"><input name="subject"><input name="type"><input name="email"><input name="company"><input name="question"><input name="opened"><input name="page">
+</form>
+<form name="gallery-alert" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+<input type="hidden" name="form-name" value="gallery-alert">
+<input name="bot-field" tabindex="-1" autocomplete="off"><input name="subject"><input name="type"><input name="email"><input name="company"><input name="question"><input name="opened"><input name="page">
 </form>
 {body_part}
 </body>

@@ -71,16 +71,16 @@ button{cursor:pointer}
 .w.pop{animation:pop .28s var(--ease-out)}
 @keyframes pop{from{transform:scale(.2);opacity:0}to{transform:none;opacity:1}}
 .tt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.titlebar{--ta:var(--title-a);--tb:var(--title-b);display:flex;align-items:center;justify-content:space-between;gap:8px;height:calc(var(--u)*2.7);flex:none;padding:0 3px 0 7px;background:linear-gradient(90deg,var(--ta),var(--tb));color:#fff;font-weight:600;font-size:max(calc(var(--u)*1.15),12px);cursor:move;touch-action:none}
+.titlebar{--ta:var(--title-a);--tb:var(--title-b);display:flex;align-items:center;justify-content:space-between;gap:8px;height:calc(var(--u)*2.7);flex:none;padding:0 3px 0 7px;background:linear-gradient(90deg,var(--ta),var(--tb));color:#fff;font-weight:600;font-size:max(calc(var(--u)*1.15),calc(12.5px / var(--k,1)));cursor:move;touch-action:none}
 .ctl{display:flex;gap:2px}
-.ctl button{width:calc(var(--u)*1.9);height:calc(var(--u)*1.7);display:grid;place-items:center;font-size:max(calc(var(--u)*1),12px);line-height:1;color:var(--text);border:0;padding:0;cursor:pointer}
+.ctl button{width:calc(var(--u)*1.9);height:calc(var(--u)*1.7);display:grid;place-items:center;font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));line-height:1;color:var(--text);border:0;padding:0;cursor:pointer}
 .ctl button:focus-visible{outline:2px solid #fff;outline-offset:1px}
 .pc:not(.in) .ctl button{pointer-events:none}
 .wbody{flex:1;min-height:0;display:flex;flex-direction:column}
 
 /* Desktop icons: how you get back to a window you closed */
 .icons{position:absolute;left:calc(var(--u)*2);bottom:calc(var(--u)*2.4);display:flex;flex-direction:column;gap:calc(var(--u)*1.6);z-index:3}
-.icon{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*.5);width:calc(var(--u)*8);background:transparent;border:0;padding:calc(var(--u)*.5) 0;color:#e8f4f6;font-size:max(calc(var(--u)*1.05),12px);text-shadow:0 1px 3px rgba(0,0,0,.9)}
+.icon{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*.5);width:calc(var(--u)*8);background:transparent;border:0;padding:calc(var(--u)*.5) 0;color:#e8f4f6;font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));text-shadow:0 1px 3px rgba(0,0,0,.9)}
 .icon svg{width:calc(var(--u)*4.6);height:calc(var(--u)*4.6);filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));transition:transform .18s var(--ease-out)}
 @media (hover:hover) and (pointer:fine){.icon:hover svg{transform:translateY(-3px) scale(1.08)}}
 .icon:active svg{transform:scale(.95)}
@@ -90,17 +90,17 @@ button{cursor:pointer}
 .lw{display:grid;grid-template-columns:minmax(0,11fr) minmax(0,8fr);gap:calc(var(--u)*2);padding:calc(var(--u)*2.2) calc(var(--u)*2.4);background:var(--paper);margin:0 calc(var(--u)*.5) calc(var(--u)*.5);flex:1}
 .lw-form{display:flex;flex-direction:column;gap:calc(var(--u)*1.1);min-width:0}
 .lw-h{margin:0;font-size:calc(var(--u)*2.7);line-height:1.08;font-weight:300;letter-spacing:-.02em}
-.lw-sub{margin:0;font-size:max(calc(var(--u)*1.2),12px);color:var(--muted);line-height:1.45}
+.lw-sub{margin:0;font-size:max(calc(var(--u)*1.2),calc(12.5px / var(--k,1)));color:var(--muted);line-height:1.45}
 .cats{display:flex;flex-wrap:wrap;gap:calc(var(--u)*.55);margin-top:calc(var(--u)*-.2)}
-.cat{height:calc(var(--u)*2.4);padding:0 calc(var(--u)*.9);border:0;font-size:max(calc(var(--u)*1),12px);font-weight:400;color:var(--text);background:var(--face);box-shadow:inset -1px -1px 0 var(--dark),inset 1px 1px 0 var(--hi),inset -2px -2px 0 var(--mid)}
+.cat{height:calc(var(--u)*2.4);padding:0 calc(var(--u)*.9);border:0;font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));font-weight:400;color:var(--text);background:var(--face);box-shadow:inset -1px -1px 0 var(--dark),inset 1px 1px 0 var(--hi),inset -2px -2px 0 var(--mid)}
 .cat[aria-pressed="true"]{background:#fff3b0;box-shadow:inset 1px 1px 0 var(--dark),inset -1px -1px 0 var(--hi),inset 2px 2px 0 var(--mid);font-weight:600}
 .cat:focus-visible,.loadbtn:focus-visible,.ok:focus-visible{outline:1px dotted var(--text);outline-offset:-5px}
-.fld{display:flex;flex-direction:column;gap:calc(var(--u)*.35);font-size:max(calc(var(--u)*1.05),12px);color:var(--muted)}
-.fld input{height:calc(var(--u)*3);padding:0 calc(var(--u)*1);border:0;background:#fff;color:var(--text);font-size:max(calc(var(--u)*1.25),12px);box-shadow:0 0 0 1px #9a9a9a,inset 1px 1px 0 #3b3b3b;border-radius:0}
+.fld{display:flex;flex-direction:column;gap:calc(var(--u)*.35);font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--muted)}
+.fld input{height:calc(var(--u)*3);padding:0 calc(var(--u)*1);border:0;background:#fff;color:var(--text);font-size:max(calc(var(--u)*1.25),calc(12.5px / var(--k,1)));box-shadow:0 0 0 1px #9a9a9a,inset 1px 1px 0 #3b3b3b;border-radius:0}
 .fld input:focus{outline:2px solid var(--teal);outline-offset:1px}
-.fine{margin:0;font-size:max(calc(var(--u)*1),12px);color:var(--muted);line-height:1.4}
-.err{margin:0;min-height:1.2em;font-size:max(calc(var(--u)*1.05),12px);color:var(--bad)}
-.loadbtn{align-self:flex-start;min-width:calc(var(--u)*11);height:calc(var(--u)*3.3);border:0;font-size:max(calc(var(--u)*1.3),12px);font-weight:600;color:var(--text)}
+.fine{margin:0;font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));color:var(--muted);line-height:1.4}
+.err{margin:0;min-height:1.2em;font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--bad)}
+.loadbtn{align-self:flex-start;min-width:calc(var(--u)*11);height:calc(var(--u)*3.3);border:0;font-size:max(calc(var(--u)*1.3),calc(12.5px / var(--k,1)));font-weight:600;color:var(--text)}
 .loadbtn:disabled{color:#7b7b7b;cursor:default}
 .loadbtn:active:not(:disabled){transform:scale(.97)}
 .lw-disk{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}
@@ -116,19 +116,19 @@ button{cursor:pointer}
 .prog[hidden]{display:none}
 .bar{height:calc(var(--u)*1.7);background:#fff;box-shadow:inset 1px 1px 0 var(--mid),inset -1px -1px 0 var(--hi),inset 2px 2px 0 var(--dark);padding:2px}
 .bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#0a246a 0,#0a246a 8px,#fff 8px,#fff 10px);transition:width 1.7s linear}
-.ptxt{font-size:max(calc(var(--u)*1.05),12px);color:var(--muted)}
+.ptxt{font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--muted)}
 .lw.loading input,.lw.loading .cat,.lw.loading .loadbtn{pointer-events:none;opacity:.6}
 
 /* Gallery window */
 .dlg-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:calc(var(--u)*.7);padding:calc(var(--u)*1.1) calc(var(--u)*1.3) calc(var(--u)*1)}
 .dlg-head{display:flex;align-items:center;justify-content:space-between;gap:calc(var(--u)*1.2);flex-wrap:wrap}
-.dlg-label{font-size:max(calc(var(--u)*1.2),12px)}
+.dlg-label{font-size:max(calc(var(--u)*1.2),calc(12.5px / var(--k,1)))}
 .filters{display:flex;gap:calc(var(--u)*1.4);align-items:center}
-.chip{border:0;background:transparent;padding:2px 0;font-size:max(calc(var(--u)*1.05),12px);color:var(--muted);border-bottom:1px solid transparent}
+.chip{border:0;background:transparent;padding:2px 0;font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--muted);border-bottom:1px solid transparent}
 .chip:hover{color:var(--text)}
 .chip[aria-pressed="true"]{color:var(--text);font-weight:600;border-bottom-color:var(--text)}
 .chip:focus-visible{outline:2px solid var(--title-a);outline-offset:2px}
-.count{font-size:max(calc(var(--u)*1.05),12px);color:var(--muted);font-variant-numeric:tabular-nums;min-width:7ch;text-align:right}
+.count{font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--muted);font-variant-numeric:tabular-nums;min-width:7ch;text-align:right}
 .grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(3,1fr);gap:calc(var(--u)*.55);padding:calc(var(--u)*.7);background:#9d9d9d}
 .tile{padding:0;border:0;background:var(--paper);display:block;overflow:hidden;box-shadow:inset 1px 1px 0 var(--mid),inset -1px -1px 0 var(--hi),inset 2px 2px 0 var(--dark);transition:opacity .18s,filter .18s}
 .tile svg{width:100%;height:100%;display:block;pointer-events:none;transition:transform .16s var(--ease-out)}
@@ -139,16 +139,16 @@ button{cursor:pointer}
 .tile:disabled{opacity:.2;filter:grayscale(1);cursor:default}
 .tile.seen::after{content:"";position:absolute;right:6px;top:6px;width:7px;height:7px;border-radius:50%;background:var(--ok)}
 .tile{position:relative}
-.status{display:flex;justify-content:space-between;gap:calc(var(--u)*1.2);align-items:center;min-height:calc(var(--u)*2.4);padding:0 calc(var(--u)*.8);font-size:max(calc(var(--u)*1.1),12px);line-height:1.3;box-shadow:inset 1px 1px 0 var(--mid),inset -1px -1px 0 var(--hi)}
-.status span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.status span:last-child{flex:none;color:var(--muted)}
+.status{display:flex;justify-content:space-between;gap:calc(var(--u)*1.2);align-items:flex-start;min-height:calc(var(--u)*4.6);padding:calc(var(--u)*.6) calc(var(--u)*.8);font-size:max(calc(var(--u)*1.1),calc(12.5px / var(--k,1)));line-height:1.3;box-shadow:inset 1px 1px 0 var(--mid),inset -1px -1px 0 var(--hi)}
+.status span:first-child{min-width:0;flex:1;white-space:normal}
+.status span:last-child{flex:none;color:var(--muted);white-space:nowrap}
 
 /* Question windows: take the color of the tile they came from */
 .menubar{display:flex;align-items:center;gap:calc(var(--u)*.3);padding:calc(var(--u)*.35) calc(var(--u)*.5);flex:none}
-.menubar button{border:0;background:transparent;padding:calc(var(--u)*.4) calc(var(--u)*.9);font-size:max(calc(var(--u)*1.05),12px);color:var(--text)}
+.menubar button{border:0;background:transparent;padding:calc(var(--u)*.4) calc(var(--u)*.9);font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--text)}
 .menubar button:hover{background:var(--acc,var(--title-a));color:#fff}
 .menubar button:focus-visible{outline:2px solid var(--title-a);outline-offset:-2px}
-.menubar .pos{margin-left:auto;font-size:max(calc(var(--u)*1.05),12px);color:var(--muted);font-variant-numeric:tabular-nums;padding-right:calc(var(--u)*.6)}
+.menubar .pos{margin-left:auto;font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--muted);font-variant-numeric:tabular-nums;padding-right:calc(var(--u)*.6)}
 .dots{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*1.1);padding:calc(var(--u)*.8) calc(var(--u)*2);background:var(--paper);margin:0 calc(var(--u)*.5);flex:none}
 .dot{width:calc(var(--u)*1);height:calc(var(--u)*1);border-radius:50%;border:0;padding:0;background:var(--c);opacity:.55;transition:transform .25s var(--spring),opacity .2s}
 .dot:hover{opacity:1}
@@ -158,9 +158,12 @@ button{cursor:pointer}
 .left{display:flex;flex-direction:column;gap:calc(var(--u)*1.4);min-width:0}
 .banner{width:60%;aspect-ratio:160/108;margin-left:calc(var(--u)*-.8)}
 .banner svg{width:100%;height:100%;display:block}
+.how{margin-bottom:calc(var(--u)*1.2)}
+body.flow .how{margin-bottom:28px}
+.who{margin:calc(var(--u)*.7) 0 0;font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--muted)}
 .qd{margin:0;font-size:calc(var(--u)*2.5);line-height:1.12;font-weight:300;letter-spacing:-.02em;text-wrap:balance}
 .right{display:flex;flex-direction:column;gap:calc(var(--u)*1.3);min-width:0}
-.field{padding:calc(var(--u)*1) calc(var(--u)*1.2);background:#fff;box-shadow:0 0 0 1px #9a9a9a,inset 1px 1px 0 #3b3b3b;font-size:max(calc(var(--u)*1.2),12px);line-height:1.45;min-height:calc(var(--u)*6.4)}
+.field{padding:calc(var(--u)*1) calc(var(--u)*1.2);background:#fff;box-shadow:0 0 0 1px #9a9a9a,inset 1px 1px 0 #3b3b3b;font-size:max(calc(var(--u)*1.2),calc(12.5px / var(--k,1)));line-height:1.45;min-height:calc(var(--u)*6.4)}
 .field .cur::after{content:"";display:inline-block;width:.5ch;height:1.05em;margin-left:2px;vertical-align:text-bottom;background:var(--acc,var(--teal));animation:blink 1s steps(2) infinite}
 .field.done .cur::after{display:none}
 @keyframes blink{50%{opacity:0}}
@@ -169,26 +172,26 @@ button{cursor:pointer}
 .reveal.on>*{opacity:1;transform:none}
 .reveal.on>.ans{transition-delay:1.1s}
 .reveal.on>.cta{transition-delay:1.5s}
-.ans{margin:0;font-size:max(calc(var(--u)*1.3),12px);line-height:1.5}
+.ans{margin:0;font-size:max(calc(var(--u)*1.3),calc(12.5px / var(--k,1)));line-height:1.5}
 .cta{display:flex;flex-direction:column;gap:calc(var(--u)*.7);padding-top:calc(var(--u)*1);border-top:1px solid #d9d9d9}
-.cta p{margin:0;font-size:max(calc(var(--u)*1.1),12px);color:var(--muted);line-height:1.45}
-.cta .go{align-self:flex-start;height:calc(var(--u)*3.2);padding:0 calc(var(--u)*1.8);border:0;font-size:max(calc(var(--u)*1.25),12px);font-weight:600;color:var(--text)}
-.cta .hd{font-size:max(calc(var(--u)*1.5),12px)!important;font-weight:500;color:var(--text)!important;line-height:1.25}
+.cta p{margin:0;font-size:max(calc(var(--u)*1.1),calc(12.5px / var(--k,1)));color:var(--muted);line-height:1.45}
+.cta .go{align-self:flex-start;height:calc(var(--u)*3.2);padding:0 calc(var(--u)*1.8);border:0;font-size:max(calc(var(--u)*1.25),calc(12.5px / var(--k,1)));font-weight:600;color:var(--text)}
+.cta .hd{font-size:max(calc(var(--u)*1.5),calc(12.5px / var(--k,1)))!important;font-weight:500;color:var(--text)!important;line-height:1.25}
 .cta .go:active{transform:scale(.97)}
 .cta .row2{display:flex;gap:calc(var(--u)*.6);align-items:center}
-.cta input{flex:1;min-width:0;height:calc(var(--u)*3);padding:0 calc(var(--u)*1);border:0;background:#fff;font-size:max(calc(var(--u)*1.2),12px);box-shadow:0 0 0 1px #9a9a9a,inset 1px 1px 0 #3b3b3b;border-radius:0}
+.cta input{flex:1;min-width:0;height:calc(var(--u)*3);padding:0 calc(var(--u)*1);border:0;background:#fff;font-size:max(calc(var(--u)*1.2),calc(12.5px / var(--k,1)));box-shadow:0 0 0 1px #9a9a9a,inset 1px 1px 0 #3b3b3b;border-radius:0}
 .cta input:focus{outline:2px solid var(--acc,var(--teal));outline-offset:1px}
 .cta .done{color:var(--text);font-weight:500}
-.cta .note{font-size:max(calc(var(--u)*.95),12px);color:var(--muted)}
+.cta .note{font-size:max(calc(var(--u)*.95),calc(12.5px / var(--k,1)));color:var(--muted)}
 
 
 /* Example visuals: the shape of each answer, drawn in the same retro idiom, never real numbers */
 .vz{border-top:2px solid var(--acc,var(--title-a));padding-top:calc(var(--u)*1)}
-.vz h3{margin:0 0 calc(var(--u)*.8);font-size:max(calc(var(--u)*1.15),12px);font-weight:600;line-height:1.3}
-.vz .leg{display:flex;gap:calc(var(--u)*1.4);margin:0 0 calc(var(--u)*.8);font-size:max(calc(var(--u)*.95),12px);color:var(--muted);flex-wrap:wrap}
+.vz h3{margin:0 0 calc(var(--u)*.8);font-size:max(calc(var(--u)*1.15),calc(12.5px / var(--k,1)));font-weight:600;line-height:1.3}
+.vz .leg{display:flex;gap:calc(var(--u)*1.4);margin:0 0 calc(var(--u)*.8);font-size:max(calc(var(--u)*.95),calc(12.5px / var(--k,1)));color:var(--muted);flex-wrap:wrap}
 .vz .leg i{display:inline-block;width:calc(var(--u)*.9);height:calc(var(--u)*.9);margin-right:5px;vertical-align:-1px}
 .vz .s1{background:var(--acc,var(--teal))}.vz .s2{background:#fcca39}.vz .s3{background:#b9bec4}
-.vr{display:grid;grid-template-columns:minmax(0,26%) minmax(0,1fr);gap:calc(var(--u)*.8);align-items:center;margin:calc(var(--u)*.45) 0;font-size:max(calc(var(--u)*1),12px)}
+.vr{display:grid;grid-template-columns:minmax(0,26%) minmax(0,1fr);gap:calc(var(--u)*.8);align-items:center;margin:calc(var(--u)*.45) 0;font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)))}
 .vr .vl{line-height:1.2;color:var(--text)}
 .vt{position:relative;height:calc(var(--u)*1.2);background:#eef0f2}
 .vt+.vt{margin-top:2px}
@@ -203,7 +206,7 @@ button{cursor:pointer}
 .reveal.on .vz .draw{stroke-dashoffset:0}
 .vz .pop{opacity:0;transform:scale(.6);transform-origin:center;transform-box:fill-box;transition:opacity .4s var(--ease-out),transform .5s var(--spring)}
 .reveal.on .vz .pop{opacity:1;transform:none}
-.vm{display:grid;gap:calc(var(--u)*.35);font-size:max(calc(var(--u)*.95),12px);align-items:center}
+.vm{display:grid;gap:calc(var(--u)*.35);font-size:max(calc(var(--u)*.95),calc(12.5px / var(--k,1)));align-items:center}
 .vm .h{color:var(--muted);text-align:center;line-height:1.15}
 .vm .rl{color:var(--text)}
 .vm .c{display:grid;place-items:center;height:calc(var(--u)*2)}
@@ -215,18 +218,18 @@ button{cursor:pointer}
 .vm .mb{width:80%;height:calc(var(--u)*.9);background:#eef0f2;position:relative}
 .vm .mb i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--acc,var(--teal))}
 .chips{display:flex;flex-wrap:wrap;gap:calc(var(--u)*.5)}
-.chip2{padding:calc(var(--u)*.35) calc(var(--u)*.9);font-size:max(calc(var(--u)*1),12px);background:#eef0f2;color:var(--text)}
+.chip2{padding:calc(var(--u)*.35) calc(var(--u)*.9);font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));background:#eef0f2;color:var(--text)}
 .chip2.on{background:var(--acc,var(--teal));color:#fff}
 .chip2.off{background:#fff;box-shadow:inset 0 0 0 1px #b3b8be;color:var(--muted)}
 .cols2{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.2)}
-.cols2 h5{margin:0 0 calc(var(--u)*.6);font-size:max(calc(var(--u)*1),12px);font-weight:600}
-.vnote{margin:calc(var(--u)*.8) 0 0;font-size:max(calc(var(--u)*.95),12px);color:var(--muted)}
+.cols2 h5{margin:0 0 calc(var(--u)*.6);font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));font-weight:600}
+.vnote{margin:calc(var(--u)*.8) 0 0;font-size:max(calc(var(--u)*.95),calc(12.5px / var(--k,1)));color:var(--muted)}
 
 /* Help */
 .help{--ww:40;--wl:30;--wt:22;height:auto;z-index:45}
-.help .hb{padding:calc(var(--u)*2) calc(var(--u)*2.2) calc(var(--u)*1.6);background:var(--face);display:flex;flex-direction:column;gap:calc(var(--u)*1.1);font-size:max(calc(var(--u)*1.25),12px);line-height:1.5}
+.help .hb{padding:calc(var(--u)*2) calc(var(--u)*2.2) calc(var(--u)*1.6);background:var(--face);display:flex;flex-direction:column;gap:calc(var(--u)*1.1);font-size:max(calc(var(--u)*1.25),calc(12.5px / var(--k,1)));line-height:1.5}
 .help .hb p{margin:0}
-.ok{align-self:center;min-width:calc(var(--u)*9);height:calc(var(--u)*3);border:0;font-size:max(calc(var(--u)*1.2),12px);color:var(--text)}
+.ok{align-self:center;min-width:calc(var(--u)*9);height:calc(var(--u)*3);border:0;font-size:max(calc(var(--u)*1.2),calc(12.5px / var(--k,1)));color:var(--text)}
 
 .back{position:fixed;left:14px;top:12px;z-index:60;border:0;background:transparent;padding:8px 10px;font-size:14px;font-weight:500;color:var(--ink);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s,color .3s,visibility 0s .3s}
 .back.on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .3s,color .3s,visibility 0s}
@@ -263,7 +266,7 @@ body.full .back{color:#e6eef2}
   body.flow .floppy{width:48%}
   body.flow .drive{height:60px;margin-top:-30px}
   body.flow .dlg-body{overflow:auto}
-  body.flow .dlg-label,body.flow .chip,body.flow .count,body.flow .status,body.flow .menubar button,body.flow .menubar .pos{font-size:12px}
+  body.flow .dlg-label,body.flow .chip,body.flow .count,body.flow .status,body.flow .menubar button,body.flow .menubar .pos{font-size:12.5px}
   body.flow .grid{flex:none;grid-template-columns:repeat(3,1fr);grid-template-rows:none;grid-auto-rows:92px}
   body.flow .canvas{grid-template-columns:minmax(0,1fr);padding:20px 16px;row-gap:22px}
   body.flow .banner{width:52%;margin-left:0}
@@ -284,19 +287,19 @@ body.full .back{color:#e6eef2}
 .pc.in ~ .invite,body.flow .invite{opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
 .screen.demo-press .clickbtn{background:#1b2230!important;color:#fff;border-color:#1b2230!important;transform:scale(.96)}
 .lw-act{display:flex;align-items:center;gap:calc(var(--u)*1.4)}
-.lw-hint{font-size:max(calc(var(--u)*1.05),12px);color:var(--soft)}
+.lw-hint{font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));color:var(--soft)}
 .lw-hint[hidden]{display:none}
 .tile.nudge{animation:tnudge 2.2s var(--ease-out) 3}
 @keyframes tnudge{0%{box-shadow:0 0 0 0 rgba(20,24,27,.38)}70%,100%{box-shadow:0 0 0 12px rgba(20,24,27,0)}}
 @media (prefers-reduced-motion:reduce){.tile.nudge{animation:none}}
 
 
-.vz .vsub{margin:0 0 calc(var(--u)*.9);font-size:max(calc(var(--u)*1),12px);color:var(--soft);line-height:1.4}
+.vz .vsub{margin:0 0 calc(var(--u)*.9);font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));color:var(--soft);line-height:1.4}
 .vr.v3{grid-template-columns:minmax(0,30%) minmax(0,1fr) auto}
-.vr .val{font-size:max(calc(var(--u)*1),12px);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;color:var(--text)}
+.vr .val{font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;color:var(--text)}
 .vr .val b{font-weight:600;margin-left:.4em}
 .vt i.s3{background:#c9cfda}
-.vstat{margin:calc(var(--u)*.9) 0 0;font-size:max(calc(var(--u)*1.15),12px);line-height:1.45;color:var(--text)}
+.vstat{margin:calc(var(--u)*.9) 0 0;font-size:max(calc(var(--u)*1.15),calc(12.5px / var(--k,1)));line-height:1.45;color:var(--text)}
 
 /* ===== Clean skin: pale, airy, one soft glow. Overrides the retro chrome above. ===== */
 :root{--os:#f7f9ff;--hair:#e4e8f0;--soft:#6b7280;--pill:#14181b}
@@ -318,11 +321,11 @@ body.nocursor,body.nocursor *{cursor:none!important}
 .w{background:#fff;border:1px solid var(--hair);border-radius:calc(var(--u)*1.4);padding:0;overflow:hidden;box-shadow:0 24px 60px rgba(30,50,100,.16),0 2px 6px rgba(30,50,100,.06)}
 .w.page{background:transparent;border:0;box-shadow:none;overflow:visible}
 .w.page .titlebar{display:none}
-.titlebar{height:calc(var(--u)*3);background:#fff;color:var(--text);border-bottom:1px solid #eef1f6;padding:0 calc(var(--u)*1) 0 calc(var(--u)*1.4);justify-content:space-between;font-size:max(calc(var(--u)*1.05),12px);font-weight:500;gap:calc(var(--u)*.8)}
+.titlebar{height:calc(var(--u)*3);background:#fff;color:var(--text);border-bottom:1px solid #eef1f6;padding:0 calc(var(--u)*1) 0 calc(var(--u)*1.4);justify-content:space-between;font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));font-weight:500;gap:calc(var(--u)*.8)}
 .titlebar .tt{display:flex;align-items:center;gap:calc(var(--u)*.8)}
 .titlebar .tt::before{content:"";width:calc(var(--u)*.9);height:calc(var(--u)*.9);border-radius:50%;background:var(--acc,var(--teal));flex:none}
 .ctl{gap:calc(var(--u)*.5)}
-.ctl button{width:calc(var(--u)*2.1);height:calc(var(--u)*2.1);border-radius:50%;background:#f1f4f9;color:var(--soft);font-size:max(calc(var(--u)*1.1),12px);transition:background .15s,color .15s}
+.ctl button{width:calc(var(--u)*2.1);height:calc(var(--u)*2.1);border-radius:50%;background:#f1f4f9;color:var(--soft);font-size:max(calc(var(--u)*1.1),calc(12.5px / var(--k,1)));transition:background .15s,color .15s}
 .ctl button:hover{background:var(--pill);color:#fff}
 .ctl button:focus-visible{outline:2px solid var(--pill)}
 .wbody{background:#fff}
@@ -330,7 +333,7 @@ body.nocursor,body.nocursor *{cursor:none!important}
 .w.page .wbody,.w.page .lw{background:transparent}
 .lw{background:transparent;margin:0;padding:0;gap:calc(var(--u)*4);grid-template-columns:minmax(0,11fr) minmax(0,8fr);align-items:center}
 .lw-h{font-size:calc(var(--u)*3.4);font-weight:300;letter-spacing:-.03em}
-.lw-sub{font-size:max(calc(var(--u)*1.2),12px);color:var(--soft)}
+.lw-sub{font-size:max(calc(var(--u)*1.2),calc(12.5px / var(--k,1)));color:var(--soft)}
 .cat{background:#fff;border:1px solid var(--hair);border-radius:999px;box-shadow:none;height:calc(var(--u)*2.5);padding:0 calc(var(--u)*1.1);color:var(--text);transition:background .15s,color .15s,border-color .15s}
 .cat:hover{border-color:var(--pill)}
 .cat[aria-pressed="true"]{background:var(--pill);color:#fff;border-color:var(--pill);font-weight:500;box-shadow:none}
@@ -372,7 +375,7 @@ body.nocursor,body.nocursor *{cursor:none!important}
 .ok{background:var(--pill);color:#fff;border-radius:999px;box-shadow:none;height:calc(var(--u)*3)}
 /* the way back to a window you closed: quiet text links, like the reference's nav */
 .icons{left:calc(var(--u)*3);right:calc(var(--u)*3);bottom:calc(var(--u)*2);flex-direction:row;gap:calc(var(--u)*2.4)}
-.icon{width:auto;flex-direction:row;padding:0;color:var(--soft);text-shadow:none;font-size:max(calc(var(--u)*1.05),12px);transition:color .15s}
+.icon{width:auto;flex-direction:row;padding:0;color:var(--soft);text-shadow:none;font-size:max(calc(var(--u)*1.05),calc(12.5px / var(--k,1)));transition:color .15s}
 .icon svg{display:none}
 .icon:hover{color:var(--text)}
 .icon:focus-visible{outline:2px solid var(--pill);outline-offset:3px}
@@ -407,10 +410,10 @@ body.full .back{color:var(--soft)}
 .sw:hover{transform:translateY(-2px)}
 .sw[aria-pressed="true"]{outline:2px dotted #14181b;outline-offset:2px}
 .sw:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.pal-hint{margin-left:calc(var(--u)*.8);font-size:max(calc(var(--u)*.95),12px);color:var(--soft)}
+.pal-hint{margin-left:calc(var(--u)*.8);font-size:max(calc(var(--u)*.95),calc(12.5px / var(--k,1)));color:var(--soft)}
 
 .how{display:flex;flex-direction:column;gap:calc(var(--u)*.5);padding-top:calc(var(--u)*1);border-top:1px solid var(--hair)}
-.how p{margin:0;font-size:max(calc(var(--u)*1.1),12px);line-height:1.5;color:var(--text)}
+.how p{margin:0;font-size:max(calc(var(--u)*1.1),calc(12.5px / var(--k,1)));line-height:1.5;color:var(--text)}
 .how p+p{color:var(--soft)}
 .how b{font-weight:600}
 
@@ -424,24 +427,24 @@ body.full .back{color:var(--soft)}
 .banner svg{animation:paintin .8s var(--ease-out) both}
 @media (prefers-reduced-motion:reduce){.draw-text,.fill-in,.grid.paint .tile svg,.banner svg{animation:none}.draw-text{display:none}.fill-in{opacity:1}}
 
-.demo-note{margin:0;font-size:max(calc(var(--u)*1),12px);color:var(--soft);text-align:center}
+.demo-note{margin:0;font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));color:var(--soft);text-align:center}
 .vnote b{font-weight:600;color:var(--text)}
 
 .chat{display:flex;flex-direction:column;gap:calc(var(--u)*.6);margin:0 0 calc(var(--u)*.4)}
-.cb{margin:0;padding:calc(var(--u)*.7) calc(var(--u)*.9);font-size:max(calc(var(--u)*1.1),12px);line-height:1.45;border:1.5px solid #14181b;max-width:88%;opacity:0;transform:translateY(6px);transition:opacity .35s var(--ease-out),transform .35s var(--ease-out);transition-delay:calc(var(--d)*.28s + .3s)}
-.cb b{display:block;font-size:max(calc(var(--u)*.85),12px);color:var(--muted);margin-bottom:2px;font-weight:600}
+.cb{margin:0;padding:calc(var(--u)*.7) calc(var(--u)*.9);font-size:max(calc(var(--u)*1.1),calc(12.5px / var(--k,1)));line-height:1.45;border:1.5px solid #14181b;max-width:88%;opacity:0;transform:translateY(6px);transition:opacity .35s var(--ease-out),transform .35s var(--ease-out);transition-delay:calc(var(--d)*.28s + .3s)}
+.cb b{display:block;font-size:max(calc(var(--u)*.85),calc(12.5px / var(--k,1)));color:var(--muted);margin-bottom:2px;font-weight:600}
 .cb.you{align-self:flex-end;background:#fff}
 .cb.bot{align-self:flex-start;background:color-mix(in srgb,var(--acc,#009ea6) 14%,#fff)}
 .reveal.on .cb{opacity:1;transform:none}
 .nx{padding-top:calc(var(--u)*.9);border-top:1px solid var(--hair)}
 .nx p{margin:0}
-.nxh{font-size:max(calc(var(--u)*1),12px);font-weight:600;color:var(--muted);margin-bottom:calc(var(--u)*.4)!important}
-.nxq{font-size:max(calc(var(--u)*1.2),12px);line-height:1.5;padding-left:calc(var(--u)*1.1);position:relative}
+.nxh{font-size:max(calc(var(--u)*1),calc(12.5px / var(--k,1)));font-weight:600;color:var(--muted);margin-bottom:calc(var(--u)*.4)!important}
+.nxq{font-size:max(calc(var(--u)*1.2),calc(12.5px / var(--k,1)));line-height:1.5;padding-left:calc(var(--u)*1.1);position:relative}
 .nxq::before{content:"›";position:absolute;left:0;color:var(--acc,#009ea6);font-weight:700}
 @media (prefers-reduced-motion:reduce){.cb{transition:none}}
 
 .qs{display:flex;flex-direction:column;gap:calc(var(--u)*.5);margin-top:calc(var(--u)*.8)}
-.qt{margin:0;padding:calc(var(--u)*.6) calc(var(--u)*.9);font-size:max(calc(var(--u)*1.1),12px);line-height:1.45;border:1.5px dashed #14181b;background:#fff}
+.qt{margin:0;padding:calc(var(--u)*.6) calc(var(--u)*.9);font-size:max(calc(var(--u)*1.1),calc(12.5px / var(--k,1)));line-height:1.45;border:1.5px dashed #14181b;background:#fff}
 .qt b{color:var(--acc,#009ea6);letter-spacing:1px;margin-right:4px}
 .vz .leg span{display:inline-flex;align-items:center}
 
@@ -505,8 +508,8 @@ body.flow .vz .vsub{font-size:12.5px}
 body.flow .vr .vl,body.flow .vr .val{font-size:13px}
 body.flow .vr.v3{grid-template-columns:minmax(0,34%) minmax(0,1fr) auto;gap:8px}
 body.flow .vstat{font-size:14.5px}
-body.flow .vnote{font-size:12px}
-body.flow .nxh{font-size:12px}
+body.flow .vnote{font-size:12.5px}
+body.flow .nxh{font-size:12.5px}
 body.flow .nxq{font-size:14.5px}
 body.flow .how p{font-size:13.5px}
 body.flow .cb{font-size:14px}
@@ -518,7 +521,7 @@ body.flow .menubar button,body.flow .menubar .pos{font-size:14px}
 body.flow .dlg-label{font-size:14px}
 body.flow .tile{border-radius:10px}
 body.flow .status{font-size:12.5px}
-body.flow .demo-note{font-size:12px}
+body.flow .demo-note{font-size:12.5px}
 @media (min-width:721px){
   body.flow .w{left:max(8px,calc(50vw - 380px));right:max(8px,calc(50vw - 380px))}
 }
@@ -536,7 +539,7 @@ body.flow .ctl button{width:40px;height:40px;font-size:16px}
 body.flow .chip{min-height:40px;padding:0 10px}
 body.flow .fine a{display:inline-block;padding:11px 6px;margin:-11px -6px}
 body.flow .grid{grid-auto-rows:112px}
-body.flow .tile .cap{display:block;position:absolute;left:4px;right:4px;bottom:4px;font:500 11px/1.15 Poppins,system-ui,sans-serif;color:#454b5a;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+body.flow .tile .cap{display:block;position:absolute;left:4px;right:4px;bottom:4px;font:500 12.5px/1.15 Poppins,system-ui,sans-serif;color:#454b5a;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 body.flow .tile svg{height:calc(100% - 22px)}
 body.flow .w{left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));top:calc(56px + env(safe-area-inset-top))}
 body.flow .back{left:max(12px,env(safe-area-inset-left));top:max(10px,env(safe-area-inset-top))}
@@ -562,7 +565,7 @@ body.flow .vrs{grid-template-columns:minmax(0,34%) minmax(0,1fr) max-content;col
 body.flow .vz svg text{font-size:10.8px}
 body.flow .lw-hint{font-size:13px}
 body.flow .cta .hd{font-size:18px!important}
-body.flow .cb b,body.flow .vz .vnote b{font-size:12px}
+body.flow .cb b,body.flow .vz .vnote b{font-size:12.5px}
 body.flow .help .hb{font-size:15px;gap:14px;padding:18px 18px 16px}
 body.flow .ok{min-width:112px;height:44px;font-size:16px}
 body.flow .w.help{bottom:auto;top:max(96px,22vh)}
@@ -570,7 +573,7 @@ body.flow .back{min-height:44px;padding:11px 18px}
 body.flow .chip{min-width:44px;text-align:center}
 body.flow .filters{flex-wrap:wrap;gap:0 2px}
 body.flow .booklink,.booklink{display:inline-block;padding:12px 4px;margin:-12px -4px}
-body.flow .tile .cap{font-size:12px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.1;bottom:4px;max-height:2.3em}
+body.flow .tile .cap{font-size:12.5px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.1;bottom:4px;max-height:2.3em}
 body.flow .tile svg{height:calc(100% - 34px)}
 body.flow .grid{grid-auto-rows:122px}
 .prefs{max-height:calc(100vh - 76px);max-height:calc(100dvh - 76px - env(safe-area-inset-bottom));overflow:auto;-webkit-overflow-scrolling:touch}
@@ -588,7 +591,7 @@ body.hc .loadbtn:disabled{background:#59606c;color:#fff}
 body.hc .vrs .vt{border-color:#000}
 
 /* tease: hover a tile and the finding slides up */
-.tile .peek{position:absolute;left:0;right:0;bottom:0;padding:calc(var(--u)*.9) calc(var(--u)*1);background:rgba(20,24,27,.93);color:#fff;font:500 max(calc(var(--u)*1.05),12px)/1.3 Poppins,system-ui,sans-serif;text-align:left;transform:translateY(101%);transition:transform .18s var(--ease-out,ease-out);pointer-events:none}
+.tile .peek{position:absolute;left:0;right:0;bottom:0;padding:calc(var(--u)*.9) calc(var(--u)*1);background:rgba(20,24,27,.93);color:#fff;font:500 max(calc(var(--u)*.95),calc(12.5px / var(--k,1)))/1.28 Poppins,system-ui,sans-serif;text-align:left;transform:translateY(101%);transition:transform .18s var(--ease-out,ease-out);pointer-events:none}
 .tile:hover:not(:disabled) .peek,.tile:focus-visible .peek{transform:none}
 @media (hover:none){.tile .peek{display:none}}
 body.flow .tile .peek{display:none}
@@ -599,8 +602,22 @@ body.rm .tile .peek{transition:none}
 .w.gate{z-index:30}
 
 .w.gate .lw{padding:calc(var(--u)*2.6) calc(var(--u)*3);gap:calc(var(--u)*3);background:#fff;margin:0}
-.w.gate .lw-h{font-size:max(calc(var(--u)*2.7),20px);line-height:1.15}
+.w.gate .lw-h{font-size:calc(var(--u)*2.7);line-height:1.15}
 .w.gate .wbody{background:#fff}
+
+.linkbtn{border:0;background:none;padding:0 2px;margin:0;font:inherit;color:var(--pill,#1b1d22);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+body.flow .linkbtn{padding:12px 6px;margin:-12px -4px}
+.prefs .forget{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid #e6e9f0;padding:12px 0;font:inherit;color:#9b1c2c;cursor:pointer}
+
+/* second pass on the gate: the Load button never scrolls out of reach */
+body.flow .w.gate .lw-act{position:sticky;bottom:0;z-index:3;background:#fff;padding:10px 0 8px;margin-top:6px;box-shadow:0 -10px 10px -10px rgba(20,24,27,.18)}
+@media (max-height:520px){
+  body.flow .w.gate .lw-disk{display:none}
+  body.flow .w.gate .lw{padding:10px 16px 0;gap:4px}
+  body.flow .w.gate .lw-h{font-size:19px;line-height:1.15}
+  body.flow .w.gate .lw-sub{display:none}
+  body.flow .w.gate .fld input{height:38px}
+}
 </style>
 
 <button type="button" class="sr-start" id="srStart">Open the question gallery</button>
@@ -631,6 +648,7 @@ body.rm .tile .peek{transition:none}
 <label class="pr"><span>Larger text</span><input type="checkbox" role="switch" id="pBig"></label>
 <label class="pr"><span>High contrast</span><input type="checkbox" role="switch" id="pHc"></label>
 <label class="pr"><span>Reduce motion</span><input type="checkbox" role="switch" id="pRm"></label>
+<button type="button" class="pr forget" id="pForget">Forget me on this device</button>
 </div>
 <button type="button" class="snd" id="snd" aria-pressed="false" aria-label="Sound off. Turn sound on"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="w1" d="M16.5 9a4 4 0 0 1 0 6"/><path class="w2" d="M19 6.5a8 8 0 0 1 0 11"/><path class="x" d="M17 9l5 6M22 9l-5 6"/></svg></button>
 
@@ -643,6 +661,8 @@ var RM=RM_SYS||PREFS.rm;
 (function(){var iv=document.getElementById('invite');if(window.matchMedia('(hover:none)').matches){if(iv)iv.textContent='Tap the screen to see what we can find out for you.';var cbn=document.querySelector('.clickbtn');if(cbn)cbn.textContent='Tap'}})();
 function PHONE(){return PREFS.simple||window.matchMedia('(max-width:720px), (max-height:520px) and (max-width:1000px)').matches||window.matchMedia('(pointer:coarse)').matches}
 var PERSONA={cat:'Category Management',ins:'Consumer Insights',brand:'Brand Strategy',dig:'Digital Commerce'};
+var CAP={s:'Sales data',v:'Shopper voice',f:'Product facts'};
+function whoLine(q){return PERSONA[q.p]+' \u00b7 '+CAP[q.c]}
 var FILTERS=[['all','All'],['cat','Category'],['ins','Insights'],['brand','Brand'],['dig','Digital']];
 var QUICK=['Snacks','Beverages','Beauty and personal care','Pet care','Household','Health and wellness','Baby','Pantry and food'];
 
@@ -683,6 +703,7 @@ function applyPrefs(){
     if(k==='big'&&PREFS.big){PREFS.simple=true}
     if(k==='simple'&&!PREFS.simple){PREFS.big=false}
     change();if(k==='sound'&&PREFS.sound)sfx('chime')})});
+  var fg=document.getElementById('pForget');if(fg)fg.addEventListener('click',function(){try{forgetMe()}catch(e){}fg.textContent='Done. This device has forgotten you.';setTimeout(function(){fg.textContent='Forget me on this device'},2600)});
   vol.addEventListener('input',function(){PREFS.vol=vol.value/100;savePrefs()});
   vol.addEventListener('change',function(){sfx('pop')});
   function open(on){pn.hidden=!on;acc.setAttribute('aria-expanded',String(on));if(on){pn.querySelector('input:not(:disabled)').focus()}else acc.focus()}
@@ -692,6 +713,15 @@ function applyPrefs(){
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!pn.hidden){e.stopPropagation();e.preventDefault();open(false)}},true);
   applyPrefs();paint();
 })();
+var START_TILE=0;try{var _st=parseInt(new URLSearchParams(location.search).get('tile'),10);if(_st>=1&&_st<=18)START_TILE=_st-1}catch(e){}
+var ME_KEY='qg-me',ME_TTL=30*24*3600*1000;
+function meSet(b,e,pl){try{localStorage.setItem(ME_KEY,JSON.stringify({b:b,e:e,t:Date.now(),pl:pl?1:0}))}catch(x){}}
+function meClear(){try{localStorage.removeItem(ME_KEY)}catch(x){}}
+function forgetMe(){
+  meClear();STATE.email='';STATE.loaded=false;STATE.returning=false;STATE.returnSent=false;STATE.brand=hashBrand();
+  personalizeGallery();
+}
+function hashBrand(){var h='';try{h=decodeURIComponent((location.hash||'').slice(1)).slice(0,60)}catch(e){}var bw=h.split('.')[0].replace(/[-_]+/g,' ').trim();if(!bw||!/^[A-Za-z0-9 ]+$/.test(bw))return '';return bw.replace(/\b([a-z])/g,function(m){return m.toUpperCase()}).slice(0,40)}
 var GATE_FIRST=false; /* true asks for company and email before showing the tiles */
 var LEAD_CFG={portalId:'20268287',formGuid:'6bf506ba-dbbe-490a-ac49-c940a9607324',endpoint:'',netlify:false};
 function leadConfigured(){return !!(LEAD_CFG.netlify||LEAD_CFG.endpoint||(LEAD_CFG.portalId&&LEAD_CFG.formGuid))}
@@ -701,22 +731,24 @@ var MEETING_URL='https://meetings.hubspot.com/zack-bambary';
 function submitLead(p,o){
   var ka=!!(o&&o.keepalive),jobs=[];
   var page=location.href.split('#')[0],opened=(p.opened||[]).join(', ');
+  var src='';try{src=(new URLSearchParams(location.search).get('src')||'').replace(/[^A-Za-z0-9_.-]/g,'').slice(0,40)}catch(e){}
   if(LEAD_CFG.netlify){
-    var body=new URLSearchParams({'form-name':'gallery-lead','bot-field':'',type:p.type,email:p.email||'',company:p.brand||'',question:p.question||'',opened:opened,page:page}).toString();
+    var fname=(p.type==='session')?'gallery-lead':'gallery-alert';var who=(p.brand||'Someone')+(p.email?' ('+p.email+')':'');var subj={load:'New lead: '+who,'return':'Returned: '+who,session:'Browsed: '+(p.brand||'Someone')+', '+(p.opened||[]).length+' card'+((p.opened||[]).length===1?'':'s'),meeting:'Booking clicked: '+who}[p.type]||('Question Gallery: '+p.type);
+    var body=new URLSearchParams({'form-name':fname,'bot-field':'',subject:subj,type:p.type,email:p.email||'',company:p.brand||'',question:p.question||'',opened:opened,page:page}).toString();
     jobs.push(fetch('/',{method:'POST',keepalive:ka,headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}).then(function(r){return r.ok}).catch(function(){return false}));
   }
   if(LEAD_CFG.endpoint){
     jobs.push(fetch(LEAD_CFG.endpoint,{method:'POST',keepalive:ka,headers:{'Content-Type':ka?'text/plain':'application/json'},body:JSON.stringify({type:p.type,email:p.email,brand:p.brand,category:p.category||'',question:p.question||'',opened:p.opened||[],page:page,website:''})}).then(function(r){return r.ok}).catch(function(){return false}));
   }
   if(LEAD_CFG.portalId&&LEAD_CFG.formGuid){
-    var f=[['email',p.email],['company',p.brand],['message','Question Gallery, '+p.type+(p.question?': '+p.question:'')+(opened?' (opened: '+opened+')':'')]].filter(function(x){return x[1]}).map(function(x){return {name:x[0],value:x[1]}});
+    var f=[['email',p.email],['company',p.brand],['message','Question Gallery, '+p.type+(p.question?': '+p.question:'')+(opened?' (opened: '+opened+')':'')+(src?' [src: '+src+']':'')]].filter(function(x){return x[1]}).map(function(x){return {name:x[0],value:x[1]}});
     jobs.push(fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+LEAD_CFG.portalId+'/'+LEAD_CFG.formGuid,{method:'POST',keepalive:ka,headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:f})}).then(function(r){return r.ok}).catch(function(){return false}));
   }
   if(!jobs.length)return Promise.resolve({sent:false});
   return Promise.all(jobs).then(function(rs){return {sent:rs.some(Boolean)}});
 }
 
-var EMAIL_RX=/^[A-Za-z0-9!#$%&'*+\/=?^_`{|}~.-]+@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}$/;
+var EMAIL_RX=/^[A-Za-z0-9._%+'-]+@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}$/;
 var EMAIL_OK={test:function(v){return EMAIL_RX.test(v)&&v.indexOf('..')<0&&!/^\.|\.@/.test(v)&&v.length<=254}};
 var FREE=['aol.co.uk','web.de','gmx.de','gmx.at','yandex.ru','mail.ru','btinternet.com','sky.com','virginmedia.com','talktalk.net','orange.fr','free.fr','wanadoo.fr','laposte.net','t-online.de','libero.it','virgilio.it','rediffmail.com','naver.com','hanmail.net','daum.net','sina.com','sohu.com','hey.com','tutanota.com','tuta.io','fastmail.com','duck.com','protonmail.ch','hotmail.co.uk','live.co.uk','outlook.co.uk','gmail.com','googlemail.com','yahoo.com','ymail.com','rocketmail.com','outlook.com','hotmail.com','live.com','msn.com','icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','pm.me','gmx.com','gmx.net','mail.com','yandex.com','zoho.com','qq.com','163.com','126.com','comcast.net','verizon.net','att.net','sbcglobal.net','cox.net','mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','yopmail.com','trashmail.com'];
 /* Returns an empty string for a usable work email, or the reason it is not */
@@ -743,9 +775,15 @@ function track(type,o){
   var sig=type+(type==='session'?'s'+((o&&o.slot)||1):'')+'|'+em;
   if(seen[sig]||ledHas(sig))return;
   if(type==='session'&&(seen['meeting|'+em]||ledHas('meeting|'+em)))return;
+  if(type==='return'&&(seen['load|'+em]||ledHas('load|'+em)))return;
   seen[sig]=1;ledSet(sig);
   var p={type:type,email:STATE.email,brand:STATE.brand,category:'',question:(o&&o.question)||'',opened:openedList()};
-  return submitLead(p,o);
+  var pr=submitLead(p,o);
+  if(pr&&pr.then)pr.then(function(r){
+    if(r&&r.sent===false&&leadConfigured()){delete seen[sig];ledClear(sig);if(type==='load'||type==='return'){meSet(STATE.brand,STATE.email,1)}}
+    else if(r&&r.sent&&(type==='load'||type==='return')){meSet(STATE.brand,STATE.email,0)}
+  });
+  return pr;
 }
 function sessionEnd(final){
   var n=Object.keys(STATE.opened).length;if(!n)return;
@@ -772,44 +810,44 @@ function tpl(s){
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
 /* Archetypes: the questions Harmonya answers, written so a category and a brand slot in */
-var SHORT=['Momentum','Open demand','Versus rivals','Share moves','Shopper voice','Topic trends','Benefit words','Real ratings','Unmet needs','Voice vs claims','Claims to add','Friction','Voice gap','Claim check','Ask in English','Measured facts','AI ready','Emerging'];
+var SHORT=['Momentum','Open demand','Versus rivals','Share moves','Shopper voice','Topic trends','Benefit words','Real ratings','Unmet needs','Voice vs claims','Claims to add','Friction','Digital shelf','Claim check','Store gaps','Measured facts','AI ready','Emerging'];
 var Q=[
-{p:'cat',q:'Which attributes, claims and themes are gaining or losing momentum in my category, and how fast?',
+{p:'cat',c:'s',q:'What is rising and what is fading in my category, and how fast?',
  ask:'Which attributes drove growth in {cat} over the past year, and did it come from new items or items already on shelf?',back:'The attributes, claims and themes growing or shrinking in {cat}, and how fast, split by new items and items already selling.'},
-{p:'ins',q:'Where does real demand exist that my portfolio doesn’t cover, and what do shoppers call it?',
+{p:'ins',c:'s',q:'Where is shopper demand growing that I do not serve yet, and what do shoppers call it?',
  ask:'Where is demand growing in {cat} that the leading manufacturers don’t cover, how big is it, and how do shoppers describe it in reviews?',back:'The open spaces in {cat}, sized in dollars, with the shoppers’ own words from reviews.'},
-{p:'cat',q:'How does my portfolio compare with the competitive set?',
- ask:'Compare {brand} with the top five brands in {cat} on the attributes that grew.',back:'A comparison of {brand} with the top competitors on the attributes that are growing.'},
-{p:'cat',q:'Where am I gaining or losing share, and what is behind the move?',
+{p:'cat',c:'s',q:'How do my products compare with the competition?',
+ ask:'Compare {brand} with the leading manufacturers in {cat} on the claims that grew.',back:'A comparison of {brand} with the top competitors on the attributes that are growing.'},
+{p:'cat',c:'s',q:'Where am I winning or losing share, and why?',
  ask:'Where did {brand} gain or lose share in {cat} this year, and which attributes explain it?',back:'A read on which attributes explain {brand’s} share gains and losses.'},
-{p:'ins',q:'What are shoppers actually saying about my products and my competitors’ products?',
- ask:'What do shoppers praise and complain about in reviews of {brand} versus its top three competitors?',back:'A summary of what shoppers praise and complain about, for {brand} and its competitors.'},
-{p:'ins',q:'Which topics are gaining or losing share of the conversation over time?',
+{p:'ins',c:'v',q:'What do shoppers say about my products and my rivals’ products?',
+ ask:'What do shoppers praise and complain about in reviews of {brand} versus its competitors?',back:'A summary of what shoppers praise and complain about, for {brand} and its competitors.'},
+{p:'ins',c:'v',q:'Which topics are shoppers talking about more, and which less?',
  ask:'How has the share of reviews about each topic in {cat} changed over the past three years?',back:'A trend view of the topics rising and falling in reviews across {cat}.'},
-{p:'brand',q:'What words do shoppers use for the benefits they care about?',
+{p:'brand',c:'v',q:'What words do shoppers use for the benefits they care about?',
  ask:'Which words do shoppers use for the benefits in {cat} that {brand’s} listings don’t, and the reverse?',back:'A list of shopper phrases for your key benefits, ready to test in copy.'},
-{p:'ins',q:'Is a new product’s rating real, or propped up by promoted reviews?',
+{p:'ins',c:'v',q:'Is a new product’s rating real, or lifted by promoted reviews?',
  ask:'Split the ratings of {brand’s} recent launches into promoted and organic reviews.',back:'Each launch’s rating split into promoted and organic reviews.'},
-{p:'cat',q:'What do shoppers want that no one in the set is delivering yet?',
+{p:'cat',c:'v',q:'What do shoppers want that nobody sells yet?',
  ask:'What needs do shoppers say go unmet in reviews across {cat}?',back:'A summary of the needs shoppers say go unmet across {cat}.'},
-{p:'brand',q:'Where is the gap between what shoppers value and what my brand claims?',
+{p:'brand',c:'v',q:'What do shoppers care about that my packaging and listings never mention?',
  ask:'What do shoppers say matters most in reviews of {cat} that {brand’s} listings and packaging don’t claim?',back:'A ranked list of the themes shoppers raise in reviews, each shown with how often reviewers mention it and how often listings claim it.'},
-{p:'dig',q:'Which claims should I add to my product page, given what is winning?',
+{p:'dig',c:'s',q:'Which claims should I add to my product page?',
  ask:'Which winning claims in {cat} are missing from {brand’s} listing text that competitors carry?',back:'A list of winning claims missing from your listings, with the sales behind them.'},
-{p:'brand',q:'Where do friction points show up often enough to become a priority?',
- ask:'What drives one- and two-star reviews for {brand}, by retailer?',back:'The top reasons behind one- and two-star reviews, by retailer.'},
-{p:'brand',q:'Where does my brand’s voice line up with shopper voice, and where does it lag?',
- ask:'How do shoppers describe {brand} in reviews compared with its top three competitors?',back:'A side-by-side of the words shoppers use for {brand} and its competitors.'},
-{p:'brand',q:'Are my products actually high protein or low sugar, as claimed?',
+{p:'brand',c:'v',q:'Which complaints come up often enough that I should fix them first?',
+ ask:'What drives one- and two-star reviews for {brand}?',back:'The top reasons behind one- and two-star reviews.'},
+{p:'dig',c:'v',q:'Which of my products are at risk on the digital shelf?',
+ ask:'Where do the stars on {brand’s} product pages run ahead of what the written reviews say, by retailer?',back:'The products where the page star runs ahead of the written reviews, by retailer, with the reasons reviewers give.'},
+{p:'brand',c:'f',q:'Do my products meet claims like high protein or low sugar?',
  ask:'Do {brand’s} on-pack claims match each product’s nutrition panel?',back:'A check of which claims your products actually meet.'},
-{p:'ins',q:'Can my team ask Harmonya questions in plain English, instead of waiting on a deliverable?',
- ask:'Which claims are fading in tortilla chips?',back:'A plain-English answer from a question agent inside the Harmonya platform, with no wait for a deliverable.'},
-{p:'brand',q:'What is objectively true about my products at the measured level?',
- ask:'Compare measured attributes across {brand’s} items, such as sugar and pack size.',back:'Measured values for each item, side by side.'},
-{p:'dig',q:'How ready are my product records for AI shopping assistants?',
+{p:'cat',c:'s',q:'Which attributes sell well nationally but poorly in one type of store?',
+ ask:'Which attributes in {cat} sell below their national share in mass, club and dollar stores, and what is the dollar gap?',back:'The attributes that sell below their national share in a type of store, with the dollar gap at the national rate.'},
+{p:'brand',c:'f',q:'Are my sugar-free products actually lighter?',
+ ask:'Compare calories and sugar per 100 g across {brand’s} items by the claims they carry.',back:'Measured values for each item, side by side.'},
+{p:'dig',c:'f',q:'Will AI shopping assistants find and recommend my products?',
  ask:'Which of {brand’s} products would an AI shopping assistant find, and which listings are missing the facts it needs?',back:'The products an assistant would recommend, and the listings missing the facts it looks for.'},
-{p:'ins',q:'What is emerging right now, before it shows up in sales data?',
- ask:'Which themes are rising in new launches and reviews across {cat}?',back:'The themes gaining ground in new launches and reviews, before they show up in syndicated sales.'}
+{p:'ins',c:'v',q:'What is starting to catch on in new launches before it spreads?',
+ ask:'Which themes are rising in new launches and reviews across {cat}?',back:'The themes gaining ground in new launches and reviews across {cat}.'}
 ];
 
 /* WordArt: 15 SVG treatments of one word, in nine palettes */
@@ -835,7 +873,7 @@ var S=[
  function(t,i,c){return onPath(t,i,'M14,22 Q80,80 146,22',{ff:F.anton,fs:32,fill:c.b})},
  function(t,i,c){return '<defs>'+lg(i+'g',[c.c,c.a],1)+'</defs>'+tx(t,{ff:F.anton,fs:30,fill:'url(#'+i+'g)',stroke:c.b,sw:1,tr:'translate(0,-22.5) scale(1,1.45)'})},
  function(t,i,c){return tx(t,{ff:F.abril,fs:34,fill:c.b,tr:'translate(5,0) skewX(-6)'})},
- function(t,i,c){return onPath(t,i,'M10,52 C40,14 54,86 84,48 S128,12 150,40',{ff:F.right,fs:28,fill:'url(#'+i+'g)',def:lg(i+'g',[c.a,c.b],0)})},
+ function(t,i,c){return '<defs>'+lg(i+'g',[c.a,c.b],0)+'</defs>'+tx(t,{ff:F.right,fs:32,fill:'url(#'+i+'g)',stroke:'#fff',sw:1.2,tr:'rotate(-4 80 50)'})},
  function(t,i,c){return '<defs>'+lg(i+'g',[c.c,'#ff9d1a',c.a],1)+'</defs>'+tx(t,{x:82,y:52,ff:F.chango,fs:30,fill:'#555',stroke:'#555',sw:2})+tx(t,{ff:F.chango,fs:30,fill:'url(#'+i+'g)',stroke:'#fff',sw:2})},
  function(t,i,c){var s='';for(var k=6;k>=1;k--)s+=tx(t,{x:80+k*.8,y:48+k*.8,ff:F.bun,fs:30,fill:c.b});return '<defs>'+lg(i+'g',[c.c,c.a],1)+'</defs>'+s+tx(t,{y:48,ff:F.bun,fs:30,fill:'url(#'+i+'g)'})},
  function(t,i,c){return tx(t,{y:40,ff:F.anton,fs:30,fill:c.a})+tx(t,{y:40,ff:F.anton,fs:30,fill:c.a,op:'.2',tr:'translate(0,88) scale(1,-1)'})},
@@ -923,6 +961,7 @@ function applyDesk(){
   pc.style.setProperty('--lift',desk.lift);
 }
 function layout(){
+  try{var _k=PHONE()?1:Math.max(.5,Math.min(window.innerWidth/SCW,window.innerHeight/SCH));pc.style.setProperty('--k',String(_k))}catch(e){}
   try{syncTabOrder()}catch(e){}
   var flow=PHONE()&&inside;
   if(flow){var _q=wins.filter(function(x){return x.kind==='q'});if(_q.length>1){var _t=_q[0];_q.forEach(function(x){if((+x.el.style.zIndex||0)>(+_t.el.style.zIndex||0))_t=x});_q.forEach(function(x){if(x!==_t)closeW(x,true,true)});if(HIST>=2){}}}
@@ -1003,7 +1042,7 @@ function setInteractive(on){
 }
 var HIST=0,histSkip=0;
 function histPush(n){try{history.pushState({qg:n},'');HIST=n}catch(e){}}
-try{if(history.state&&history.state.qg)history.replaceState(null,'')}catch(e){}
+try{if(history.state&&history.state.qg){var _nv=(performance.getEntriesByType('navigation')[0]||{}).type;if(_nv==='back_forward'){history.back()}else{history.replaceState(null,'')}}}catch(e){}
 function syncTabOrder(){
   var hasQ=wins.some(function(x){return x.kind==='q'});
   if(galleryW)[].forEach.call(galleryW.el.querySelectorAll('.tile,.chip'),function(el){if(hasQ)el.tabIndex=-1;else el.removeAttribute('tabindex')});
@@ -1020,6 +1059,7 @@ window.addEventListener('popstate',function(e){
 });
 function goIn(){
   if(inside||busy||suppress)return;inside=true;sfx('whoosh');if(HIST<1)histPush(1);
+  if(STATE.returning&&!STATE.returnSent){STATE.returnSent=true;track(STATE.pendingLead?'load':'return')}
   if(!loadW&&!galleryW){if(GATE_FIRST&&!STATE.loaded)openLoad();else openGallery(null,true)}
   if(PHONE()){pc.classList.add('in');layout();setInteractive(true);backBtn.classList.add('on');window.scrollTo(0,0);focusFirst();return}
   if(RM){pc.classList.add('in');layout();setInteractive(true);settle();backBtn.classList.add('on');focusFirst();return}
@@ -1139,10 +1179,15 @@ function gateSub(){return (STATE.pending!=null?'Add your company and work email,
 function updateGateText(){if(!loadW)return;var h=loadW.body.querySelector('.lw-h'),sb=loadW.body.querySelector('.lw-sub');if(h)h.innerHTML=gateHead();if(sb)sb.textContent=gateSub()}
 function gateModal(on){if(!galleryW)return;try{galleryW.el.inert=!!on}catch(e){}galleryW.el.classList.toggle('dim',!!on)}
 function openGate(i,el){STATE.pending=i;STATE.pendingEl=el;openLoad();gateModal(true)}
+function paintLabel(w){
+  var l=w.body.querySelector('.dlg-label');if(!l)return;
+  if(STATE.returning){l.innerHTML='Welcome back'+(STATE.brand?', '+esc(STATE.brand):'')+'. Pick any tile. <button type="button" class="linkbtn" id="notYou">Not you?</button>';var nb=l.querySelector('#notYou');if(nb)nb.addEventListener('click',function(e){e.stopPropagation();forgetMe()})}
+  else l.textContent='Pick any tile to see what we can show you for '+(STATE.brand||'your company')+'.';
+}
 function personalizeGallery(){
   if(!galleryW)return;
-  var t=galleryW.el.querySelector('.tt');if(t)t.textContent='Harmonya for '+(STATE.brand||'you');
-  var l=galleryW.body.querySelector('.dlg-label');if(l)l.textContent='Pick any tile to see what we can show you for '+(STATE.brand||'your company')+'.';
+  var t=galleryW.el.querySelector('.tt');if(t)t.textContent=STATE.brand?'Harmonya for '+STATE.brand:'Harmonya';
+  paintLabel(galleryW);
 }
 function openLoad(){
   if(loadW){updateGateText();raise(loadW.el);return}
@@ -1154,7 +1199,7 @@ function openLoad(){
    '<p class="lw-sub">'+gateSub()+'</p>'+
    '<label class="fld">Company<input id="fBrand" maxlength="40" autocomplete="organization" placeholder="Your company name" value="'+esc(STATE.brand)+'"></label>'+
    '<label class="fld">Work email<input id="fEmail" type="email" autocomplete="email" placeholder="you@company.com" value="'+esc(STATE.email)+'"></label>'+
-   '<p class="fine">Use your work email. We use it to follow up about Harmonya, nothing else. <a href="https://www.harmonya.com/legal/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></p>'+
+   '<p class="fine">Use your work email. We use it to follow up about Harmonya, nothing else, and we remember you on this device for 30 days. <a href="https://www.harmonya.com/legal/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></p>'+
    '<p class="err" id="fErr" role="alert"></p>'+
    '<div class="lw-act"><button type="button" class="loadbtn bevel" id="loadBtn"'+(STATE.brand.length>1&&!workEmail(STATE.email)?'':' disabled')+'>Load</button><span class="lw-hint" id="lwHint"'+(STATE.brand.length>1&&!workEmail(STATE.email)?' hidden':'')+'>Add your company and work email.</span></div></div>'+
    '<div class="lw-disk"><div class="floppy" id="floppy">'+floppySVG('fl')+'</div><div class="drive"><i class="dled"></i></div>'+
@@ -1172,7 +1217,7 @@ function openLoad(){
     if(STATE.brand.length<2){err.textContent='Add your company name.';fBrand.focus();return}
     var why=workEmail(em);
     if(why){err.textContent=why;fEmail.focus();return}
-    STATE.email=em;sfx('insert');
+    STATE.email=em;meSet(STATE.brand,em,0);sfx('insert');
     track('load',{question:STATE.pending!=null?Q[STATE.pending].q:''});
     lw.classList.add('loading');w.body.querySelector('#floppy').innerHTML=floppySVG('fl',undefined,undefined,!RM);
     var prog=w.body.querySelector('.prog'),bar=prog.querySelector('.bar i'),txt=prog.querySelector('.ptxt');
@@ -1193,7 +1238,7 @@ function openLoad(){
 
 /* ---------- Gallery ---------- */
 var tilesEls=[],cur='all';
-var PEEK={"0": "Energy drinks: 79% of growth came from new items", "1": "Four coffee spaces are beating the category", "2": "Maple Ridge 44% vs Summit Snacks 21% on one claim", "3": "Summit Snacks grew 15.9% and lost 0.6 pts of share", "4": "Shoppers love the crunch, not the crumbs", "5": "“Better for you” talk tripled in three years", "6": "Shoppers say crunchy, listings say crisp", "7": "4.6 on the page, 4.3 organic", "8": "A smaller bag is the top unmet need", "9": "Shoppers raise crunch 5x more than listings", "10": "No HFCS: 17.3% of cookie dollars, up 30.8%", "11": "Broken chips drive a third of low ratings", "12": "The brand says bold. Shoppers say crunchy.", "14": "Ask in plain English, get numbers back", "16": "97 of 230 listings are ready for AI shopping", "17": "Review talk rose two quarters before sales"};
+var PEEK={"0": "Energy drinks: 79% of growth came from new items", "1": "Four coffee spaces are beating the category", "2": "Maple Ridge 44% vs Summit Snacks 21% on one claim", "3": "Summit Snacks grew 15.9% and lost 0.6 pts of share", "4": "Shoppers love the crunch, not the crumbs", "5": "“Better for you” talk tripled in three years", "6": "Reviewers echo “sourcing” 17.9 times over", "7": "Promoted reviews moved no launch by more than 0.02 stars", "8": "Staying crisp after opening is the top unmet need", "9": "1,569 reviews say not too sweet; 1.5% of listings do", "10": "No HFCS: 17.3% of cookie dollars, up 30.8%", "11": "Too salty drives a third of low ratings", "12": "Page says 4.7 stars, written reviews say 3.3", "13": "Sugar free holds in 79 of 88 cookies, low calorie in 1 of 28", "14": "Natural sells at half its share in mass and club", "15": "Sugar-free cookies are only 4% lighter", "16": "97 of 230 listings are ready for AI shopping", "17": "Gut health: 5% of new sodas in 2022, 21% in 2025"};
 PEEK[13]='Two of four high-protein items fall short';PEEK[15]='Family pack has twice the sugar per serving';
 function visible(){var v=[];Q.forEach(function(q,i){if(cur==='all'||q.p===cur)v.push(i)});return v}
 function openGallery(from,quiet){if(!quiet)sfx('chime');
@@ -1209,8 +1254,8 @@ function openGallery(from,quiet){if(!quiet)sfx('chime');
   Q.forEach(function(q,i){
     var b=document.createElement('button');b.type='button';b.className='tile'+(STATE.opened[i]?' seen':'');b.style.setProperty('--pi',i);
     b.setAttribute('aria-label','Harmonya. '+q.q);b.innerHTML=art(i,'t')+'<span class="cap" aria-hidden="true">'+esc(SHORT[i])+'</span><span class="peek" aria-hidden="true">'+esc(PEEK[i]||'')+'</span>';
-    b.addEventListener('mouseenter',function(){hint.textContent=q.q;hintr.textContent=PEEK[i]||PERSONA[q.p]});
-    b.addEventListener('focus',function(){hint.textContent=q.q;hintr.textContent=PEEK[i]||PERSONA[q.p]});
+    b.addEventListener('mouseenter',function(){hint.textContent=q.q;hintr.textContent=whoLine(q)});
+    b.addEventListener('focus',function(){hint.textContent=q.q;hintr.textContent=whoLine(q)});
     function reset(){hint.textContent=HINT;hintr.textContent=''}
     b.addEventListener('mouseleave',reset);b.addEventListener('blur',reset);
     b.addEventListener('click',function(e){e.stopPropagation();if(GATE_FIRST||STATE.loaded)openQ(i,b);else openGate(i,b)});
@@ -1218,8 +1263,8 @@ function openGallery(from,quiet){if(!quiet)sfx('chime');
   });
   setTimeout(function(){grid.classList.remove('paint')},2200);
   hint.textContent=HINT;
-  w.body.querySelector('.dlg-label').textContent='Pick any tile to see what we can show you for '+(STATE.brand||'your company')+'.';
-  if(!Object.keys(STATE.opened).length){var ft=tilesEls[0];if(ft)ft.classList.add('nudge')}
+  paintLabel(w);
+  if(!Object.keys(STATE.opened).length){var ft=tilesEls[START_TILE]||tilesEls[0];if(ft)ft.classList.add('nudge')}
   FILTERS.forEach(function(f){
     var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=f[1];b.setAttribute('aria-pressed',String(f[0]===cur));
     b.addEventListener('click',function(){cur=f[0];[].forEach.call(filters.children,function(x,k){x.setAttribute('aria-pressed',String(FILTERS[k][0]===cur))});apply()});
@@ -1239,28 +1284,28 @@ function openGallery(from,quiet){if(!quiet)sfx('chime');
 
 
 /* ---------- Examples: pre-written, real numbers from Harmonya's food and beverage demo data ---------- */
-var HOW={"0": {"how": "We tag claims and attributes across products, then track how fast each grows or fades in sales and in shopper language.", "data": "attribute and claim tags, shopper reviews, and sales data", "format": "a slide deck, often part of a recurring series"}, "1": {"how": "We group reviews into consumer-led territories, map them to products and sales, and show where claims are missing or crowded.", "data": "shopper reviews, attribute tags, sales data, and social listening", "format": "a territory deck, claims audit, or example deck"}, "2": {"how": "We compare brands and products on attributes, claims, and reviews, and join sales, so clients can see where they lead or lag.", "data": "attribute tags, shopper reviews, social posts, and sales data", "format": "a slide deck, live demo, or data export"}, "3": {"how": "We break a share move into claims, attributes, and shopper language, and diff two periods of data when we can.", "data": "attribute tags, shopper reviews, and sales data", "format": "a slide deck or PDF, plus a shipped app feature"}, "4": {"how": "We code reviews and social posts into themes and sentiment, then compare brands side by side and often overlay sales.", "data": "shopper reviews, social posts, and sales data", "format": "a short slide deck or one-page summary"}, "5": {"how": "We track how often themes and attributes come up in reviews and social posts over time, usually on a recurring schedule.", "data": "shopper reviews, social posts, and sales data", "format": "a recurring monthly report, workbook, or scorecard"}, "6": {"how": "We mine reviews and social posts for the words shoppers use about benefits, then group them into themes and hooks for copy.", "data": "shopper reviews, social posts, and attribute tags", "format": "a slide deck, PDF, or app view"}, "7": {"how": "We split reviews into organic and promoted, then read sentiment and ratings on the organic ones to judge a launch.", "data": "shopper reviews and sales data", "format": "a slide deck or PDF"}, "8": {"how": "We mine reviews and forum posts for needs and complaints, then group them into themes to show what shoppers still want.", "data": "shopper reviews and online forums", "format": "a PDF brief or slide deck"}, "9": {"how": "We compare what the brand claims on pack or in listings with the words shoppers use in reviews, then rate the gap.", "data": "product claims and ingredient lists, plus shopper reviews", "format": "a slide deck with the in-app agent"}, "10": {"how": "We tag claims on every product, compare them with rivals and growth, and flag claims worth adding or dropping.", "data": "claim and attribute tags, sales data, and shopper reviews", "format": "a slide deck, workbook, or recurring tracker"}, "11": {"how": "We compare review sentiment and attributes for chosen products, often before and after a change, to find repeat complaints.", "data": "shopper reviews, attribute tags, and sales data", "format": "a slide deck or one-page highlight"}, "12": {"how": "We count how often the brand mentions a theme versus how often shoppers do, then show where the two differ.", "data": "product page tags plus reviews and social data", "format": "a live dashboard demo"}, "13": {"how": "We tag the measured level of a claim on each product, such as protein grams, and compare it with sales and reviews.", "data": "product attribute tags, sales data, and shopper reviews", "format": "a slide deck or executive playbook"}, "14": {"how": "We give teams a chat-style agent that answers plain-language questions over reviews, sales, and attribute data.", "data": "shopper reviews, sales data, and attribute tags", "format": "a conversational agent inside the platform"}, "15": {"how": "We pull measured values such as pack size or ingredient amounts from listings and tags, then compare them with competitors and sales.", "data": "product listings, attribute tags, and sales data", "format": "a short slide deck"}, "16": {"how": "We scan retailer product pages for missing claims and content, and test how products show up in AI-driven search.", "data": "retailer product pages, reviews, and sales data", "format": "a slide deck or prototype"}, "17": {"how": "We place themes on a maturity curve from new to declining, and add social data to catch signals before sales show them.", "data": "attribute tags, sales data, and social listening", "format": "a live tool demo with custom analyses"}};
+var HOW={"0": {"how": "We tag claims and attributes across products, then track how fast each grows or fades in sales and in shopper language.", "data": "attribute and claim tags, shopper reviews, and sales data", "format": "a slide deck, often part of a recurring series"}, "1": {"how": "We group reviews into consumer-led territories, map them to products and sales, and show where claims are missing or crowded.", "data": "shopper reviews, attribute tags, sales data, and social listening", "format": "a territory deck, claims audit, or example deck"}, "2": {"how": "We compare brands and products on attributes, claims, and reviews, and join sales, so clients can see where they lead or lag.", "data": "attribute tags, shopper reviews, social posts, and sales data", "format": "a slide deck, live demo, or data export"}, "3": {"how": "We break a share move into claims, attributes, and shopper language, and diff two periods of data when we can.", "data": "attribute tags, shopper reviews, and sales data", "format": "a slide deck or PDF, plus a shipped app feature"}, "4": {"how": "We code reviews and social posts into themes and sentiment, then compare brands side by side and often overlay sales.", "data": "shopper reviews, social posts, and sales data", "format": "a short slide deck or one-page summary"}, "5": {"how": "We track how often themes and attributes come up in reviews and social posts over time, usually on a recurring schedule.", "data": "shopper reviews, social posts, and sales data", "format": "a recurring monthly report, workbook, or scorecard"}, "6": {"how": "We mine reviews and social posts for the words shoppers use about benefits, then group them into themes and hooks for copy.", "data": "shopper reviews, social posts, and attribute tags", "format": "a slide deck, PDF, or app view"}, "7": {"how": "We split reviews into organic and promoted, then read sentiment and ratings on the organic ones to judge a launch.", "data": "shopper reviews and sales data", "format": "a slide deck or PDF"}, "8": {"how": "We mine reviews and forum posts for needs and complaints, then group them into themes to show what shoppers still want.", "data": "shopper reviews and online forums", "format": "a PDF brief or slide deck"}, "9": {"how": "We compare what the brand claims on pack or in listings with the words shoppers use in reviews, then rate the gap.", "data": "product claims and ingredient lists, plus shopper reviews", "format": "a slide deck with the in-app agent"}, "10": {"how": "We tag claims on every product, compare them with rivals and growth, and flag claims worth adding or dropping.", "data": "claim and attribute tags, sales data, and shopper reviews", "format": "a slide deck, workbook, or recurring tracker"}, "11": {"how": "We compare review sentiment and attributes for chosen products, often before and after a change, to find repeat complaints.", "data": "shopper reviews, attribute tags, and sales data", "format": "a slide deck or one-page highlight"}, "12": {"how": "We read the written reviews at each retailer, set them beside the star shown on the product page, and flag the products where the two part ways.", "data": "shopper reviews and the star ratings retailers show on product pages", "format": "a short use-case brief"}, "13": {"how": "We tag the measured level of a claim on each product, such as protein grams, and compare it with sales and reviews.", "data": "product attribute tags, sales data, and shopper reviews", "format": "a slide deck or executive playbook"}, "14": {"how": "We tag each product’s claims, split dollar sales by type of store, and compare each attribute’s share in a store type with its national share.", "data": "attribute tags and sales data by type of store", "format": "a short use-case brief"}, "15": {"how": "We pull measured values such as pack size or ingredient amounts from listings and tags, then compare them with competitors and sales.", "data": "product listings, attribute tags, and sales data", "format": "a short slide deck"}, "16": {"how": "We scan retailer product pages for missing claims and content, and test how products show up in AI-driven search.", "data": "retailer product pages, reviews, and sales data", "format": "a slide deck or prototype"}, "17": {"how": "We place themes on a maturity curve from new to declining, and add social data to catch signals before sales show them.", "data": "attribute tags, sales data, and social listening", "format": "a live tool demo with custom analyses"}};
 var EX={
- 0:{t:'dv',title:'Dollar growth of items already selling, outside the two leading brands',sub:'Energy drinks, 52 weeks ending Dec 31, 2022. Each bar is one attribute on its own.',stat:'Energy drinks added $752M in dollars, and 79% of that growth came from new items.',rows:[['L-theanine',13.2],['Green tea extract',7.1],['Healthy',6.5],['Energy drinks overall',-1.3],['Sugar free',-2.5],['Zero sugar',-4.1]]},
- 1:{t:'bars',title:'Four spaces growing faster than the category',sub:'Ready-to-drink coffee, 52 weeks ending Dec 31, 2022. Dollar sales and change on a year earlier.',stat:'The category sold $2,314.2M, up 9.0%. The three leading manufacturers sold 83% of it and hold just 0.6% of these four spaces.',max:132.6,rows:[['Single origin, Colombian',132.6,'$132.6M','+40.8%'],['Clean label',107.9,'$107.9M','+31.5%'],['Protein',68.1,'$68.1M','+13.2%'],['Organic',55.4,'$55.4M','+17.8%']],extra:'In 2021 to 2022 reviews of the single-origin and clean-label items, 1.1% mention jitters or a crash (16 of 1,467), about four times the leaders’ 0.3%.'},
- 10:{t:'bars',title:'Claims on cookies, by share of dollars and growth',sub:'Cookies, 52 weeks ending Dec 31, 2022. The bar and first number are the share of cookie dollars. The bold number is dollar growth. Claims overlap, so shares do not add to 100%. The category grew 13.9%.',stat:'\u201cNo high fructose corn syrup\u201d sits on 17.3% of cookie dollars and grew 30.8%, more than twice the category.',max:58.7,rows:[['Kosher',58.7,'58.7%','+11.0%'],['No trans fat',29.8,'29.8%','+8.0%'],['No high fructose corn syrup',17.3,'17.3%','+30.8%'],['No artificial flavors',12.9,'12.9%','+10.1%'],['Sustainable',12.0,'12.0%','+8.7%'],['No artificial colors',11.9,'11.9%','+14.4%'],['Sustainably sourced',11.7,'11.7%','+9.5%'],['Whole grain',10.8,'10.8%','+10.6%']]},
- 16:{t:'funnel',title:'Listings that state every fact an AI shopping assistant needs',sub:'Zero sugar energy drinks with L-theanine, listings from Sep 2024 to Sep 2026. A shopper asks for zero sugar, L-theanine and under 150 mg of caffeine.',stat:'Only 97 of 230 listings state all three. Across the leading brands, 37% of listings state a caffeine amount at all.',max:230,rows:[['Listings for these items',230],['State zero sugar',190],['And mention L-theanine',137],['And state a caffeine amount',97]]},
- 2:{"t": "bars", "title": "Share of each manufacturer’s dollars on chips that say “No Artificial Colors”", "sub": "Tortilla chips, 52 weeks ending Dec 31, 2022. The bar and first number are the share of that manufacturer’s dollars. The bold number is the dollars behind it. Products without the tag count as not carrying it.", "stat": "“No Artificial Colors” sits on 18.6% of tortilla chip dollars and grew 30.4%, against 17.0% for the category. Maple Ridge carries it on 43.9% of its dollars. Solana Foods carries it on none.", "max": 50, "rows": [["Maple Ridge", 43.9, "43.9%", "$116.4M"], ["Summit Snacks", 21.4, "21.4%", "$813.6M"], ["Casa Verde", 4.1, "4.1%", "$3.0M"], ["Solana Foods", 0, "0%", "$0M"]]},
- 3:{"t": "dv", "unit": " pts", "title": "Change in share of tortilla chip dollars, in points", "sub": "Tortilla chips, 52 weeks ending Dec 31, 2022, against a year earlier. The category sold $6,145.2M, up 17.0%. The 14.2% of dollars with no manufacturer on file is left out.", "stat": "Summit Snacks grew 15.9% and still lost 0.6 points of share, because the category grew 17.0%. Solana Foods grew 30.5% and gained 1.1 points.", "rows": [["Solana Foods", 1.1], ["Maple Ridge", 0.3], ["Casa Verde", 0.0], ["Ironwood Pantry", -0.3], ["Summit Snacks", -0.6]]},
- 14:{"t": "chat", "title": "Two questions asked in plain English, answered from demo data", "sub": "Tortilla chips, 52 weeks ending Dec 31, 2022.", "stat": "No request and no wait for a deliverable. Your team asks, and the answer comes back with the numbers.", "rows": [["bot", "“All natural” fell 28.5%, “Non-GMO” fell 25.1% and “Natural” fell 19.7%, while tortilla chips overall grew 17.0%."], ["you", "Who is gaining share?"], ["bot", "Solana Foods gained 1.1 points and now holds 10.2%. Summit Snacks lost 0.6 points and still holds 61.8%."]]},
- 4:{"t": "dv", "unit": " pts", "title": "What shoppers praise and complain about, by topic", "sub": "Mock data. Tortilla chips. Each bar is reviews that praise a topic minus reviews that complain about it, as a share of reviews that mention it.", "stat": "Shoppers love the crunch and dislike the crumbs. Broken chips is the complaint to fix first.", "rows": [["Crunch", 34], ["Flavor", 22], ["Value", -9], ["Bag size", -14], ["Broken chips", -27]], "quotes": [["★★★★★", "“Finally a chip that stays crunchy to the bottom of the bag.”"], ["★★", "“Half the bag was crumbs.”"]], "mock": true},
- 5:{"t": "line", "title": "Share of reviews that mention each topic, by year", "sub": "Mock data. Tortilla chips, three years of reviews. Each line is the share of reviews that mention the topic.", "stat": "Talk of “better for you” tripled in three years while talk of value fell. Both moves show up in reviews first.", "x": ["Year 1", "Year 2", "Year 3"], "ymax": 35, "series": [["Crunch", [18, 24, 31]], ["Better for you", [6, 11, 19]], ["Value", [22, 19, 14]]], "mock": true},
- 6:{"t": "bars", "title": "The words shoppers use when they talk about crunch and ingredients", "sub": "Mock data. Tortilla chips. Share of benefit mentions in reviews that use each phrase.", "stat": "Shoppers say “crunchy.” The listing says “crisp.” Same idea, different word, and shoppers search the word they use.", "max": 50, "rows": [["“Crunchy to the last chip”", 41, "41%", "of mentions"], ["“Real ingredients”", 27, "27%", "of mentions"], ["“Doesn’t feel heavy”", 18, "18%", "of mentions"], ["“Good for sharing”", 14, "14%", "of mentions"]], "mock": true},
- 7:{"t": "bars", "title": "Star rating of a new launch, with and without promoted reviews", "sub": "Mock data. One new tortilla chip launch. Bar length is the average star rating out of 5.", "stat": "Promoted reviews lift the page rating from 4.3 to 4.6. The organic rating is the one shoppers will live with.", "max": 5, "rows": [["Rating shown on the page", 4.6, "4.6", "412 reviews"], ["Promoted reviews only", 4.9, "4.9", "190 reviews"], ["Organic reviews only", 4.3, "4.3", "222 reviews"]], "mock": true},
- 8:{"t": "bars", "title": "Needs shoppers say no product in the set meets", "sub": "Mock data. Tortilla chips. Share of unmet-need mentions in reviews.", "stat": "A smaller bag for one person is the biggest ask, and no brand in the set is described as delivering it.", "max": 30, "rows": [["Smaller bag for one person", 22, "22%", "of mentions"], ["Less salty", 19, "19%", "of mentions"], ["Stronger lime", 15, "15%", "of mentions"], ["Fits in a lunch box", 11, "11%", "of mentions"]], "quotes": [["★★★", "“Love them, but I never finish a family bag before they go stale.”"]], "mock": true},
- 9:{"t": "dv", "unit": " pts", "title": "Gap between how often shoppers raise a theme and how often listings claim it", "sub": "Mock data. Tortilla chips. Share of reviews that mention the theme minus share of listings that claim it. Positive means shoppers care more than the listing says.", "stat": "Shoppers bring up crunch more than five times as often as the listing does. The listing leans on ingredients that shoppers rarely mention.", "rows": [["Stays crunchy", 33], ["Shareable", -2], ["Real ingredients", -25]], "mock": true},
- 11:{"t": "bars", "title": "What drives one- and two-star reviews", "sub": "Mock data. Tortilla chips. Share of one- and two-star reviews that name each reason.", "stat": "Broken chips drive a third of low ratings. That is a packaging problem, and a different fix from a flavor problem.", "max": 40, "rows": [["Broken or crushed chips", 34, "34%", "of low ratings"], ["Too salty", 18, "18%", "of low ratings"], ["Stale on arrival", 14, "14%", "of low ratings"], ["Damaged box", 11, "11%", "of low ratings"]], "mock": true},
- 12:{"t": "chat", "who": ["The brand says", "Shoppers say"], "title": "The brand’s words next to the shoppers’ words", "sub": "Mock data. Tortilla chips. One listing line and one review line for each theme.", "stat": "The listing says bold and premium. Shoppers say crunchy and full. The two vocabularies barely overlap.", "rows": [["you", "“Bold, authentic flavor.”"], ["bot", "“Tastes like a real lime, not powder.”"], ["you", "“Premium quality.”"], ["bot", "“Crunchy, and the bag is actually full.”"]], "mock": true},
- 17:{"t": "line", "title": "Mentions in reviews against dollar sales of the same theme", "sub": "Mock data. A new tortilla chip theme, by quarter. Both lines are indexed to 100 in the first quarter.", "stat": "Shoppers started talking about it two quarters before sales moved. That is the window to act in.", "x": ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"], "ymax": 320, "series": [["Review mentions", [100, 130, 190, 260, 300, 315]], ["Dollar sales", [100, 101, 103, 125, 170, 230]]], "mock": true},
- 13:{"t": "bars", "mock": true, "title": "Grams of protein per serving, against the 10 g bar for a “high protein” claim", "sub": "Mock data. Four items that carry the claim, one bar each.", "stat": "Two of the four items that say high protein fall short of 10 g per serving. Those two are the ones to fix or reword.", "max": 16, "rows": [["Peanut crunch bar", 14, "14 g", "meets"], ["Cocoa protein bar", 11, "11 g", "meets"], ["Oat and honey bar", 9, "9 g", "short"], ["Fruit and nut bar", 6, "6 g", "short"]]},
- 15:{"t": "bars", "mock": true, "title": "Measured sugar per serving across one snack line, in grams", "sub": "Mock data. Four items in one line, with the pack size on the label.", "stat": "The family pack has twice the sugar per serving of the single-serve bag, and nothing on the listing says so.", "max": 16, "rows": [["Single serve, 1 oz", 6, "6 g", "1 oz"], ["Multipack, 0.75 oz x 8", 7, "7 g", "6 oz"], ["Standard bag, 6 oz", 9, "9 g", "6 oz"], ["Family pack, 14 oz", 12, "12 g", "14 oz"]]}
+ 0:{t:'dv',title:"79% of energy drink growth came from new items. Without two brands, items already selling shrank",sub:'Energy drinks, 52 weeks ending Dec 31, 2022. Each bar is one attribute on its own, and the label shows its 2022 dollars.',stat:'Energy drinks added $752M in dollars, and 79% of that growth came from new items.',rows:[['L-theanine, $404M',13.2],['Green tea extract, $509M',7.1],['Healthy, $1,513M',6.5],['All items already selling, $6,253M',-1.3],['Sugar free, $2,148M',-2.5],['Zero sugar, $1,997M',-4.1]]},
+ 1:{t:'bars',title:"Four coffee spaces sold $220.9M, up 29%, and the three biggest makers hold 0.6% of them",sub:'Ready-to-drink coffee, 52 weeks ending Dec 31, 2022. Dollar sales and change on a year earlier. Items can sit in more than one space, so the bars do not add up. Together the four sold $220.9M, up 29%.',stat:'The category sold $2,314.2M, up 9.0%. The three leading manufacturers sold 83% of it and hold just 0.6% of these four spaces.',max:132.6,rows:[['Single origin, Colombian',132.6,'$132.6M','+40.8%'],['Clean label',107.9,'$107.9M','+31.5%'],['Protein',68.1,'$68.1M','+13.2%'],['Organic',55.4,'$55.4M','+17.8%']],extra:'In 2021 to 2022 reviews of the single-origin and clean-label items, 1.1% mention jitters or a crash (16 of 1,467), about four times the leaders’ 0.3%.'},
+ 2:{"t": "bars", "title": "Maple Ridge puts “No Artificial Colors” on 43.9% of its dollars. Solana Foods puts it on none", "sub": "Tortilla chips, 52 weeks ending Dec 31, 2022. The bar and first number are the share of that manufacturer’s dollars. The bold number is the dollars on chips that carry the tag. Products without the tag count as not carrying it.", "stat": "“No Artificial Colors” sits on 18.6% of tortilla chip dollars and grew 30.4%, against 17.0% for the category. Maple Ridge carries it on 43.9% of its dollars. Solana Foods carries it on none.", "max": 50, "rows": [["Maple Ridge", 43.9, "43.9%", "$116.4M"], ["Summit Snacks", 21.4, "21.4%", "$813.6M"], ["Casa Verde", 4.1, "4.1%", "$3.0M"], ["Solana Foods", 0, "0%", "$0M"]]},
+ 3:{"t": "dv", "unit": " pts", "title": "Summit Snacks grew 15.9% and still lost share of tortilla chips", "sub": "Tortilla chips, 52 weeks ending Dec 31, 2022, against a year earlier. The category sold $6,145.2M, up 17.0%. The 14.2% of dollars with no manufacturer on file is left out.", "stat": "Summit Snacks grew 15.9% and still lost 0.6 points of share, because the category grew 17.0%. Solana Foods grew 30.5% and gained 1.1 points.", "rows": [["Solana Foods", 1.1], ["Maple Ridge", 0.3], ["Casa Verde", 0.0], ["Ironwood Pantry", -0.3], ["Summit Snacks", -0.6]], "extra": "Solana Foods carries “No Artificial Colors” on none of its dollars, so that claim did not drive its gain."},
+ 4:{"t": "dv", "unit": " pts", "title": "Shoppers praise the crunch and complain about broken chips", "sub": "Mock data. Tortilla chips. Each bar is reviews that praise a topic minus reviews that complain about it, as a share of reviews that mention it.", "stat": "Shoppers love the crunch and dislike the crumbs. Broken chips is the complaint to fix first.", "rows": [["Crunch", 34], ["Flavor", 22], ["Value", -9], ["Bag size", -14], ["Broken chips", -27]], "quotes": [["★★★★★", "“Finally a chip that stays crunchy to the bottom of the bag.”"], ["★★", "“Half the bag was crumbs.”"]], "mock": true},
+ 5:{"t": "line", "title": "“Better for you” talk tripled in reviews in three years while talk of value fell", "sub": "Mock data. Tortilla chips, three years of reviews. Each line is the share of reviews that mention the topic.", "stat": "Talk of “better for you” tripled in three years while talk of value fell.", "x": ["3 years ago", "2 years ago", "Last year"], "ymax": 35, "series": [["Crunch, 18% to 31%", [18, 24, 31]], ["Better for you, 6% to 19%", [6, 11, 19]], ["Value, 22% to 14%", [22, 19, 14]]], "mock": true},
+ 6:{"t": "bars", "title": "Reviewers are 17.9 times as likely to write “sourcing” when the listing does", "sub": "Chocolate, 138,654 reviews of 4,327 chocolates, Jan 2021 to Dec 2022, set against 8,757 listings. The bar is how many times as likely a reviewer is to write the word when the item’s listing uses it. The second number is the share of all reviews that use it. This shows association, not cause.", "stat": "Reviewers are 17.9 times as likely to write “sourcing” when the listing does, and 5.0 times as likely to write “premium.” Both words stay under 1% of reviews.", "max": 20, "rows": [["Sourcing", 17.9, "17.9x", "0.56% of reviews"], ["Premium", 5.0, "5.0x", "0.30% of reviews"], ["Indulgent", 2.8, "2.8x", "0.85% of reviews"], ["Creamy", 1.7, "1.7x", "4.48% of reviews"], ["Yummy", 1.0, "1.0x", "6.57% of reviews"]], "extra": "“Yummy” is on 2.2% of listings and in 6.6% of reviews, and “not too sweet” is on 0.5% of listings and in 0.8% of reviews. Shoppers use both words far more than listings do."},
+ 7:{"t": "bars", "title": "Promoted reviews moved no launch’s rating by more than 0.02 stars", "sub": "Five 2022 launches, reviews Mar 2022 to Sep 2026. Bar length is the average star rating of all reviews. The second number is the organic-only average.", "stat": "Promoted reviews moved no launch’s rating by more than about 0.02 stars. Energy drink A has the most, 41% of its reviews, and still reads 4.38 against 4.37 organic.", "max": 5, "rows": [["Espresso soda", 4.57, "4.57", "4.56 organic"], ["Apple soda", 4.53, "4.53", "4.53 organic"], ["Energy drink A", 4.38, "4.38", "4.37 organic"], ["Energy drink B", 4.06, "4.06", "4.06 organic"], ["Energy drink C", 4.01, "4.01", "3.99 organic"]], "extra": "What shoppers complain about separates the launches more: dented or leaking cans are 22.0% of energy drink C’s reviews and 5.5% of energy drink A’s."},
+ 8:{"t": "bars", "title": "Staying crisp after opening is the need shoppers raise most", "sub": "Mock data. Tortilla chips. Share of unmet-need mentions in reviews.", "stat": "Staying crisp after opening is the biggest ask, and no brand in the set is described as delivering it.", "max": 30, "rows": [["Stays crisp after opening", 22, "22%", "of mentions"], ["Less salty", 19, "19%", "of mentions"], ["Stronger lime", 15, "15%", "of mentions"], ["Smaller bag for one person", 11, "11%", "of mentions"]], "quotes": [["★★★", "“Love them, but I never finish a family bag before they go stale.”"]], "mock": true},
+ 9:{"t": "bars", "title": "1,569 reviews praise “not too sweet.” Only 1.5% of cookie listings claim lighter sweetness", "sub": "Cookies, 82,251 reviews of 2,283 cookies, Jan 2021 to Dec 2022, set against 8,942 listings. Each bar is the number of reviews that say it.", "stat": "Reviewers who mention sweetness point toward less: 1,569 say “not too sweet,” 680 say “too sweet,” and 33 ask for more. Only 134 of 8,942 cookie listings (1.5%) claim a lighter sweetness.", "max": 1700, "rows": [["Say “not too sweet”", 1569, "1,569", "reviews"], ["Say “too sweet”", 680, "680", "reviews"], ["Say “not sweet enough”", 33, "33", "reviews"]], "extra": "Reviews that say “not too sweet” average 4.75 stars."},
+ 10:{t:'bars',title:"“No high fructose corn syrup” grew 30.8% on 17.3% of cookie dollars",sub:'Cookies, 52 weeks ending Dec 31, 2022. The bar and first number are the share of cookie dollars. The bold number is dollar growth. Claims overlap, so shares do not add to 100%. The category grew 13.9%.',stat:'\u201cNo high fructose corn syrup\u201d sits on 17.3% of cookie dollars and grew 30.8%, more than twice the category.',max:58.7,rows:[['Kosher',58.7,'58.7%','+11.0%'],['No trans fat',29.8,'29.8%','+8.0%'],['No high fructose corn syrup',17.3,'17.3%','+30.8%'],['No artificial flavors',12.9,'12.9%','+10.1%'],['Sustainable',12.0,'12.0%','+8.7%'],['No artificial colors',11.9,'11.9%','+14.4%'],['Whole grain',10.8,'10.8%','+10.6%']]},
+ 11:{"t": "bars", "title": "Too salty drives a third of one- and two-star reviews", "sub": "Mock data. Tortilla chips. Share of one- and two-star reviews that name each reason.", "stat": "Too salty drives a third of low ratings. That is a recipe fix, and a different fix from a packaging problem.", "max": 40, "rows": [["Too salty", 34, "34%", "of low ratings"], ["Stale on arrival", 18, "18%", "of low ratings"], ["Broken or crushed chips", 14, "14%", "of low ratings"], ["Damaged box", 11, "11%", "of low ratings"]], "mock": true},
+ 12:{"t": "bars", "title": "Lemon-lime soda shows 4.70 stars at Retailer B, but this year’s written reviews average 3.26", "sub": "Soft drinks, three US retailers, reviews Sep 2024 to Sep 2026. Bar length is the average star of written reviews in the latest year. The second number is the star the page shows. Written reviews are about 1% of that retailer’s ratings.", "stat": "Pages show 4.5 stars or more, yet one retailer’s written reviews average 3.56 across all its drinks. Across retailers, 39% of one- and two-star reviews are about delivery only (2,747 of 7,119).", "max": 5, "rows": [["Lemon-lime soda, Retailer B", 3.26, "3.26", "page shows 4.70"], ["Zero-sugar cola, Retailer B", 3.26, "3.26", "page shows 4.60"], ["Cola, Retailer C", 4.23, "4.23", "page shows 4.73"], ["Cola, Retailer B", 3.78, "3.78", "no page star"]], "extra": "The lemon-lime soda fell from 3.85 to 3.26 in a year, and 55 of its 66 low-star reviews at that retailer mention damaged cans. Reviews do not say who shipped the order."},
+ 13:{"t": "bars", "title": "27 of 28 low-calorie cookies miss the 40-calorie bar", "sub": "Cookies, panels read Sep 2026 for 2,877 cookies, 16% of cookie items. The bar is the share of items carrying the claim that meet an FDA-style threshold. The second number is the count.", "stat": "Most claims hold. “Low calorie” does not: 1 of 28 cookies carrying it is at or under the 40-calorie bar.", "max": 100, "rows": [["Low calorie", 4, "4%", "1 of 28"], ["No added sugar", 100, "100%", "24 of 24"], ["Sugar free", 90, "90%", "79 of 88"], ["Low or no fat", 87, "87%", "59 of 68"], ["Protein", 82, "82%", "23 of 28"], ["Fiber", 82, "82%", "45 of 55"]], "extra": "Most other claims hold: 79 of 88 sugar-free cookies measure under half a gram of sugar a serving."},
+ 14:{"t": "bars", "title": "Six claims sell at half to two-thirds of their national share in mass, club and dollar stores", "sub": "Cookies, branded items, 52 weeks ending Dec 31, 2022. Outside Food and Drug means mass, club, dollar and military stores, 44% of cookie dollars. The bar is an index where 100 is the claim’s national share. The second number is the dollar gap at the national rate. Gaps overlap, so they do not add up.", "stat": "Outside Food and Drug stores, branded natural cookies sell at about half their national share (a $72M gap), and 12 of 20 claims under-sell.", "max": 100, "rows": [["Dairy free", 47, "47", "$43M gap"], ["Natural", 52, "52", "$72M gap"], ["Vegan", 55, "55", "$36M gap"], ["Non-GMO", 56, "56", "$77M gap"], ["Gluten free", 57, "57", "$51M gap"], ["No preservatives", 63, "63", "$73M gap"]], "extra": "In Food stores the same 12 claims index at 108 to 137. This is an index read, not a forecast."},
+ 15:{"t": "bars", "title": "Sugar-free cookies measure only 4% lighter than cookies with no claim", "sub": "Cookies and chocolate, panels read Sep 2026 for 6,918 items, 2,877 cookies and 4,041 chocolates. Bar length is how much lighter an item is, in calories per 100 g, than items that carry no claim.", "stat": "Sugar-free chocolate measures 412 calories per 100 g against 500 for chocolate with no claim, 18% lighter. Sugar-free cookies measure 464 against 481, only 4% lighter.", "max": 20, "rows": [["Chocolate, sugar free", 18, "18% lighter", "412 vs 500 cal"], ["Cookies, sugar free", 4, "4% lighter", "464 vs 481 cal"], ["Chocolate, keto or low carb", 4, "4% lighter", "481 vs 500 cal"]], "extra": "Without the largest brand, sugar-free chocolate is 14% lighter (429 against 500) and sugar-free cookies 7% lighter (447 against 481)."},
+ 16:{t:'funnel',title:"9 of 230 listings give an AI shopping assistant everything it needs for one ask",sub:'Energy drinks with L-theanine, listings from Sep 2024 to Sep 2026. A shopper asks for zero sugar, L-theanine and under 150 mg of caffeine.',stat:'Only 97 of 230 listings state zero sugar, L-theanine and a caffeine amount, and just 9 of those say under 150 mg.',max:230,rows:[['Listings',230],['Zero sugar',190],['+ L-theanine',137],['+ caffeine amount',97],['+ under 150 mg',9]]},
+ 17:{"t": "bars", "title": "Gut-health language reached one in five new soft drinks in 2025, then held steady", "sub": "Soft drinks, new items grouped by the year of their first review, 2022 to Sep 2026. The bar is the share of that year’s new items. The second number is the count.", "stat": "Gut-health language went from 5.3% of new soft drinks in 2022 to 21.1% in 2025. Brands outside the three early pioneers made 55 of the 87 in 2025.", "max": 25, "rows": [["2022", 5.3, "5.3%", "33 of 627"], ["2023", 9.6, "9.6%", "58 of 604"], ["2024", 8.2, "8.2%", "35 of 429"], ["2025", 21.1, "21.1%", "87 of 413"], ["2026 to Sep", 21.4, "21.4%", "54 of 252"]]}
 };
-var NEXT=[["Which of these gains came from new items, and which from items already on shelf?", "Where is {brand} missing the attributes that are rising?"], ["How big is each space in dollars, and who sells in it today?", "What do shoppers call it in reviews?"], ["Where does {brand} carry a rising attribute that rivals lack?", "Which rival is closing the gap fastest?"], ["Which products moved the share, up or down?", "Did new items or items already on shelf drive it?"], ["Which complaint shows up for {brand} and not for rivals?", "Does the praise match what the listings say?"], ["Which topic grew fastest in the last year?", "Is that shift showing up in sales yet?"], ["Which phrase do shoppers use most for each benefit?", "Which of those phrases is missing from {brand’s} listings?"], ["Which launches lean on promoted reviews?", "What is each rating once those reviews are removed?"], ["Which unmet need shows up in the most reviews?", "Does any brand already claim it?"], ["Which theme has the widest gap between reviews and listings?", "What are the products behind that theme selling today?"], ["Which winning claim do rivals carry that {brand} does not?", "Which claim has {brand} outgrown?"], ["Does the complaint pattern change by retailer?", "Did it change after the last reformulation?"], ["Where does {brand’s} voice lead shoppers, and where does it trail?", "Which words does {brand} use that shoppers never do?"], ["Which products meet the claim by the numbers?", "Which claims would not hold up against the panel?"], ["Where is demand growing that no one covers?", "Which claims are fading in {cat}?"], ["How does {brand’s} pack size compare with rivals?", "Does the larger pack sell more?"], ["Which listings are missing the facts an assistant needs?", "Which fix would reach the most listings?"], ["Which themes are emerging in new launches?", "Which theme is about to peak?"]];
+var NEXT=[["Which of these gains came from new items, and which from items already on shelf?", "Where is {brand} missing the attributes that are rising?"], ["How big is each space in dollars, and who sells in it today?", "What do shoppers call it in reviews?"], ["Where does {brand} carry a rising attribute that rivals lack?", "Which rival is closing the gap fastest?"], ["Which products moved the share, up or down?", "Did new items or items already on shelf drive it?"], ["Which complaint shows up for {brand} and not for rivals?", "Does the praise match what the listings say?"], ["Which topic grew fastest in the last year?", "Is that shift showing up in sales yet?"], ["Which phrase do shoppers use most for each benefit?", "Which of those phrases is missing from {brand’s} listings?"], ["Which launch rating differs most between retailers?", "What do reviewers praise and complain about in each launch?"], ["Which unmet need shows up in the most reviews?", "Does any brand already claim it?"], ["Which theme has the widest gap between reviews and listings?", "What are the products behind that theme selling today?"], ["Which winning claim do rivals carry that {brand} does not?", "Which claim has {brand} outgrown?"], ["Does the complaint pattern change by retailer?", "Did it change after the last reformulation?"], ["Which retailer’s written reviews run furthest below its page star?", "Are the low-star reviews about the product or the delivery?"], ["Which of {brand’s} products fall short of the claim?", "Which claim holds in nearly every product, and which in almost none?"], ["Which retailers drive the gap in each type of store?", "Does {brand} carry these attributes in that type of store at all?"], ["Which claims measure differently once the largest brand is set aside?", "How do {brand’s} measured values compare with rivals?"], ["Which listings are missing the facts an assistant needs?", "Which fix would reach the most listings?"], ["Which new launches carry the theme?", "Which theme is next in line to rise?"]];
 function nxHTML(i){var n=NEXT[i];if(!n)return '';return '<div class="nx"><p class="nxh">You could ask next</p>'+n.map(function(x){return '<p class="nxq">'+esc(tpl(x))+'</p>'}).join('')+'</div>'}
 function howHTML(i){
   var h=HOW[i];if(!h)return '';
@@ -1338,8 +1383,8 @@ function fill(w,i){
   dots+='</div>';
   w.body.innerHTML=
    '<div class="menubar"><button type="button" data-nav="close">‹ Gallery</button><button type="button" data-nav="prev">Previous</button><button type="button" data-nav="next">Next ›</button><span class="pos">'+pos+' of '+vis.length+'</span></div>'+dots+
-   '<div class="canvas sunk" tabindex="0"><div class="left"><div class="banner">'+art(i,'w'+(w.uid||(w.uid=Math.random().toString(36).slice(2,6))),true)+'</div><h2 class="qd">'+esc(q.q)+'</h2></div>'+
-   '<div class="right"><div class="field"><span class="txt cur"></span></div><div class="reveal">'+vz(i)+'<p class="ans">'+esc(tpl(q.back))+'</p>'+nxHTML(i)+howHTML(i)+'<div class="cta"></div></div></div></div>'+palHTML();
+   '<div class="canvas sunk" tabindex="0"><div class="left"><div class="banner">'+art(i,'w'+(w.uid||(w.uid=Math.random().toString(36).slice(2,6))),true)+'</div><h2 class="qd">'+esc(q.q)+'</h2><p class="who">'+esc(whoLine(q))+'</p></div>'+
+   '<div class="right"><div class="field"><span class="txt cur"></span></div><div class="reveal">'+vz(i)+'<p class="ans">'+esc(tpl(q.back))+'</p>'+nxHTML(i)+'<div class="cta"></div>'+howHTML(i)+'</div></div></div>'+palHTML();
   w.body.onclick=function(e){
     var sw=e.target.closest('[data-color]');if(sw){w.el.style.setProperty('--acc',sw.dataset.color);[].forEach.call(w.body.querySelectorAll('.sw'),function(x){x.setAttribute('aria-pressed',String(x===sw))});return}
     var g=e.target.closest('[data-go]');if(g)return fill(w,+g.dataset.go);
@@ -1360,7 +1405,7 @@ function renderCTA(w,state){
     cta.innerHTML='<p class="done">Thanks. We\u2019ll come to the call ready for '+esc(b)+'.</p>'+(MEETING_URL?'<p class="note">The booking page opened in a new tab. '+bookLink(STATE.email,'Open it again')+' if it did not.</p>':'');
     return;
   }
-  var hd='<p class="hd">Want to see yours?</p><p>We don\u2019t answer this on the page. Find time with us and we\u2019ll walk through it for '+esc(b)+'.</p>';
+  var hd='<p class="hd">Want to see yours?</p><p>This example uses demo data. Find time with us and we\u2019ll run it on '+(STATE.brand?esc(poss(STATE.brand))+' own data':'your own data')+'.</p>';
   if(STATE.email){
     cta.innerHTML=hd+'<button type="button" class="go bevel">Find time with us</button>';
     cta.querySelector('.go').onclick=function(){bookCall(w,STATE.email,cta)};
@@ -1496,6 +1541,7 @@ document.addEventListener('keydown',function(e){
   if(!bw||!/^[A-Za-z0-9 ]+$/.test(bw))return;
   STATE.brand=bw.replace(/\b([a-z])/g,function(m){return m.toUpperCase()}).slice(0,40);
 })();
+(function(){try{var m=JSON.parse(localStorage.getItem(ME_KEY)||'null');if(!m||!m.e||Date.now()-(m.t||0)>ME_TTL||workEmail(m.e))return;if(STATE.brand&&m.b&&STATE.brand.toLowerCase()!==String(m.b).toLowerCase())return;if(m.b)STATE.brand=m.b;STATE.email=m.e;STATE.loaded=true;STATE.returning=true;STATE.pendingLead=!!m.pl}catch(e){}})();
 if(GATE_FIRST)openLoad();else openGallery(null,true);renderIcons();setInteractive(false);layout();
 requestAnimationFrame(frame);
 })();

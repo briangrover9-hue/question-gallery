@@ -15,6 +15,8 @@ New contacts from that HubSpot form are not set as marketing contacts, on purpos
 
 The page sends no page address to HubSpot. HubSpot silently drops form submissions whose page address is on netlify.app (they return success and never create a contact), so do not add `pageUri` back until the page lives on a harmonya.com address.
 
+The page remembers a visitor on their device for 30 days (local storage key `qg-me`, company and work email only, no cookies). A returning visitor skips the form and creates a `return` lead instead. "Not you?" and the settings button "Forget me on this device" clear it. If you add a consent banner later, list this key.
+
 One visitor creates at most one `load`, one `meeting` and a few `session` leads in 12 hours. The check lives in the browser (`track()` in the source), so clearing site data resets it.
 
 ## Move steps
