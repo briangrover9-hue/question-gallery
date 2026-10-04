@@ -4,6 +4,8 @@ A single-page outreach experience. A small yellow computer sits on a desk. A vis
 
 Nothing in this repo is client data. Every number on the page comes from Harmonya's own food and beverage demo data, and the page says so wherever one appears.
 
+See SETUP.md for the fastest way to send leads to HubSpot and email the team. The backend below is the optional second route.
+
 ## Files
 
 - `index.html` is the whole front end (HTML, CSS and JS in one file).

@@ -463,7 +463,8 @@ var FILTERS=[['all','All'],['cat','Category'],['ins','Insights'],['brand','Brand
 var QUICK=['Snacks','Beverages','Beauty and personal care','Pet care','Household','Health and wellness','Baby','Pantry and food'];
 
 /* Where a lead goes. Set both once a HubSpot form exists. Until then nothing leaves the page. */
-var LEAD_CFG={portalId:'20268287',formGuid:'',endpoint:'/api/lead'};
+/* Set formGuid to send leads straight to HubSpot (no backend needed). Or set endpoint to '/api/lead' to use the function in /api. */
+var LEAD_CFG={portalId:'20268287',formGuid:'',endpoint:''};
 function leadConfigured(){return !!(LEAD_CFG.endpoint||(LEAD_CFG.portalId&&LEAD_CFG.formGuid))}
 /* Paste the HubSpot meetings link here. The visitor's email is added to it so the booking lands on the same contact. */
 var MEETING_URL='https://meetings.hubspot.com/zack-bambary';
@@ -843,7 +844,7 @@ function openLoad(){
   loadW=w;
   w.body.innerHTML='<div class="lw">'+
    '<div class="lw-form"><h2 class="lw-h">What could this look like for your company?</h2>'+
-   '<p class="lw-sub">Add your company, press Load, then open any tile to see what Harmonya can show you. Everything in the examples is Harmonya demo data, so nothing here is yours.</p>'+
+   '<p class="lw-sub">Add your company, press Load, then open any tile to see what Harmonya can show you. Everything in the examples is illustrative Harmonya demo data, so nothing here is yours.</p>'+
    '<label class="fld">Company<input id="fBrand" maxlength="40" autocomplete="organization" placeholder="Your company name" value="'+esc(STATE.brand)+'"></label>'+
    '<label class="fld">Work email<input id="fEmail" type="email" autocomplete="email" placeholder="you@company.com" value="'+esc(STATE.email)+'"></label>'+
    '<p class="fine">Use your work email. We use it to follow up about Harmonya, nothing else.</p>'+
@@ -888,7 +889,7 @@ function openGallery(from){
   var title='Harmonya for '+(STATE.brand||'you');
   var w=newWin({kind:'gallery',title:title,label:'Question gallery',l:6,t:7,w:88,h:59,from:from});
   galleryW=w;
-  w.body.innerHTML='<div class="dlg-body"><div class="dlg-head"><div class="dlg-label"></div><div class="filters" role="group" aria-label="Filter by team"></div><div class="count" aria-live="polite"></div></div><div class="grid sunk"></div><div class="status"><span class="hint"></span><span class="hintr"></span></div><p class="demo-note">All examples on this page use Harmonya demo data, not your data.</p></div>';
+  w.body.innerHTML='<div class="dlg-body"><div class="dlg-head"><div class="dlg-label"></div><div class="filters" role="group" aria-label="Filter by team"></div><div class="count" aria-live="polite"></div></div><div class="grid sunk"></div><div class="status"><span class="hint"></span><span class="hintr"></span></div><p class="demo-note">All examples on this page are illustrative and use Harmonya demo data, not your data.</p></div>';
   var grid=w.body.querySelector('.grid'),filters=w.body.querySelector('.filters'),count=w.body.querySelector('.count'),hint=w.body.querySelector('.hint'),hintr=w.body.querySelector('.hintr');
   var HINT='Click a tile to open it. Hover to read the question.';
   tilesEls=[];
@@ -939,7 +940,7 @@ function howHTML(i){
 }
 function vz(i){
   var v=EX[i];if(!v)return '';
-  var h='<div class="vz" role="img" aria-label="Example from demo data: '+esc(v.title)+'"><h4>'+esc(v.title)+'</h4><p class="vsub">'+esc(v.sub)+'</p>';
+  var h='<div class="vz" role="img" aria-label="Illustrative example from demo data: '+esc(v.title)+'"><h4>'+esc(v.title)+'</h4><p class="vsub">'+esc(v.sub)+'</p>';
   var di=0;
   if(v.t==='dv'){
     var pos=Math.max.apply(null,v.rows.map(function(r){return Math.max(r[1],0)})),neg=Math.max.apply(null,v.rows.map(function(r){return Math.max(-r[1],0)})),tot=pos+neg,z=neg/tot*100;
@@ -951,7 +952,7 @@ function vz(i){
   }
   h+='<p class="vstat">'+esc(v.stat)+'</p>';
   if(v.extra)h+='<p class="vstat">'+esc(v.extra)+'</p>';
-  return h+'<p class="vnote"><b>Demo data.</b> This example uses Harmonya demo data for food and beverage. It is not your data. The real thing runs on yours.</p></div>';
+  return h+'<p class="vnote"><b>Illustrative demo data.</b> This example uses Harmonya demo data for food and beverage. It is not your data. The real thing runs on yours.</p></div>';
 }
 
 
