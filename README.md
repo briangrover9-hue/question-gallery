@@ -8,7 +8,8 @@ See SETUP.md. The fastest route is Netlify Forms, which stores every lead and em
 
 ## Files
 
-- `index.html` is the whole front end (HTML, CSS and JS in one file).
+- `src/question-gallery.html` is the source. `python3 build.py` writes the deployable folder to `dist/`.
+- `HANDOFF.md` has the steps to move this to the Harmonya site.
 - `api/lead.js` is a serverless function. It receives a lead, emails the people in `NOTIFY_TO`, and can also post the lead to a HubSpot form.
 
 ## Personalized links
