@@ -485,7 +485,7 @@ var FILTERS=[['all','All'],['cat','Category'],['ins','Insights'],['brand','Brand
 var QUICK=['Snacks','Beverages','Beauty and personal care','Pet care','Household','Health and wellness','Baby','Pantry and food'];
 
 /* Where a lead goes. Set both once a HubSpot form exists. Until then nothing leaves the page. */
-var LEAD_CFG={portalId:'20268287',formGuid:'',endpoint:'',netlify:true};
+var LEAD_CFG={portalId:'20268287',formGuid:'6bf506ba-dbbe-490a-ac49-c940a9607324',endpoint:'',netlify:true};
 function leadConfigured(){return !!(LEAD_CFG.netlify||LEAD_CFG.endpoint||(LEAD_CFG.portalId&&LEAD_CFG.formGuid))}
 /* Paste the HubSpot meetings link here. The visitor's email is added to it so the booking lands on the same contact. */
 var MEETING_URL='https://meetings.hubspot.com/zack-bambary';
@@ -501,7 +501,7 @@ function submitLead(p,o){
     jobs.push(fetch(LEAD_CFG.endpoint,{method:'POST',keepalive:ka,headers:{'Content-Type':ka?'text/plain':'application/json'},body:JSON.stringify({type:p.type,email:p.email,brand:p.brand,category:p.category||'',question:p.question||'',opened:p.opened||[],page:page,website:''})}).then(function(r){return r.ok}).catch(function(){return false}));
   }
   if(LEAD_CFG.portalId&&LEAD_CFG.formGuid){
-    var f=[['email',p.email],['company',p.brand],['gallery_question',p.question||''],['gallery_opened',opened],['gallery_event',p.type]].filter(function(x){return x[1]}).map(function(x){return {name:x[0],value:x[1]}});
+    var f=[['email',p.email],['company',p.brand],['message','Question Gallery, '+p.type+(p.question?': '+p.question:'')+(opened?' (opened: '+opened+')':'')]].filter(function(x){return x[1]}).map(function(x){return {name:x[0],value:x[1]}});
     jobs.push(fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+LEAD_CFG.portalId+'/'+LEAD_CFG.formGuid,{method:'POST',keepalive:ka,headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:f,context:{pageUri:location.href,pageName:'Question Gallery'}})}).then(function(r){return r.ok}).catch(function(){return false}));
   }
   if(!jobs.length)return Promise.resolve({sent:false});
