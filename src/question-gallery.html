@@ -742,7 +742,7 @@ function submitLead(p,o){
   var ka=!!(o&&o.keepalive),jobs=[];
   var page=location.href.split('#')[0],opened=(p.opened||[]).join(', ');
   var src='';try{src=(new URLSearchParams(location.search).get('src')||'').replace(/[^A-Za-z0-9_.-]/g,'').slice(0,40)}catch(e){}
-  if(LEAD_CFG.netlify){
+  if(LEAD_CFG.netlify&&p.type!=='session'){
     var fname=(p.type==='session')?'gallery-lead':'gallery-alert';var who=(p.brand||'Someone')+(p.email?' ('+p.email+')':'');var subj={load:'New lead: '+who,'return':'Returned: '+who,session:'Browsed: '+(p.brand||'Someone')+', '+(p.opened||[]).length+' card'+((p.opened||[]).length===1?'':'s'),meeting:'Booking clicked: '+who}[p.type]||('Question Gallery: '+p.type);
     var body=new URLSearchParams({'form-name':fname,'bot-field':'',subject:subj,type:p.type,email:p.email||'',company:p.brand||'',question:p.question||'',opened:opened,page:page}).toString();
     jobs.push(fetch('/',{method:'POST',keepalive:ka,headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}).then(function(r){return r.ok}).catch(function(){return false}));
