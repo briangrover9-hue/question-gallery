@@ -628,6 +628,34 @@ body.flow .tile .cap{display:none !important}
 body.flow .tile .tq{display:block;flex:1;min-width:0;font:500 15.5px/1.3 Poppins,system-ui,sans-serif;color:#14181b}
 body.flow .tile .tq small{display:block;margin-top:4px;font:400 12.5px/1.25 Poppins,system-ui,sans-serif;color:#5a606b}
 body.flow .tile.seen::after{right:10px;top:10px}
+
+/* Elevated first scene: live teaser, sticky notes, disk in the slot, push-in, and a rim once inside */
+.tease{position:absolute;left:50%;top:9%;width:76%;transform:translateX(-50%);z-index:47;pointer-events:none;transition:opacity .35s}
+.pc.in .tease{opacity:0}
+.ts-card{background:rgba(255,255,255,.95);border:2px solid #aeb7c6;border-radius:calc(var(--u)*1.6);padding:calc(var(--u)*3.6) calc(var(--u)*4.4);box-shadow:0 6px 18px rgba(40,60,110,.16);text-align:left;transition:opacity .45s,transform .45s}
+.ts-card.out{opacity:0;transform:translateY(8px)}
+.ts-who{margin:0 0 calc(var(--u)*1.1);font-size:max(calc(var(--u)*2.6),calc(12.5px / var(--k,1)));color:#5a606b}
+.ts-big{margin:0;font-size:max(calc(var(--u)*5.1),calc(14px / var(--k,1)));line-height:1.15;font-weight:500;color:#14181b;text-wrap:balance}
+.ts-q{margin:calc(var(--u)*1.5) 0 0;font-size:max(calc(var(--u)*2.6),calc(12.5px / var(--k,1)));line-height:1.25;color:#5a606b}
+.clickbtn{top:auto!important;bottom:7%;margin:0 0 0 -115px!important}
+@media (hover:hover) and (pointer:fine){.screen{transform-origin:50% 50%}.pc:not(.in):not(.zooming) .screen:hover{transform:scale(1.025)}}
+.screen{transition:filter .2s,border-radius .5s,box-shadow .5s,transform .3s var(--ease-out)}
+.note{position:absolute;width:330px;padding:28px 30px 32px;font:500 36px/1.25 Poppins,system-ui,sans-serif;color:#2a2925;border-radius:6px;box-shadow:0 14px 26px rgba(60,45,0,.18),0 2px 0 rgba(0,0,0,.04);pointer-events:none;transition:opacity .45s}
+.note.n1{left:-330px;top:520px;background:#ffd9e0;transform:rotate(-5deg)}
+.note.n2{left:1180px;top:640px;background:#d3f0df;transform:rotate(4deg)}
+.pc.in .note,.pc.full .note{opacity:0}
+@media (max-aspect-ratio:13/10){.note{display:none}}
+body.flow .note{display:none}
+.disk{position:absolute;left:50%;top:842px;width:210px;height:76px;margin-left:-105px;background:#1d3f9c;border-radius:10px 10px 0 0;box-shadow:inset 0 -10px 0 rgba(0,0,0,.25),inset 0 3px 0 rgba(255,255,255,.18);animation:diskbob 3.2s ease-in-out infinite;transition:opacity .45s}
+.disk i{position:absolute;left:34px;top:8px;width:142px;height:38px;background:#fff;border-radius:3px;font:500 17px/38px Poppins,system-ui,sans-serif;color:#1d3f9c;text-align:center;font-style:normal;white-space:nowrap;overflow:hidden}
+@keyframes diskbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.pc.in .disk{animation:none}
+.pc.full .disk{opacity:0}
+body.flow .disk{display:none}
+@media (prefers-reduced-motion:reduce){.disk{animation:none}.ts-card{transition:none}}
+.rim{position:fixed;inset:0;z-index:30;pointer-events:none;opacity:0;transition:opacity .5s;border:12px solid var(--yellow-a);border-radius:22px;box-shadow:inset 0 0 0 3px #2a2925,inset 0 0 40px rgba(0,0,0,.12)}
+body.full:not(.flow) .rim{opacity:1}
+body.flow .rim{display:none}
 </style>
 
 <button type="button" class="sr-start" id="srStart">Open the question gallery</button>
@@ -641,13 +669,16 @@ body.flow .tile.seen::after{right:10px;top:10px}
       <div class="glare"></div>
       <div class="desk" id="desk"></div>
       <div class="icons" id="icons"></div>
+      <div class="tease" id="tease" aria-hidden="true"><div class="ts-card"><p class="ts-who"></p><p class="ts-big"></p><p class="ts-q"></p></div></div>
       <button type="button" class="clickbtn bevel" tabindex="-1" aria-hidden="true">Click</button>
     </div>
-    <span class="badge">Harmonya</span><span class="slot"></span><span class="led"></span>
+    <span class="badge">Harmonya</span><span class="disk" aria-hidden="true"><i>Your company</i></span><span class="slot"></span><span class="led"></span>
+    <div class="note n1" id="n1" aria-hidden="true"></div><div class="note n2" id="n2" aria-hidden="true"></div>
   </main>
-  <aside class="invite" id="invite" aria-label="Hint">Click the screen to see what we can find out for you.</aside>
+  <aside class="invite" id="invite" aria-label="Hint">18 questions your team asks. Click the screen to see the answers.</aside>
 <noscript><p style="position:fixed;inset:0;display:grid;place-items:center;text-align:center;padding:24px;font:16px Poppins,sans-serif;background:#f5f8ff;color:#1b1d22">This page needs JavaScript. Visit harmonya.com to see what we do.</p></noscript>
 </div>
+<div class="rim" aria-hidden="true"></div>
 <button type="button" class="back" id="back">‹ Back to desk</button>
 <button type="button" class="snd acc" id="acc" aria-label="Sound and display settings" aria-expanded="false" aria-controls="prefs"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
 <div class="prefs" id="prefs" role="dialog" aria-label="Sound and display settings" hidden>
@@ -668,7 +699,7 @@ var PREFS={sound:true,vol:.6,simple:false,rm:false,hc:false,big:false};
 try{var _p=JSON.parse(localStorage.getItem('qg-prefs')||'{}');for(var _k in _p)if(_k in PREFS)PREFS[_k]=_p[_k]}catch(e){}
 var RM_SYS=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 var RM=RM_SYS||PREFS.rm;
-(function(){var iv=document.getElementById('invite');if(window.matchMedia('(hover:none)').matches){if(iv)iv.textContent='Tap the screen to see what we can find out for you.';var cbn=document.querySelector('.clickbtn');if(cbn)cbn.textContent='Tap'}})();
+(function(){var iv=document.getElementById('invite');if(window.matchMedia('(hover:none)').matches){if(iv)iv.textContent='18 questions your team asks. Tap the screen to see the answers.';var cbn=document.querySelector('.clickbtn');if(cbn)cbn.textContent='Tap'}})();
 function PHONE(){return PREFS.simple||window.matchMedia('(max-width:720px), (max-height:520px) and (max-width:1000px)').matches||window.matchMedia('(pointer:coarse)').matches}
 var PERSONA={cat:'Category Management',ins:'Consumer Insights',brand:'Brand Strategy',dig:'Digital Commerce'};
 var CAP={s:'Sales data',v:'Shopper voice',f:'Product facts'};
@@ -956,7 +987,7 @@ var inside=false,busy=false,zTop=10,wins=[],helpEl=null,galleryW=null,loadW=null
 var PCW=1180,PCH=1065,SCW=900,SCH=675,SY=(130+SCH/2)-PCH/2;
 var desk={x:0,y:0,vx:0,vy:0,rx:3,ry:-13,lift:0,drag:false};
 var gm={x:-1,y:-1,have:false};
-function deskScale(){return Math.min(340,window.innerWidth*.62,window.innerHeight*.5*(PCW/PCH))/PCW}
+function deskScale(){return Math.min(500,window.innerWidth*.62,window.innerHeight*.6*(PCW/PCH))/PCW}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
 
 var lastDeskKey='';
@@ -1248,7 +1279,7 @@ function openLoad(){
 
 /* ---------- Gallery ---------- */
 var tilesEls=[],cur='all';
-var PEEK={"0": "Energy drinks: 79% of growth came from new items", "1": "Four coffee spaces are beating the category", "2": "Maple Ridge 44% vs Summit Snacks 21% on one claim", "3": "Summit Snacks grew 15.9% and lost 0.6 pts of share", "4": "Net praise for energy effect: +55 vs +19 to +28", "5": "Price and value talk fell from 22% to 10% of reviews", "6": "Shoppers write “yummy” 3 times as often as listings", "7": "One launch is 41% promoted and moves 0.01 stars", "8": "Gentler caffeine and stronger energy: 16,000 reviews each", "9": "1,569 reviews say not too sweet; 1.5% of listings do", "10": "No HFCS: 17.3% of cookie dollars, up 30.8%", "11": "Delivery damage drives 42% of low stars at one retailer", "12": "Page says 4.7 stars, written reviews say 3.3", "13": "Sugar free holds in 79 of 88 cookies, low calorie in 1 of 28", "14": "Natural sells at half its share in mass and club", "15": "Sugar-free cookies are only 4% lighter", "16": "97 of 230 listings are ready for AI shopping", "17": "Gut health: 5% of new sodas in 2022, 21% in 2025"};
+var PEEK={"0": "79% of energy drink growth came from new items", "1": "Four coffee spaces sold $220.9M, up 29%", "2": "Maple Ridge 44% vs Summit Snacks 21% on one claim", "3": "Summit Snacks grew 15.9% and lost 0.6 pts of share", "4": "Net praise for energy effect: +55 vs +19 to +28", "5": "Price and value talk fell from 22% to 10% of reviews", "6": "Shoppers write “yummy” 3 times as often as listings", "7": "One launch is 41% promoted and moves 0.01 stars", "8": "Gentler caffeine and stronger energy: 16,000 reviews each", "9": "1,569 reviews say not too sweet; 1.5% of listings do", "10": "No HFCS: 17.3% of cookie dollars, up 30.8%", "11": "Delivery damage drives 42% of low stars at one retailer", "12": "Page says 4.7 stars, written reviews say 3.3", "13": "27 of 28 low-calorie cookies miss the 40-calorie bar", "14": "Natural sells at half its share in mass and club", "15": "Sugar-free cookies are only 4% lighter", "16": "Only 9 of 230 listings give an AI assistant what it needs", "17": "Gut health: 5% of new sodas in 2022, 21% in 2025"};
 PEEK[13]='Two of four high-protein items fall short';PEEK[15]='Family pack has twice the sugar per serving';
 function visible(){var v=[];Q.forEach(function(q,i){if(cur==='all'||q.p===cur)v.push(i)});return v}
 function openGallery(from,quiet){if(!quiet)sfx('chime');
@@ -1554,6 +1585,20 @@ document.addEventListener('keydown',function(e){
 })();
 (function(){try{var m=JSON.parse(localStorage.getItem(ME_KEY)||'null');if(!m||!m.e||Date.now()-(m.t||0)>ME_TTL||workEmail(m.e))return;if(STATE.brand&&m.b&&STATE.brand.toLowerCase()!==String(m.b).toLowerCase())return;if(m.b)STATE.brand=m.b;STATE.email=m.e;STATE.loaded=true;STATE.returning=true;STATE.pendingLead=!!m.pl}catch(e){}})();
 if(GATE_FIRST)openLoad();else openGallery(null,true);renderIcons();setInteractive(false);layout();
+
+/* Teaser on the idle screen and sticky notes */
+(function(){
+  var TEASE=[0,1,16,13,5],box=document.getElementById('tease');if(!box)return;
+  var card=box.firstElementChild,w=box.querySelector('.ts-who'),b=box.querySelector('.ts-big'),q=box.querySelector('.ts-q'),k=0;
+  function show(i){var x=Q[TEASE[i]];w.textContent=whoLine(x);b.textContent=PEEK[TEASE[i]]||x.q;q.textContent=x.q}
+  show(0);
+  var n1=document.getElementById('n1'),n2=document.getElementById('n2');if(n1)n1.textContent=Q[1].q;if(n2)n2.textContent=Q[12].q;
+  setInterval(function(){
+    if(RM||document.hidden||pc.classList.contains('in'))return;
+    card.classList.add('out');
+    setTimeout(function(){k=(k+1)%TEASE.length;show(k);card.classList.remove('out')},450);
+  },4200);
+})();
 requestAnimationFrame(frame);
 })();
 </script>
